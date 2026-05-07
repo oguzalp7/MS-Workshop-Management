@@ -102,19 +102,22 @@ model ProductPrice {
 
 // ─── Workshop (Event) ─────────────────────────────────────────────
 model Workshop {
-  id            String          @id @default(uuid())
+  id            String   @id @default(uuid())
   name          String
   description   String?
   location      String
   startDateTime DateTime
   endDateTime   DateTime
-  active        Boolean         @default(true)
-  guests        Guest[]
-  inventory     WorkshopStock[]
+  active        Boolean  @default(true)
+  // Operation Mode
+  isAnonymous   Boolean  @default(false)
 
+  guests       Guest[]
+  inventory    WorkshopStock[]
+  carts        Cart[]
   // Link to a dynamic form configuration
   formConfigId String?
-  formConfig   FormConfig? @relation(fields: [formConfigId], references: [id])
+  formConfig   FormConfig?     @relation(fields: [formConfigId], references: [id])
 
   // Link to a print template configuration
   printConfigId String?
@@ -176,6 +179,8 @@ model Guest {
   carts            Cart[]
   notifications    Notification[]
   pushSubscription Json? // To store the Web Push subscription
+  // Session Persistence
+  sessionToken     String?        @unique
 
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
@@ -190,9 +195,14 @@ model Guest {
 
 // ─── Shopping Cart ────────────────────────────────────────────────
 model Cart {
-  id      String @id @default(uuid())
-  guestId String
-  guest   Guest  @relation(fields: [guestId], references: [id])
+  id      String  @id @default(uuid())
+  guestId String?
+  guest   Guest?  @relation(fields: [guestId], references: [id])
+
+  // Anonymous Mode Support
+  workshopId   String?
+  workshop     Workshop? @relation(fields: [workshopId], references: [id])
+  sessionToken String?
 
   status String     @default("OPEN") // OPEN, ORDERED, PREPARING, READY, PAID
   items  CartItem[]

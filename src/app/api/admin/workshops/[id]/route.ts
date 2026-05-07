@@ -59,7 +59,7 @@ export async function PATCH(
 
     const { id } = await params;
     const body = await request.json();
-    const { name, location, startDateTime, endDateTime, description, active, formConfigId, printConfigId } = body;
+    const { name, location, startDateTime, endDateTime, description, active, formConfigId, printConfigId, isAnonymous } = body;
 
     const workshop = await prisma.workshop.update({
       where: { id },
@@ -72,6 +72,7 @@ export async function PATCH(
         ...(active !== undefined && { active }),
         ...(formConfigId !== undefined && { formConfigId: formConfigId === "" ? null : formConfigId }),
         ...(printConfigId !== undefined && { printConfigId: printConfigId === "" ? null : printConfigId }),
+        ...(isAnonymous !== undefined && { isAnonymous }),
         updatedById: session.adminId,
       },
     });

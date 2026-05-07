@@ -2,13 +2,15 @@ import { NextRequest, NextResponse } from "next/server"; // Updated: 2026-05-04
 import { getIronSession } from "iron-session";
 import { prisma } from "@/lib/prisma";
 import { guestSessionOptions, GuestSessionData } from "@/lib/auth";
+import { cookies } from "next/headers";
 
 export async function POST(request: NextRequest) {
   try {
-    const response = new NextResponse();
-    const session = await getIronSession<GuestSessionData>(request, response, guestSessionOptions);
+    const cookieStore = await cookies();
+    const session = await getIronSession<GuestSessionData>(cookieStore, guestSessionOptions);
+    const sessionToken = request.cookies.get("workshop_session_token")?.value;
 
-    if (!session.isLoggedIn || !session.guestId) {
+    if (!session.isLoggedIn || !session.workshopId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -22,9 +24,11 @@ export async function POST(request: NextRequest) {
     // 1. Find the OPEN cart with items and product details
     const cart = await prisma.cart.findFirst({
       where: {
-        guestId: session.guestId,
         status: "OPEN",
-        active: true
+        active: true,
+        OR: [
+          session.guestId ? { guestId: session.guestId } : { sessionToken, workshopId: session.workshopId }
+        ]
       },
       include: { 
         items: {

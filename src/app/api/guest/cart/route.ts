@@ -2,20 +2,36 @@ import { NextRequest, NextResponse } from "next/server";
 import { getIronSession } from "iron-session";
 import { prisma } from "@/lib/prisma";
 import { guestSessionOptions, GuestSessionData } from "@/lib/auth";
+import { cookies } from "next/headers";
 
 // GET current cart
 export async function GET(request: NextRequest) {
   try {
-    const session = await getIronSession<GuestSessionData>(request, new NextResponse(), guestSessionOptions);
-    if (!session.isLoggedIn || !session.guestId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const cookieStore = await cookies();
+    const session = await getIronSession<GuestSessionData>(cookieStore, guestSessionOptions);
+    const sessionToken = request.cookies.get("workshop_session_token")?.value;
 
+    let workshopId = session.workshopId;
+    if (!workshopId && sessionToken) {
+       const lastCart = await prisma.cart.findFirst({
+         where: { sessionToken, status: 'OPEN' },
+         select: { workshopId: true }
+       });
+       if (lastCart) workshopId = lastCart.workshopId;
+    }
 
-    // Find the latest OPEN cart for this guest
+    if (!session.isLoggedIn && !workshopId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+    const effectiveWorkshopId = workshopId || session.workshopId;
+    
+    // Find the latest OPEN cart for this guest or anonymous session
     const cart = await prisma.cart.findFirst({
       where: {
-        guestId: session.guestId,
         status: "OPEN",
-        active: true
+        active: true,
+        OR: [
+          session.guestId ? { guestId: session.guestId } : { sessionToken, workshopId: effectiveWorkshopId }
+        ]
       },
       include: {
         items: {
@@ -34,25 +50,33 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
-
 // POST add item to cart
 export async function POST(request: NextRequest) {
   try {
-    const session = await getIronSession<GuestSessionData>(request, new NextResponse(), guestSessionOptions);
-    if (!session.isLoggedIn || !session.guestId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
+    const cookieStore = await cookies();
+    const session = await getIronSession<GuestSessionData>(cookieStore, guestSessionOptions);
+    if (!session.isLoggedIn || !session.workshopId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const { productId, quantity } = await request.json();
+    const sessionToken = request.cookies.get("workshop_session_token")?.value;
 
     // 1. Get or create OPEN cart
     let cart = await prisma.cart.findFirst({
-      where: { guestId: session.guestId, status: "OPEN", active: true }
+      where: {
+        status: "OPEN",
+        active: true,
+        OR: [
+          session.guestId ? { guestId: session.guestId } : { sessionToken, workshopId: session.workshopId }
+        ]
+      }
     });
 
     if (!cart) {
       cart = await prisma.cart.create({
         data: {
-          guestId: session.guestId,
+          guestId: session.guestId || null,
+          workshopId: session.workshopId,
+          sessionToken: session.guestId ? null : sessionToken,
           status: "OPEN",
           createdById: "GUEST",
           updatedById: "GUEST"
@@ -88,15 +112,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
-
 // PATCH update quantity
 export async function PATCH(request: NextRequest) {
   try {
-    const session = await getIronSession<GuestSessionData>(request, new NextResponse(), guestSessionOptions);
-    if (!session.isLoggedIn || !session.guestId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
+    const cookieStore = await cookies();
+    const session = await getIronSession<GuestSessionData>(cookieStore, guestSessionOptions);
+    if (!session.isLoggedIn || !session.workshopId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const { itemId, quantity } = await request.json();
+    const sessionToken = request.cookies.get("workshop_session_token")?.value;
 
     if (quantity <= 0) {
       await prisma.cartItem.delete({ where: { id: itemId } });
@@ -110,9 +134,11 @@ export async function PATCH(request: NextRequest) {
     // Return the updated cart
     const updatedCart = await prisma.cart.findFirst({
       where: {
-        guestId: session.guestId,
         status: "OPEN",
-        active: true
+        active: true,
+        OR: [
+          session.guestId ? { guestId: session.guestId } : { sessionToken, workshopId: session.workshopId }
+        ]
       },
       include: {
         items: {

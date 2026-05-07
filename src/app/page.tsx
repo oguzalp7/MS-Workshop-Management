@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Icons } from "@/components/Icons";
 import { Scanner } from "@/components/Scanner";
 import { useRouter } from "next/navigation";
+import { SessionManager } from "@/lib/session";
 
 export default function LandingPage() {
   const router = useRouter();
@@ -12,7 +13,7 @@ export default function LandingPage() {
   const [isIOS, setIsIOS] = useState(false);
 
   useEffect(() => {
-    // Detect standalone mode
+    // 1. Detect standalone mode
     const standalone = (typeof window !== "undefined") && (
       window.matchMedia("(display-mode: standalone)").matches
       || (window.navigator as any).standalone
@@ -21,10 +22,18 @@ export default function LandingPage() {
 
     setIsStandalone(standalone);
 
-    // Detect iOS
+    // 2. Detect iOS
     const ios = (typeof navigator !== "undefined") && /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
     setIsIOS(ios);
-  }, []);
+
+    // 3. Session Bootloader: Auto-resume active session
+    const token = SessionManager.getToken();
+    if (token) {
+       // We can redirect directly to catalog. 
+       // The catalog page or its middleware will handle validation.
+       router.push("/workshop/catalog");
+    }
+  }, [router]);
 
   const handleScanSuccess = (decodedText: string) => {
     // Basic validation: ensure it's a magic link from our domain or at least contains /g/

@@ -10,7 +10,20 @@ interface WorkshopStock { id: string; productId: string; quantity: number; produ
 interface FormField { id: string; key: string; label: string; type: string; required: boolean; isIdentity?: boolean; }
 interface FormConfig { id: string; name: string; fields: FormField[]; }
 interface Guest { id: string; profileData: any; checkInStatus: boolean; active: boolean; createdAt: string; }
-interface Workshop { id: string; name: string; location: string; description: string; startDateTime: string; endDateTime: string; active: boolean; formConfigId: string | null; formConfig: FormConfig | null; inventory: WorkshopStock[]; guests: Guest[]; }
+interface Workshop { 
+  id: string; 
+  name: string; 
+  location: string; 
+  description: string; 
+  startDateTime: string; 
+  endDateTime: string; 
+  active: boolean; 
+  isAnonymous: boolean;
+  formConfigId: string | null; 
+  formConfig: FormConfig | null; 
+  inventory: WorkshopStock[]; 
+  guests: Guest[]; 
+}
 interface Stats {
   totalGuests: number;
   checkedInGuests: number;
@@ -93,7 +106,16 @@ export default function WorkshopDetailPage({ params }: { params: Promise<{ id: s
   const [guestOpLoading, setGuestOpLoading] = useState(false);
 
   const [isEditingDetails, setIsEditingDetails] = useState(false);
-  const [detailsForm, setDetailsForm] = useState({ name: "", location: "", startDateTime: "", endDateTime: "", description: "", formConfigId: "", printConfigId: "" });
+  const [detailsForm, setDetailsForm] = useState({ 
+    name: "", 
+    location: "", 
+    startDateTime: "", 
+    endDateTime: "", 
+    description: "", 
+    formConfigId: "", 
+    printConfigId: "",
+    isAnonymous: false
+  });
   const [saveDetailsLoading, setSaveDetailsLoading] = useState(false);
 
   async function fetchWorkshop() {
@@ -109,7 +131,8 @@ export default function WorkshopDetailPage({ params }: { params: Promise<{ id: s
           endDateTime: data.workshop.endDateTime.slice(0, 16),
           description: data.workshop.description || "",
           formConfigId: data.workshop.formConfigId || "",
-          printConfigId: data.workshop.printConfigId || ""
+          printConfigId: data.workshop.printConfigId || "",
+          isAnonymous: data.workshop.isAnonymous || false
         });
         if (data.workshop.formConfig?.fields?.[0] && !searchKey) {
           setSearchKey(data.workshop.formConfig.fields[0].key);
@@ -579,6 +602,61 @@ export default function WorkshopDetailPage({ params }: { params: Promise<{ id: s
                       {allPrintConfigs.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                     </select>
                   </div>
+
+                  <div className="md:col-span-2 pt-2">
+                    <div className="flex items-center justify-between p-5 bg-blue-600/5 border border-blue-600/10 rounded-2xl">
+                      <div className="space-y-1">
+                        <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Çalışma Modu</p>
+                        <h4 className="text-sm font-bold">{detailsForm.isAnonymous ? "Anonim Katalog" : "Enterprise (Kayıtlı)"}</h4>
+                        <p className="text-[10px] text-muted-foreground leading-relaxed uppercase tracking-tighter">
+                          {detailsForm.isAnonymous 
+                            ? "Misafirler kayıt olmadan direkt sipariş verebilir. PWA ve bildirimler devre dışı kalır." 
+                            : "Misafirler kayıt formu doldurmalı ve PWA yüklemelidir. Full özellikler aktiftir."}
+                        </p>
+                      </div>
+                      <button
+                        disabled={!isEditingDetails}
+                        onClick={() => setDetailsForm({ ...detailsForm, isAnonymous: !detailsForm.isAnonymous })}
+                        className={`w-14 h-7 rounded-full transition-all relative shrink-0 ${detailsForm.isAnonymous ? 'bg-blue-600' : 'bg-secondary'} ${!isEditingDetails && 'opacity-50'}`}
+                      >
+                        <div className={`absolute top-1.5 w-4 h-4 bg-white rounded-full transition-all ${detailsForm.isAnonymous ? 'left-8' : 'left-2'}`} />
+                      </button>
+                    </div>
+
+                    <div className="mt-4 p-5 bg-blue-600/[0.03] border border-blue-600/10 rounded-2xl space-y-6">
+                      <div className="flex items-center justify-between">
+                        <div className="space-y-1">
+                          <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Mağaza Giriş Linki</p>
+                          <p className="text-xs font-mono font-bold text-zinc-600 break-all select-all">
+                            {typeof window !== 'undefined' ? `${window.location.origin}${detailsForm.isAnonymous ? '/w/' : '/g/'}${id}` : ''}
+                          </p>
+                        </div>
+                        <button 
+                          onClick={() => {
+                            const url = `${window.location.origin}${detailsForm.isAnonymous ? '/w/' : '/g/'}${id}`;
+                            navigator.clipboard.writeText(url);
+                            alert("Link kopyalandı!");
+                          }}
+                          className="p-3 bg-white border border-border/50 rounded-xl hover:bg-secondary/10 transition-all active:scale-95 shadow-sm"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                        </button>
+                      </div>
+
+                      <div className="flex flex-col items-center gap-4 bg-white p-6 rounded-2xl border border-zinc-100 shadow-inner">
+                        <QRCodeSVG 
+                          value={typeof window !== 'undefined' ? `${window.location.origin}${detailsForm.isAnonymous ? '/w/' : '/g/'}${id}` : ''} 
+                          size={160}
+                          level="H"
+                        />
+                        <div className="text-center">
+                          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em]">
+                            {detailsForm.isAnonymous ? "ANONİM KATALOG QR" : "ENTERPRISE KAYIT QR"}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div className="md:col-span-2 space-y-2">
                     <label className="text-[10px] font-black text-muted uppercase tracking-widest">Açıklama</label>
                     <textarea
@@ -864,7 +942,9 @@ export default function WorkshopDetailPage({ params }: { params: Promise<{ id: s
                     <div className="p-6 border-b border-border bg-secondary/10 flex justify-between items-center">
                       <div>
                         <span className="text-[10px] font-black uppercase tracking-tighter text-muted">#{order.id.split('-')[0]}</span>
-                        <h3 className="text-sm font-black mt-1">{order.guest.profileData.full_name || "İsimsiz Katılımcı"}</h3>
+                        <h3 className="text-sm font-black mt-1">
+                          {order.guest ? (order.guest.profileData?.full_name || "İsimsiz Katılımcı") : "Anonim Misafir"}
+                        </h3>
                       </div>
                       <div className="text-right">
                         <p className="text-[10px] font-black text-blue-600">₺{order.totalAmount?.toFixed(2)}</p>

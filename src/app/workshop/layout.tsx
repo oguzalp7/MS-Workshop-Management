@@ -77,6 +77,11 @@ export default function WorkshopLayout({ children }: { children: React.ReactNode
             )}
           </Link>
 
+          <Link href="/workshop/checkout" className={`flex-1 flex flex-col items-center gap-1 py-3 transition-all rounded-[2rem] ${pathname === '/workshop/checkout' ? 'bg-foreground text-background shadow-lg' : 'text-muted-foreground'}`}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="12" height="12" x="6" y="6" rx="1"/><path d="M9 9h.01"/><path d="M15 9h.01"/><path d="M9 15h.01"/><path d="M15 15h.01"/></svg>
+            <span className="text-[9px] font-bold uppercase tracking-widest">Ödeme</span>
+          </Link>
+
           <Link href="/workshop/profile" className={`flex-1 flex flex-col items-center gap-1 py-3 transition-all rounded-[2rem] ${pathname === '/workshop/profile' ? 'bg-foreground text-background shadow-lg' : 'text-muted-foreground'}`}>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
             <span className="text-[9px] font-bold uppercase tracking-widest">Profil</span>

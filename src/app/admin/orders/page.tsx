@@ -240,8 +240,12 @@ export default function AdminOrdersPage() {
               <div className="p-6 border-b border-border bg-secondary/10 flex justify-between items-center">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-tighter text-muted">#{order.id.split('-')[0]}</span>
-                  <h3 className="text-sm font-black mt-1">{order.guest.profileData.full_name || "İsimsiz Katılımcı"}</h3>
-                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-0.5">{order.guest.workshop.name}</p>
+                  <h3 className="text-sm font-black mt-1">
+                    {order.guest ? (order.guest.profileData?.full_name || "İsimsiz Katılımcı") : "Anonim Misafir"}
+                  </h3>
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-0.5">
+                    {order.workshop?.name || (order.guest?.workshop?.name)}
+                  </p>
                 </div>
                 <div className="text-right">
                   <p className="text-[10px] font-black text-blue-600">₺{order.totalAmount?.toFixed(2)}</p>

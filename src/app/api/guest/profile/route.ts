@@ -2,13 +2,21 @@ import { NextRequest, NextResponse } from "next/server";
 import { getIronSession } from "iron-session";
 import { prisma } from "@/lib/prisma";
 import { guestSessionOptions, GuestSessionData } from "@/lib/auth";
+import { cookies } from "next/headers";
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getIronSession<GuestSessionData>(request, new NextResponse(), guestSessionOptions);
+    const cookieStore = await cookies();
+    const session = await getIronSession<GuestSessionData>(cookieStore, guestSessionOptions);
 
-    if (!session.isLoggedIn || !session.guestId) {
+    if (!session.isLoggedIn || !session.workshopId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // If it's an anonymous session, return session info only
+    if (!session.guestId) {
+      const sessionToken = request.cookies.get("workshop_session_token")?.value;
+      return NextResponse.json({ sessionToken });
     }
 
 

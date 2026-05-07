@@ -2271,12 +2271,14 @@ export namespace Prisma {
   export type WorkshopCountOutputType = {
     guests: number
     inventory: number
+    carts: number
     notifications: number
   }
 
   export type WorkshopCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     guests?: boolean | WorkshopCountOutputTypeCountGuestsArgs
     inventory?: boolean | WorkshopCountOutputTypeCountInventoryArgs
+    carts?: boolean | WorkshopCountOutputTypeCountCartsArgs
     notifications?: boolean | WorkshopCountOutputTypeCountNotificationsArgs
   }
 
@@ -2303,6 +2305,13 @@ export namespace Prisma {
    */
   export type WorkshopCountOutputTypeCountInventoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: WorkshopStockWhereInput
+  }
+
+  /**
+   * WorkshopCountOutputType without action
+   */
+  export type WorkshopCountOutputTypeCountCartsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CartWhereInput
   }
 
   /**
@@ -8182,6 +8191,7 @@ export namespace Prisma {
     startDateTime: Date | null
     endDateTime: Date | null
     active: boolean | null
+    isAnonymous: boolean | null
     formConfigId: string | null
     printConfigId: string | null
     createdAt: Date | null
@@ -8198,6 +8208,7 @@ export namespace Prisma {
     startDateTime: Date | null
     endDateTime: Date | null
     active: boolean | null
+    isAnonymous: boolean | null
     formConfigId: string | null
     printConfigId: string | null
     createdAt: Date | null
@@ -8214,6 +8225,7 @@ export namespace Prisma {
     startDateTime: number
     endDateTime: number
     active: number
+    isAnonymous: number
     formConfigId: number
     printConfigId: number
     createdAt: number
@@ -8232,6 +8244,7 @@ export namespace Prisma {
     startDateTime?: true
     endDateTime?: true
     active?: true
+    isAnonymous?: true
     formConfigId?: true
     printConfigId?: true
     createdAt?: true
@@ -8248,6 +8261,7 @@ export namespace Prisma {
     startDateTime?: true
     endDateTime?: true
     active?: true
+    isAnonymous?: true
     formConfigId?: true
     printConfigId?: true
     createdAt?: true
@@ -8264,6 +8278,7 @@ export namespace Prisma {
     startDateTime?: true
     endDateTime?: true
     active?: true
+    isAnonymous?: true
     formConfigId?: true
     printConfigId?: true
     createdAt?: true
@@ -8353,6 +8368,7 @@ export namespace Prisma {
     startDateTime: Date
     endDateTime: Date
     active: boolean
+    isAnonymous: boolean
     formConfigId: string | null
     printConfigId: string | null
     createdAt: Date
@@ -8386,6 +8402,7 @@ export namespace Prisma {
     startDateTime?: boolean
     endDateTime?: boolean
     active?: boolean
+    isAnonymous?: boolean
     formConfigId?: boolean
     printConfigId?: boolean
     createdAt?: boolean
@@ -8394,6 +8411,7 @@ export namespace Prisma {
     updatedById?: boolean
     guests?: boolean | Workshop$guestsArgs<ExtArgs>
     inventory?: boolean | Workshop$inventoryArgs<ExtArgs>
+    carts?: boolean | Workshop$cartsArgs<ExtArgs>
     formConfig?: boolean | Workshop$formConfigArgs<ExtArgs>
     printConfig?: boolean | Workshop$printConfigArgs<ExtArgs>
     notifications?: boolean | Workshop$notificationsArgs<ExtArgs>
@@ -8408,6 +8426,7 @@ export namespace Prisma {
     startDateTime?: boolean
     endDateTime?: boolean
     active?: boolean
+    isAnonymous?: boolean
     formConfigId?: boolean
     printConfigId?: boolean
     createdAt?: boolean
@@ -8426,6 +8445,7 @@ export namespace Prisma {
     startDateTime?: boolean
     endDateTime?: boolean
     active?: boolean
+    isAnonymous?: boolean
     formConfigId?: boolean
     printConfigId?: boolean
     createdAt?: boolean
@@ -8444,6 +8464,7 @@ export namespace Prisma {
     startDateTime?: boolean
     endDateTime?: boolean
     active?: boolean
+    isAnonymous?: boolean
     formConfigId?: boolean
     printConfigId?: boolean
     createdAt?: boolean
@@ -8452,10 +8473,11 @@ export namespace Prisma {
     updatedById?: boolean
   }
 
-  export type WorkshopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "location" | "startDateTime" | "endDateTime" | "active" | "formConfigId" | "printConfigId" | "createdAt" | "updatedAt" | "createdById" | "updatedById", ExtArgs["result"]["workshop"]>
+  export type WorkshopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "location" | "startDateTime" | "endDateTime" | "active" | "isAnonymous" | "formConfigId" | "printConfigId" | "createdAt" | "updatedAt" | "createdById" | "updatedById", ExtArgs["result"]["workshop"]>
   export type WorkshopInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     guests?: boolean | Workshop$guestsArgs<ExtArgs>
     inventory?: boolean | Workshop$inventoryArgs<ExtArgs>
+    carts?: boolean | Workshop$cartsArgs<ExtArgs>
     formConfig?: boolean | Workshop$formConfigArgs<ExtArgs>
     printConfig?: boolean | Workshop$printConfigArgs<ExtArgs>
     notifications?: boolean | Workshop$notificationsArgs<ExtArgs>
@@ -8475,6 +8497,7 @@ export namespace Prisma {
     objects: {
       guests: Prisma.$GuestPayload<ExtArgs>[]
       inventory: Prisma.$WorkshopStockPayload<ExtArgs>[]
+      carts: Prisma.$CartPayload<ExtArgs>[]
       formConfig: Prisma.$FormConfigPayload<ExtArgs> | null
       printConfig: Prisma.$PrintConfigPayload<ExtArgs> | null
       notifications: Prisma.$GlobalNotificationPayload<ExtArgs>[]
@@ -8487,6 +8510,7 @@ export namespace Prisma {
       startDateTime: Date
       endDateTime: Date
       active: boolean
+      isAnonymous: boolean
       formConfigId: string | null
       printConfigId: string | null
       createdAt: Date
@@ -8889,6 +8913,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     guests<T extends Workshop$guestsArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$guestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     inventory<T extends Workshop$inventoryArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$inventoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkshopStockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    carts<T extends Workshop$cartsArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$cartsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     formConfig<T extends Workshop$formConfigArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$formConfigArgs<ExtArgs>>): Prisma__FormConfigClient<$Result.GetResult<Prisma.$FormConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     printConfig<T extends Workshop$printConfigArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$printConfigArgs<ExtArgs>>): Prisma__PrintConfigClient<$Result.GetResult<Prisma.$PrintConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     notifications<T extends Workshop$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GlobalNotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -8928,6 +8953,7 @@ export namespace Prisma {
     readonly startDateTime: FieldRef<"Workshop", 'DateTime'>
     readonly endDateTime: FieldRef<"Workshop", 'DateTime'>
     readonly active: FieldRef<"Workshop", 'Boolean'>
+    readonly isAnonymous: FieldRef<"Workshop", 'Boolean'>
     readonly formConfigId: FieldRef<"Workshop", 'String'>
     readonly printConfigId: FieldRef<"Workshop", 'String'>
     readonly createdAt: FieldRef<"Workshop", 'DateTime'>
@@ -9380,6 +9406,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: WorkshopStockScalarFieldEnum | WorkshopStockScalarFieldEnum[]
+  }
+
+  /**
+   * Workshop.carts
+   */
+  export type Workshop$cartsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cart
+     */
+    select?: CartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cart
+     */
+    omit?: CartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CartInclude<ExtArgs> | null
+    where?: CartWhereInput
+    orderBy?: CartOrderByWithRelationInput | CartOrderByWithRelationInput[]
+    cursor?: CartWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CartScalarFieldEnum | CartScalarFieldEnum[]
   }
 
   /**
@@ -11744,6 +11794,7 @@ export namespace Prisma {
     id: string | null
     workshopId: string | null
     checkInStatus: boolean | null
+    sessionToken: string | null
     active: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -11755,6 +11806,7 @@ export namespace Prisma {
     id: string | null
     workshopId: string | null
     checkInStatus: boolean | null
+    sessionToken: string | null
     active: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -11768,6 +11820,7 @@ export namespace Prisma {
     profileData: number
     checkInStatus: number
     pushSubscription: number
+    sessionToken: number
     active: number
     createdAt: number
     updatedAt: number
@@ -11781,6 +11834,7 @@ export namespace Prisma {
     id?: true
     workshopId?: true
     checkInStatus?: true
+    sessionToken?: true
     active?: true
     createdAt?: true
     updatedAt?: true
@@ -11792,6 +11846,7 @@ export namespace Prisma {
     id?: true
     workshopId?: true
     checkInStatus?: true
+    sessionToken?: true
     active?: true
     createdAt?: true
     updatedAt?: true
@@ -11805,6 +11860,7 @@ export namespace Prisma {
     profileData?: true
     checkInStatus?: true
     pushSubscription?: true
+    sessionToken?: true
     active?: true
     createdAt?: true
     updatedAt?: true
@@ -11891,6 +11947,7 @@ export namespace Prisma {
     profileData: JsonValue
     checkInStatus: boolean
     pushSubscription: JsonValue | null
+    sessionToken: string | null
     active: boolean
     createdAt: Date
     updatedAt: Date
@@ -11921,6 +11978,7 @@ export namespace Prisma {
     profileData?: boolean
     checkInStatus?: boolean
     pushSubscription?: boolean
+    sessionToken?: boolean
     active?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -11938,6 +11996,7 @@ export namespace Prisma {
     profileData?: boolean
     checkInStatus?: boolean
     pushSubscription?: boolean
+    sessionToken?: boolean
     active?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -11952,6 +12011,7 @@ export namespace Prisma {
     profileData?: boolean
     checkInStatus?: boolean
     pushSubscription?: boolean
+    sessionToken?: boolean
     active?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -11966,6 +12026,7 @@ export namespace Prisma {
     profileData?: boolean
     checkInStatus?: boolean
     pushSubscription?: boolean
+    sessionToken?: boolean
     active?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -11973,7 +12034,7 @@ export namespace Prisma {
     updatedById?: boolean
   }
 
-  export type GuestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "workshopId" | "profileData" | "checkInStatus" | "pushSubscription" | "active" | "createdAt" | "updatedAt" | "createdById" | "updatedById", ExtArgs["result"]["guest"]>
+  export type GuestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "workshopId" | "profileData" | "checkInStatus" | "pushSubscription" | "sessionToken" | "active" | "createdAt" | "updatedAt" | "createdById" | "updatedById", ExtArgs["result"]["guest"]>
   export type GuestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     workshop?: boolean | WorkshopDefaultArgs<ExtArgs>
     carts?: boolean | Guest$cartsArgs<ExtArgs>
@@ -12000,6 +12061,7 @@ export namespace Prisma {
       profileData: Prisma.JsonValue
       checkInStatus: boolean
       pushSubscription: Prisma.JsonValue | null
+      sessionToken: string | null
       active: boolean
       createdAt: Date
       updatedAt: Date
@@ -12436,6 +12498,7 @@ export namespace Prisma {
     readonly profileData: FieldRef<"Guest", 'Json'>
     readonly checkInStatus: FieldRef<"Guest", 'Boolean'>
     readonly pushSubscription: FieldRef<"Guest", 'Json'>
+    readonly sessionToken: FieldRef<"Guest", 'String'>
     readonly active: FieldRef<"Guest", 'Boolean'>
     readonly createdAt: FieldRef<"Guest", 'DateTime'>
     readonly updatedAt: FieldRef<"Guest", 'DateTime'>
@@ -12931,6 +12994,8 @@ export namespace Prisma {
   export type CartMinAggregateOutputType = {
     id: string | null
     guestId: string | null
+    workshopId: string | null
+    sessionToken: string | null
     status: string | null
     priceTierId: string | null
     totalAmount: number | null
@@ -12948,6 +13013,8 @@ export namespace Prisma {
   export type CartMaxAggregateOutputType = {
     id: string | null
     guestId: string | null
+    workshopId: string | null
+    sessionToken: string | null
     status: string | null
     priceTierId: string | null
     totalAmount: number | null
@@ -12965,6 +13032,8 @@ export namespace Prisma {
   export type CartCountAggregateOutputType = {
     id: number
     guestId: number
+    workshopId: number
+    sessionToken: number
     status: number
     priceTierId: number
     totalAmount: number
@@ -12992,6 +13061,8 @@ export namespace Prisma {
   export type CartMinAggregateInputType = {
     id?: true
     guestId?: true
+    workshopId?: true
+    sessionToken?: true
     status?: true
     priceTierId?: true
     totalAmount?: true
@@ -13009,6 +13080,8 @@ export namespace Prisma {
   export type CartMaxAggregateInputType = {
     id?: true
     guestId?: true
+    workshopId?: true
+    sessionToken?: true
     status?: true
     priceTierId?: true
     totalAmount?: true
@@ -13026,6 +13099,8 @@ export namespace Prisma {
   export type CartCountAggregateInputType = {
     id?: true
     guestId?: true
+    workshopId?: true
+    sessionToken?: true
     status?: true
     priceTierId?: true
     totalAmount?: true
@@ -13129,7 +13204,9 @@ export namespace Prisma {
 
   export type CartGroupByOutputType = {
     id: string
-    guestId: string
+    guestId: string | null
+    workshopId: string | null
+    sessionToken: string | null
     status: string
     priceTierId: string | null
     totalAmount: number | null
@@ -13166,6 +13243,8 @@ export namespace Prisma {
   export type CartSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     guestId?: boolean
+    workshopId?: boolean
+    sessionToken?: boolean
     status?: boolean
     priceTierId?: boolean
     totalAmount?: boolean
@@ -13178,7 +13257,8 @@ export namespace Prisma {
     updatedAt?: boolean
     createdById?: boolean
     updatedById?: boolean
-    guest?: boolean | GuestDefaultArgs<ExtArgs>
+    guest?: boolean | Cart$guestArgs<ExtArgs>
+    workshop?: boolean | Cart$workshopArgs<ExtArgs>
     items?: boolean | Cart$itemsArgs<ExtArgs>
     priceTier?: boolean | Cart$priceTierArgs<ExtArgs>
     _count?: boolean | CartCountOutputTypeDefaultArgs<ExtArgs>
@@ -13187,6 +13267,8 @@ export namespace Prisma {
   export type CartSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     guestId?: boolean
+    workshopId?: boolean
+    sessionToken?: boolean
     status?: boolean
     priceTierId?: boolean
     totalAmount?: boolean
@@ -13199,13 +13281,16 @@ export namespace Prisma {
     updatedAt?: boolean
     createdById?: boolean
     updatedById?: boolean
-    guest?: boolean | GuestDefaultArgs<ExtArgs>
+    guest?: boolean | Cart$guestArgs<ExtArgs>
+    workshop?: boolean | Cart$workshopArgs<ExtArgs>
     priceTier?: boolean | Cart$priceTierArgs<ExtArgs>
   }, ExtArgs["result"]["cart"]>
 
   export type CartSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     guestId?: boolean
+    workshopId?: boolean
+    sessionToken?: boolean
     status?: boolean
     priceTierId?: boolean
     totalAmount?: boolean
@@ -13218,13 +13303,16 @@ export namespace Prisma {
     updatedAt?: boolean
     createdById?: boolean
     updatedById?: boolean
-    guest?: boolean | GuestDefaultArgs<ExtArgs>
+    guest?: boolean | Cart$guestArgs<ExtArgs>
+    workshop?: boolean | Cart$workshopArgs<ExtArgs>
     priceTier?: boolean | Cart$priceTierArgs<ExtArgs>
   }, ExtArgs["result"]["cart"]>
 
   export type CartSelectScalar = {
     id?: boolean
     guestId?: boolean
+    workshopId?: boolean
+    sessionToken?: boolean
     status?: boolean
     priceTierId?: boolean
     totalAmount?: boolean
@@ -13239,32 +13327,38 @@ export namespace Prisma {
     updatedById?: boolean
   }
 
-  export type CartOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "guestId" | "status" | "priceTierId" | "totalAmount" | "orderedAt" | "preparedAt" | "readyAt" | "paidAt" | "active" | "createdAt" | "updatedAt" | "createdById" | "updatedById", ExtArgs["result"]["cart"]>
+  export type CartOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "guestId" | "workshopId" | "sessionToken" | "status" | "priceTierId" | "totalAmount" | "orderedAt" | "preparedAt" | "readyAt" | "paidAt" | "active" | "createdAt" | "updatedAt" | "createdById" | "updatedById", ExtArgs["result"]["cart"]>
   export type CartInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    guest?: boolean | GuestDefaultArgs<ExtArgs>
+    guest?: boolean | Cart$guestArgs<ExtArgs>
+    workshop?: boolean | Cart$workshopArgs<ExtArgs>
     items?: boolean | Cart$itemsArgs<ExtArgs>
     priceTier?: boolean | Cart$priceTierArgs<ExtArgs>
     _count?: boolean | CartCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CartIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    guest?: boolean | GuestDefaultArgs<ExtArgs>
+    guest?: boolean | Cart$guestArgs<ExtArgs>
+    workshop?: boolean | Cart$workshopArgs<ExtArgs>
     priceTier?: boolean | Cart$priceTierArgs<ExtArgs>
   }
   export type CartIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    guest?: boolean | GuestDefaultArgs<ExtArgs>
+    guest?: boolean | Cart$guestArgs<ExtArgs>
+    workshop?: boolean | Cart$workshopArgs<ExtArgs>
     priceTier?: boolean | Cart$priceTierArgs<ExtArgs>
   }
 
   export type $CartPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Cart"
     objects: {
-      guest: Prisma.$GuestPayload<ExtArgs>
+      guest: Prisma.$GuestPayload<ExtArgs> | null
+      workshop: Prisma.$WorkshopPayload<ExtArgs> | null
       items: Prisma.$CartItemPayload<ExtArgs>[]
       priceTier: Prisma.$PriceTierPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      guestId: string
+      guestId: string | null
+      workshopId: string | null
+      sessionToken: string | null
       status: string
       priceTierId: string | null
       totalAmount: number | null
@@ -13671,7 +13765,8 @@ export namespace Prisma {
    */
   export interface Prisma__CartClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    guest<T extends GuestDefaultArgs<ExtArgs> = {}>(args?: Subset<T, GuestDefaultArgs<ExtArgs>>): Prisma__GuestClient<$Result.GetResult<Prisma.$GuestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    guest<T extends Cart$guestArgs<ExtArgs> = {}>(args?: Subset<T, Cart$guestArgs<ExtArgs>>): Prisma__GuestClient<$Result.GetResult<Prisma.$GuestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    workshop<T extends Cart$workshopArgs<ExtArgs> = {}>(args?: Subset<T, Cart$workshopArgs<ExtArgs>>): Prisma__WorkshopClient<$Result.GetResult<Prisma.$WorkshopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     items<T extends Cart$itemsArgs<ExtArgs> = {}>(args?: Subset<T, Cart$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CartItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     priceTier<T extends Cart$priceTierArgs<ExtArgs> = {}>(args?: Subset<T, Cart$priceTierArgs<ExtArgs>>): Prisma__PriceTierClient<$Result.GetResult<Prisma.$PriceTierPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
@@ -13705,6 +13800,8 @@ export namespace Prisma {
   interface CartFieldRefs {
     readonly id: FieldRef<"Cart", 'String'>
     readonly guestId: FieldRef<"Cart", 'String'>
+    readonly workshopId: FieldRef<"Cart", 'String'>
+    readonly sessionToken: FieldRef<"Cart", 'String'>
     readonly status: FieldRef<"Cart", 'String'>
     readonly priceTierId: FieldRef<"Cart", 'String'>
     readonly totalAmount: FieldRef<"Cart", 'Float'>
@@ -14115,6 +14212,44 @@ export namespace Prisma {
      * Limit how many Carts to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Cart.guest
+   */
+  export type Cart$guestArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Guest
+     */
+    select?: GuestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Guest
+     */
+    omit?: GuestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GuestInclude<ExtArgs> | null
+    where?: GuestWhereInput
+  }
+
+  /**
+   * Cart.workshop
+   */
+  export type Cart$workshopArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workshop
+     */
+    select?: WorkshopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workshop
+     */
+    omit?: WorkshopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkshopInclude<ExtArgs> | null
+    where?: WorkshopWhereInput
   }
 
   /**
@@ -19810,6 +19945,7 @@ export namespace Prisma {
     startDateTime: 'startDateTime',
     endDateTime: 'endDateTime',
     active: 'active',
+    isAnonymous: 'isAnonymous',
     formConfigId: 'formConfigId',
     printConfigId: 'printConfigId',
     createdAt: 'createdAt',
@@ -19856,6 +19992,7 @@ export namespace Prisma {
     profileData: 'profileData',
     checkInStatus: 'checkInStatus',
     pushSubscription: 'pushSubscription',
+    sessionToken: 'sessionToken',
     active: 'active',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -19869,6 +20006,8 @@ export namespace Prisma {
   export const CartScalarFieldEnum: {
     id: 'id',
     guestId: 'guestId',
+    workshopId: 'workshopId',
+    sessionToken: 'sessionToken',
     status: 'status',
     priceTierId: 'priceTierId',
     totalAmount: 'totalAmount',
@@ -20476,6 +20615,7 @@ export namespace Prisma {
     startDateTime?: DateTimeFilter<"Workshop"> | Date | string
     endDateTime?: DateTimeFilter<"Workshop"> | Date | string
     active?: BoolFilter<"Workshop"> | boolean
+    isAnonymous?: BoolFilter<"Workshop"> | boolean
     formConfigId?: StringNullableFilter<"Workshop"> | string | null
     printConfigId?: StringNullableFilter<"Workshop"> | string | null
     createdAt?: DateTimeFilter<"Workshop"> | Date | string
@@ -20484,6 +20624,7 @@ export namespace Prisma {
     updatedById?: StringFilter<"Workshop"> | string
     guests?: GuestListRelationFilter
     inventory?: WorkshopStockListRelationFilter
+    carts?: CartListRelationFilter
     formConfig?: XOR<FormConfigNullableScalarRelationFilter, FormConfigWhereInput> | null
     printConfig?: XOR<PrintConfigNullableScalarRelationFilter, PrintConfigWhereInput> | null
     notifications?: GlobalNotificationListRelationFilter
@@ -20497,6 +20638,7 @@ export namespace Prisma {
     startDateTime?: SortOrder
     endDateTime?: SortOrder
     active?: SortOrder
+    isAnonymous?: SortOrder
     formConfigId?: SortOrderInput | SortOrder
     printConfigId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -20505,6 +20647,7 @@ export namespace Prisma {
     updatedById?: SortOrder
     guests?: GuestOrderByRelationAggregateInput
     inventory?: WorkshopStockOrderByRelationAggregateInput
+    carts?: CartOrderByRelationAggregateInput
     formConfig?: FormConfigOrderByWithRelationInput
     printConfig?: PrintConfigOrderByWithRelationInput
     notifications?: GlobalNotificationOrderByRelationAggregateInput
@@ -20521,6 +20664,7 @@ export namespace Prisma {
     startDateTime?: DateTimeFilter<"Workshop"> | Date | string
     endDateTime?: DateTimeFilter<"Workshop"> | Date | string
     active?: BoolFilter<"Workshop"> | boolean
+    isAnonymous?: BoolFilter<"Workshop"> | boolean
     formConfigId?: StringNullableFilter<"Workshop"> | string | null
     printConfigId?: StringNullableFilter<"Workshop"> | string | null
     createdAt?: DateTimeFilter<"Workshop"> | Date | string
@@ -20529,6 +20673,7 @@ export namespace Prisma {
     updatedById?: StringFilter<"Workshop"> | string
     guests?: GuestListRelationFilter
     inventory?: WorkshopStockListRelationFilter
+    carts?: CartListRelationFilter
     formConfig?: XOR<FormConfigNullableScalarRelationFilter, FormConfigWhereInput> | null
     printConfig?: XOR<PrintConfigNullableScalarRelationFilter, PrintConfigWhereInput> | null
     notifications?: GlobalNotificationListRelationFilter
@@ -20542,6 +20687,7 @@ export namespace Prisma {
     startDateTime?: SortOrder
     endDateTime?: SortOrder
     active?: SortOrder
+    isAnonymous?: SortOrder
     formConfigId?: SortOrderInput | SortOrder
     printConfigId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -20564,6 +20710,7 @@ export namespace Prisma {
     startDateTime?: DateTimeWithAggregatesFilter<"Workshop"> | Date | string
     endDateTime?: DateTimeWithAggregatesFilter<"Workshop"> | Date | string
     active?: BoolWithAggregatesFilter<"Workshop"> | boolean
+    isAnonymous?: BoolWithAggregatesFilter<"Workshop"> | boolean
     formConfigId?: StringNullableWithAggregatesFilter<"Workshop"> | string | null
     printConfigId?: StringNullableWithAggregatesFilter<"Workshop"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Workshop"> | Date | string
@@ -20732,6 +20879,7 @@ export namespace Prisma {
     profileData?: JsonFilter<"Guest">
     checkInStatus?: BoolFilter<"Guest"> | boolean
     pushSubscription?: JsonNullableFilter<"Guest">
+    sessionToken?: StringNullableFilter<"Guest"> | string | null
     active?: BoolFilter<"Guest"> | boolean
     createdAt?: DateTimeFilter<"Guest"> | Date | string
     updatedAt?: DateTimeFilter<"Guest"> | Date | string
@@ -20748,6 +20896,7 @@ export namespace Prisma {
     profileData?: SortOrder
     checkInStatus?: SortOrder
     pushSubscription?: SortOrderInput | SortOrder
+    sessionToken?: SortOrderInput | SortOrder
     active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -20760,6 +20909,7 @@ export namespace Prisma {
 
   export type GuestWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    sessionToken?: string
     AND?: GuestWhereInput | GuestWhereInput[]
     OR?: GuestWhereInput[]
     NOT?: GuestWhereInput | GuestWhereInput[]
@@ -20775,7 +20925,7 @@ export namespace Prisma {
     workshop?: XOR<WorkshopScalarRelationFilter, WorkshopWhereInput>
     carts?: CartListRelationFilter
     notifications?: NotificationListRelationFilter
-  }, "id">
+  }, "id" | "sessionToken">
 
   export type GuestOrderByWithAggregationInput = {
     id?: SortOrder
@@ -20783,6 +20933,7 @@ export namespace Prisma {
     profileData?: SortOrder
     checkInStatus?: SortOrder
     pushSubscription?: SortOrderInput | SortOrder
+    sessionToken?: SortOrderInput | SortOrder
     active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -20802,6 +20953,7 @@ export namespace Prisma {
     profileData?: JsonWithAggregatesFilter<"Guest">
     checkInStatus?: BoolWithAggregatesFilter<"Guest"> | boolean
     pushSubscription?: JsonNullableWithAggregatesFilter<"Guest">
+    sessionToken?: StringNullableWithAggregatesFilter<"Guest"> | string | null
     active?: BoolWithAggregatesFilter<"Guest"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Guest"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Guest"> | Date | string
@@ -20814,7 +20966,9 @@ export namespace Prisma {
     OR?: CartWhereInput[]
     NOT?: CartWhereInput | CartWhereInput[]
     id?: StringFilter<"Cart"> | string
-    guestId?: StringFilter<"Cart"> | string
+    guestId?: StringNullableFilter<"Cart"> | string | null
+    workshopId?: StringNullableFilter<"Cart"> | string | null
+    sessionToken?: StringNullableFilter<"Cart"> | string | null
     status?: StringFilter<"Cart"> | string
     priceTierId?: StringNullableFilter<"Cart"> | string | null
     totalAmount?: FloatNullableFilter<"Cart"> | number | null
@@ -20827,14 +20981,17 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Cart"> | Date | string
     createdById?: StringFilter<"Cart"> | string
     updatedById?: StringFilter<"Cart"> | string
-    guest?: XOR<GuestScalarRelationFilter, GuestWhereInput>
+    guest?: XOR<GuestNullableScalarRelationFilter, GuestWhereInput> | null
+    workshop?: XOR<WorkshopNullableScalarRelationFilter, WorkshopWhereInput> | null
     items?: CartItemListRelationFilter
     priceTier?: XOR<PriceTierNullableScalarRelationFilter, PriceTierWhereInput> | null
   }
 
   export type CartOrderByWithRelationInput = {
     id?: SortOrder
-    guestId?: SortOrder
+    guestId?: SortOrderInput | SortOrder
+    workshopId?: SortOrderInput | SortOrder
+    sessionToken?: SortOrderInput | SortOrder
     status?: SortOrder
     priceTierId?: SortOrderInput | SortOrder
     totalAmount?: SortOrderInput | SortOrder
@@ -20848,6 +21005,7 @@ export namespace Prisma {
     createdById?: SortOrder
     updatedById?: SortOrder
     guest?: GuestOrderByWithRelationInput
+    workshop?: WorkshopOrderByWithRelationInput
     items?: CartItemOrderByRelationAggregateInput
     priceTier?: PriceTierOrderByWithRelationInput
   }
@@ -20857,7 +21015,9 @@ export namespace Prisma {
     AND?: CartWhereInput | CartWhereInput[]
     OR?: CartWhereInput[]
     NOT?: CartWhereInput | CartWhereInput[]
-    guestId?: StringFilter<"Cart"> | string
+    guestId?: StringNullableFilter<"Cart"> | string | null
+    workshopId?: StringNullableFilter<"Cart"> | string | null
+    sessionToken?: StringNullableFilter<"Cart"> | string | null
     status?: StringFilter<"Cart"> | string
     priceTierId?: StringNullableFilter<"Cart"> | string | null
     totalAmount?: FloatNullableFilter<"Cart"> | number | null
@@ -20870,14 +21030,17 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Cart"> | Date | string
     createdById?: StringFilter<"Cart"> | string
     updatedById?: StringFilter<"Cart"> | string
-    guest?: XOR<GuestScalarRelationFilter, GuestWhereInput>
+    guest?: XOR<GuestNullableScalarRelationFilter, GuestWhereInput> | null
+    workshop?: XOR<WorkshopNullableScalarRelationFilter, WorkshopWhereInput> | null
     items?: CartItemListRelationFilter
     priceTier?: XOR<PriceTierNullableScalarRelationFilter, PriceTierWhereInput> | null
   }, "id">
 
   export type CartOrderByWithAggregationInput = {
     id?: SortOrder
-    guestId?: SortOrder
+    guestId?: SortOrderInput | SortOrder
+    workshopId?: SortOrderInput | SortOrder
+    sessionToken?: SortOrderInput | SortOrder
     status?: SortOrder
     priceTierId?: SortOrderInput | SortOrder
     totalAmount?: SortOrderInput | SortOrder
@@ -20902,7 +21065,9 @@ export namespace Prisma {
     OR?: CartScalarWhereWithAggregatesInput[]
     NOT?: CartScalarWhereWithAggregatesInput | CartScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Cart"> | string
-    guestId?: StringWithAggregatesFilter<"Cart"> | string
+    guestId?: StringNullableWithAggregatesFilter<"Cart"> | string | null
+    workshopId?: StringNullableWithAggregatesFilter<"Cart"> | string | null
+    sessionToken?: StringNullableWithAggregatesFilter<"Cart"> | string | null
     status?: StringWithAggregatesFilter<"Cart"> | string
     priceTierId?: StringNullableWithAggregatesFilter<"Cart"> | string | null
     totalAmount?: FloatNullableWithAggregatesFilter<"Cart"> | number | null
@@ -21705,12 +21870,14 @@ export namespace Prisma {
     startDateTime: Date | string
     endDateTime: Date | string
     active?: boolean
+    isAnonymous?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById: string
     updatedById: string
     guests?: GuestCreateNestedManyWithoutWorkshopInput
     inventory?: WorkshopStockCreateNestedManyWithoutWorkshopInput
+    carts?: CartCreateNestedManyWithoutWorkshopInput
     formConfig?: FormConfigCreateNestedOneWithoutWorkshopsInput
     printConfig?: PrintConfigCreateNestedOneWithoutWorkshopsInput
     notifications?: GlobalNotificationCreateNestedManyWithoutWorkshopInput
@@ -21724,6 +21891,7 @@ export namespace Prisma {
     startDateTime: Date | string
     endDateTime: Date | string
     active?: boolean
+    isAnonymous?: boolean
     formConfigId?: string | null
     printConfigId?: string | null
     createdAt?: Date | string
@@ -21732,6 +21900,7 @@ export namespace Prisma {
     updatedById: string
     guests?: GuestUncheckedCreateNestedManyWithoutWorkshopInput
     inventory?: WorkshopStockUncheckedCreateNestedManyWithoutWorkshopInput
+    carts?: CartUncheckedCreateNestedManyWithoutWorkshopInput
     notifications?: GlobalNotificationUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
@@ -21743,12 +21912,14 @@ export namespace Prisma {
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
     updatedById?: StringFieldUpdateOperationsInput | string
     guests?: GuestUpdateManyWithoutWorkshopNestedInput
     inventory?: WorkshopStockUpdateManyWithoutWorkshopNestedInput
+    carts?: CartUpdateManyWithoutWorkshopNestedInput
     formConfig?: FormConfigUpdateOneWithoutWorkshopsNestedInput
     printConfig?: PrintConfigUpdateOneWithoutWorkshopsNestedInput
     notifications?: GlobalNotificationUpdateManyWithoutWorkshopNestedInput
@@ -21762,6 +21933,7 @@ export namespace Prisma {
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     formConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     printConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21770,6 +21942,7 @@ export namespace Prisma {
     updatedById?: StringFieldUpdateOperationsInput | string
     guests?: GuestUncheckedUpdateManyWithoutWorkshopNestedInput
     inventory?: WorkshopStockUncheckedUpdateManyWithoutWorkshopNestedInput
+    carts?: CartUncheckedUpdateManyWithoutWorkshopNestedInput
     notifications?: GlobalNotificationUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
@@ -21781,6 +21954,7 @@ export namespace Prisma {
     startDateTime: Date | string
     endDateTime: Date | string
     active?: boolean
+    isAnonymous?: boolean
     formConfigId?: string | null
     printConfigId?: string | null
     createdAt?: Date | string
@@ -21797,6 +21971,7 @@ export namespace Prisma {
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
@@ -21811,6 +21986,7 @@ export namespace Prisma {
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     formConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     printConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21987,6 +22163,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22003,6 +22180,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22017,6 +22195,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22033,6 +22212,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22048,6 +22228,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -22060,6 +22241,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22073,6 +22255,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22082,6 +22265,7 @@ export namespace Prisma {
 
   export type CartCreateInput = {
     id?: string
+    sessionToken?: string | null
     status?: string
     totalAmount?: number | null
     orderedAt?: Date | string | null
@@ -22093,14 +22277,17 @@ export namespace Prisma {
     updatedAt?: Date | string
     createdById: string
     updatedById: string
-    guest: GuestCreateNestedOneWithoutCartsInput
+    guest?: GuestCreateNestedOneWithoutCartsInput
+    workshop?: WorkshopCreateNestedOneWithoutCartsInput
     items?: CartItemCreateNestedManyWithoutCartInput
     priceTier?: PriceTierCreateNestedOneWithoutCartsInput
   }
 
   export type CartUncheckedCreateInput = {
     id?: string
-    guestId: string
+    guestId?: string | null
+    workshopId?: string | null
+    sessionToken?: string | null
     status?: string
     priceTierId?: string | null
     totalAmount?: number | null
@@ -22118,6 +22305,7 @@ export namespace Prisma {
 
   export type CartUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     totalAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     orderedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22129,14 +22317,17 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
     updatedById?: StringFieldUpdateOperationsInput | string
-    guest?: GuestUpdateOneRequiredWithoutCartsNestedInput
+    guest?: GuestUpdateOneWithoutCartsNestedInput
+    workshop?: WorkshopUpdateOneWithoutCartsNestedInput
     items?: CartItemUpdateManyWithoutCartNestedInput
     priceTier?: PriceTierUpdateOneWithoutCartsNestedInput
   }
 
   export type CartUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    guestId?: StringFieldUpdateOperationsInput | string
+    guestId?: NullableStringFieldUpdateOperationsInput | string | null
+    workshopId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priceTierId?: NullableStringFieldUpdateOperationsInput | string | null
     totalAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -22154,7 +22345,9 @@ export namespace Prisma {
 
   export type CartCreateManyInput = {
     id?: string
-    guestId: string
+    guestId?: string | null
+    workshopId?: string | null
+    sessionToken?: string | null
     status?: string
     priceTierId?: string | null
     totalAmount?: number | null
@@ -22171,6 +22364,7 @@ export namespace Prisma {
 
   export type CartUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     totalAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     orderedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22186,7 +22380,9 @@ export namespace Prisma {
 
   export type CartUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    guestId?: StringFieldUpdateOperationsInput | string
+    guestId?: NullableStringFieldUpdateOperationsInput | string | null
+    workshopId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priceTierId?: NullableStringFieldUpdateOperationsInput | string | null
     totalAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -23088,6 +23284,7 @@ export namespace Prisma {
     startDateTime?: SortOrder
     endDateTime?: SortOrder
     active?: SortOrder
+    isAnonymous?: SortOrder
     formConfigId?: SortOrder
     printConfigId?: SortOrder
     createdAt?: SortOrder
@@ -23104,6 +23301,7 @@ export namespace Prisma {
     startDateTime?: SortOrder
     endDateTime?: SortOrder
     active?: SortOrder
+    isAnonymous?: SortOrder
     formConfigId?: SortOrder
     printConfigId?: SortOrder
     createdAt?: SortOrder
@@ -23120,6 +23318,7 @@ export namespace Prisma {
     startDateTime?: SortOrder
     endDateTime?: SortOrder
     active?: SortOrder
+    isAnonymous?: SortOrder
     formConfigId?: SortOrder
     printConfigId?: SortOrder
     createdAt?: SortOrder
@@ -23289,6 +23488,7 @@ export namespace Prisma {
     profileData?: SortOrder
     checkInStatus?: SortOrder
     pushSubscription?: SortOrder
+    sessionToken?: SortOrder
     active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -23300,6 +23500,7 @@ export namespace Prisma {
     id?: SortOrder
     workshopId?: SortOrder
     checkInStatus?: SortOrder
+    sessionToken?: SortOrder
     active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -23311,6 +23512,7 @@ export namespace Prisma {
     id?: SortOrder
     workshopId?: SortOrder
     checkInStatus?: SortOrder
+    sessionToken?: SortOrder
     active?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -23366,9 +23568,14 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type GuestScalarRelationFilter = {
-    is?: GuestWhereInput
-    isNot?: GuestWhereInput
+  export type GuestNullableScalarRelationFilter = {
+    is?: GuestWhereInput | null
+    isNot?: GuestWhereInput | null
+  }
+
+  export type WorkshopNullableScalarRelationFilter = {
+    is?: WorkshopWhereInput | null
+    isNot?: WorkshopWhereInput | null
   }
 
   export type PriceTierNullableScalarRelationFilter = {
@@ -23379,6 +23586,8 @@ export namespace Prisma {
   export type CartCountOrderByAggregateInput = {
     id?: SortOrder
     guestId?: SortOrder
+    workshopId?: SortOrder
+    sessionToken?: SortOrder
     status?: SortOrder
     priceTierId?: SortOrder
     totalAmount?: SortOrder
@@ -23400,6 +23609,8 @@ export namespace Prisma {
   export type CartMaxOrderByAggregateInput = {
     id?: SortOrder
     guestId?: SortOrder
+    workshopId?: SortOrder
+    sessionToken?: SortOrder
     status?: SortOrder
     priceTierId?: SortOrder
     totalAmount?: SortOrder
@@ -23417,6 +23628,8 @@ export namespace Prisma {
   export type CartMinOrderByAggregateInput = {
     id?: SortOrder
     guestId?: SortOrder
+    workshopId?: SortOrder
+    sessionToken?: SortOrder
     status?: SortOrder
     priceTierId?: SortOrder
     totalAmount?: SortOrder
@@ -23463,6 +23676,11 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type GuestScalarRelationFilter = {
+    is?: GuestWhereInput
+    isNot?: GuestWhereInput
   }
 
   export type NotificationCountOrderByAggregateInput = {
@@ -23585,11 +23803,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
     createdById?: SortOrder
     updatedById?: SortOrder
-  }
-
-  export type WorkshopNullableScalarRelationFilter = {
-    is?: WorkshopWhereInput | null
-    isNot?: WorkshopWhereInput | null
   }
 
   export type GlobalNotificationCountOrderByAggregateInput = {
@@ -24002,6 +24215,13 @@ export namespace Prisma {
     connect?: WorkshopStockWhereUniqueInput | WorkshopStockWhereUniqueInput[]
   }
 
+  export type CartCreateNestedManyWithoutWorkshopInput = {
+    create?: XOR<CartCreateWithoutWorkshopInput, CartUncheckedCreateWithoutWorkshopInput> | CartCreateWithoutWorkshopInput[] | CartUncheckedCreateWithoutWorkshopInput[]
+    connectOrCreate?: CartCreateOrConnectWithoutWorkshopInput | CartCreateOrConnectWithoutWorkshopInput[]
+    createMany?: CartCreateManyWorkshopInputEnvelope
+    connect?: CartWhereUniqueInput | CartWhereUniqueInput[]
+  }
+
   export type FormConfigCreateNestedOneWithoutWorkshopsInput = {
     create?: XOR<FormConfigCreateWithoutWorkshopsInput, FormConfigUncheckedCreateWithoutWorkshopsInput>
     connectOrCreate?: FormConfigCreateOrConnectWithoutWorkshopsInput
@@ -24033,6 +24253,13 @@ export namespace Prisma {
     connectOrCreate?: WorkshopStockCreateOrConnectWithoutWorkshopInput | WorkshopStockCreateOrConnectWithoutWorkshopInput[]
     createMany?: WorkshopStockCreateManyWorkshopInputEnvelope
     connect?: WorkshopStockWhereUniqueInput | WorkshopStockWhereUniqueInput[]
+  }
+
+  export type CartUncheckedCreateNestedManyWithoutWorkshopInput = {
+    create?: XOR<CartCreateWithoutWorkshopInput, CartUncheckedCreateWithoutWorkshopInput> | CartCreateWithoutWorkshopInput[] | CartUncheckedCreateWithoutWorkshopInput[]
+    connectOrCreate?: CartCreateOrConnectWithoutWorkshopInput | CartCreateOrConnectWithoutWorkshopInput[]
+    createMany?: CartCreateManyWorkshopInputEnvelope
+    connect?: CartWhereUniqueInput | CartWhereUniqueInput[]
   }
 
   export type GlobalNotificationUncheckedCreateNestedManyWithoutWorkshopInput = {
@@ -24068,6 +24295,20 @@ export namespace Prisma {
     update?: WorkshopStockUpdateWithWhereUniqueWithoutWorkshopInput | WorkshopStockUpdateWithWhereUniqueWithoutWorkshopInput[]
     updateMany?: WorkshopStockUpdateManyWithWhereWithoutWorkshopInput | WorkshopStockUpdateManyWithWhereWithoutWorkshopInput[]
     deleteMany?: WorkshopStockScalarWhereInput | WorkshopStockScalarWhereInput[]
+  }
+
+  export type CartUpdateManyWithoutWorkshopNestedInput = {
+    create?: XOR<CartCreateWithoutWorkshopInput, CartUncheckedCreateWithoutWorkshopInput> | CartCreateWithoutWorkshopInput[] | CartUncheckedCreateWithoutWorkshopInput[]
+    connectOrCreate?: CartCreateOrConnectWithoutWorkshopInput | CartCreateOrConnectWithoutWorkshopInput[]
+    upsert?: CartUpsertWithWhereUniqueWithoutWorkshopInput | CartUpsertWithWhereUniqueWithoutWorkshopInput[]
+    createMany?: CartCreateManyWorkshopInputEnvelope
+    set?: CartWhereUniqueInput | CartWhereUniqueInput[]
+    disconnect?: CartWhereUniqueInput | CartWhereUniqueInput[]
+    delete?: CartWhereUniqueInput | CartWhereUniqueInput[]
+    connect?: CartWhereUniqueInput | CartWhereUniqueInput[]
+    update?: CartUpdateWithWhereUniqueWithoutWorkshopInput | CartUpdateWithWhereUniqueWithoutWorkshopInput[]
+    updateMany?: CartUpdateManyWithWhereWithoutWorkshopInput | CartUpdateManyWithWhereWithoutWorkshopInput[]
+    deleteMany?: CartScalarWhereInput | CartScalarWhereInput[]
   }
 
   export type FormConfigUpdateOneWithoutWorkshopsNestedInput = {
@@ -24130,6 +24371,20 @@ export namespace Prisma {
     update?: WorkshopStockUpdateWithWhereUniqueWithoutWorkshopInput | WorkshopStockUpdateWithWhereUniqueWithoutWorkshopInput[]
     updateMany?: WorkshopStockUpdateManyWithWhereWithoutWorkshopInput | WorkshopStockUpdateManyWithWhereWithoutWorkshopInput[]
     deleteMany?: WorkshopStockScalarWhereInput | WorkshopStockScalarWhereInput[]
+  }
+
+  export type CartUncheckedUpdateManyWithoutWorkshopNestedInput = {
+    create?: XOR<CartCreateWithoutWorkshopInput, CartUncheckedCreateWithoutWorkshopInput> | CartCreateWithoutWorkshopInput[] | CartUncheckedCreateWithoutWorkshopInput[]
+    connectOrCreate?: CartCreateOrConnectWithoutWorkshopInput | CartCreateOrConnectWithoutWorkshopInput[]
+    upsert?: CartUpsertWithWhereUniqueWithoutWorkshopInput | CartUpsertWithWhereUniqueWithoutWorkshopInput[]
+    createMany?: CartCreateManyWorkshopInputEnvelope
+    set?: CartWhereUniqueInput | CartWhereUniqueInput[]
+    disconnect?: CartWhereUniqueInput | CartWhereUniqueInput[]
+    delete?: CartWhereUniqueInput | CartWhereUniqueInput[]
+    connect?: CartWhereUniqueInput | CartWhereUniqueInput[]
+    update?: CartUpdateWithWhereUniqueWithoutWorkshopInput | CartUpdateWithWhereUniqueWithoutWorkshopInput[]
+    updateMany?: CartUpdateManyWithWhereWithoutWorkshopInput | CartUpdateManyWithWhereWithoutWorkshopInput[]
+    deleteMany?: CartScalarWhereInput | CartScalarWhereInput[]
   }
 
   export type GlobalNotificationUncheckedUpdateManyWithoutWorkshopNestedInput = {
@@ -24328,6 +24583,12 @@ export namespace Prisma {
     connect?: GuestWhereUniqueInput
   }
 
+  export type WorkshopCreateNestedOneWithoutCartsInput = {
+    create?: XOR<WorkshopCreateWithoutCartsInput, WorkshopUncheckedCreateWithoutCartsInput>
+    connectOrCreate?: WorkshopCreateOrConnectWithoutCartsInput
+    connect?: WorkshopWhereUniqueInput
+  }
+
   export type CartItemCreateNestedManyWithoutCartInput = {
     create?: XOR<CartItemCreateWithoutCartInput, CartItemUncheckedCreateWithoutCartInput> | CartItemCreateWithoutCartInput[] | CartItemUncheckedCreateWithoutCartInput[]
     connectOrCreate?: CartItemCreateOrConnectWithoutCartInput | CartItemCreateOrConnectWithoutCartInput[]
@@ -24360,12 +24621,24 @@ export namespace Prisma {
     set?: Date | string | null
   }
 
-  export type GuestUpdateOneRequiredWithoutCartsNestedInput = {
+  export type GuestUpdateOneWithoutCartsNestedInput = {
     create?: XOR<GuestCreateWithoutCartsInput, GuestUncheckedCreateWithoutCartsInput>
     connectOrCreate?: GuestCreateOrConnectWithoutCartsInput
     upsert?: GuestUpsertWithoutCartsInput
+    disconnect?: GuestWhereInput | boolean
+    delete?: GuestWhereInput | boolean
     connect?: GuestWhereUniqueInput
     update?: XOR<XOR<GuestUpdateToOneWithWhereWithoutCartsInput, GuestUpdateWithoutCartsInput>, GuestUncheckedUpdateWithoutCartsInput>
+  }
+
+  export type WorkshopUpdateOneWithoutCartsNestedInput = {
+    create?: XOR<WorkshopCreateWithoutCartsInput, WorkshopUncheckedCreateWithoutCartsInput>
+    connectOrCreate?: WorkshopCreateOrConnectWithoutCartsInput
+    upsert?: WorkshopUpsertWithoutCartsInput
+    disconnect?: WorkshopWhereInput | boolean
+    delete?: WorkshopWhereInput | boolean
+    connect?: WorkshopWhereUniqueInput
+    update?: XOR<XOR<WorkshopUpdateToOneWithWhereWithoutCartsInput, WorkshopUpdateWithoutCartsInput>, WorkshopUncheckedUpdateWithoutCartsInput>
   }
 
   export type CartItemUpdateManyWithoutCartNestedInput = {
@@ -25106,6 +25379,7 @@ export namespace Prisma {
 
   export type CartCreateWithoutPriceTierInput = {
     id?: string
+    sessionToken?: string | null
     status?: string
     totalAmount?: number | null
     orderedAt?: Date | string | null
@@ -25117,13 +25391,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     createdById: string
     updatedById: string
-    guest: GuestCreateNestedOneWithoutCartsInput
+    guest?: GuestCreateNestedOneWithoutCartsInput
+    workshop?: WorkshopCreateNestedOneWithoutCartsInput
     items?: CartItemCreateNestedManyWithoutCartInput
   }
 
   export type CartUncheckedCreateWithoutPriceTierInput = {
     id?: string
-    guestId: string
+    guestId?: string | null
+    workshopId?: string | null
+    sessionToken?: string | null
     status?: string
     totalAmount?: number | null
     orderedAt?: Date | string | null
@@ -25185,7 +25462,9 @@ export namespace Prisma {
     OR?: CartScalarWhereInput[]
     NOT?: CartScalarWhereInput | CartScalarWhereInput[]
     id?: StringFilter<"Cart"> | string
-    guestId?: StringFilter<"Cart"> | string
+    guestId?: StringNullableFilter<"Cart"> | string | null
+    workshopId?: StringNullableFilter<"Cart"> | string | null
+    sessionToken?: StringNullableFilter<"Cart"> | string | null
     status?: StringFilter<"Cart"> | string
     priceTierId?: StringNullableFilter<"Cart"> | string | null
     totalAmount?: FloatNullableFilter<"Cart"> | number | null
@@ -25353,6 +25632,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -25367,6 +25647,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -25415,6 +25696,54 @@ export namespace Prisma {
 
   export type WorkshopStockCreateManyWorkshopInputEnvelope = {
     data: WorkshopStockCreateManyWorkshopInput | WorkshopStockCreateManyWorkshopInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CartCreateWithoutWorkshopInput = {
+    id?: string
+    sessionToken?: string | null
+    status?: string
+    totalAmount?: number | null
+    orderedAt?: Date | string | null
+    preparedAt?: Date | string | null
+    readyAt?: Date | string | null
+    paidAt?: Date | string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById: string
+    updatedById: string
+    guest?: GuestCreateNestedOneWithoutCartsInput
+    items?: CartItemCreateNestedManyWithoutCartInput
+    priceTier?: PriceTierCreateNestedOneWithoutCartsInput
+  }
+
+  export type CartUncheckedCreateWithoutWorkshopInput = {
+    id?: string
+    guestId?: string | null
+    sessionToken?: string | null
+    status?: string
+    priceTierId?: string | null
+    totalAmount?: number | null
+    orderedAt?: Date | string | null
+    preparedAt?: Date | string | null
+    readyAt?: Date | string | null
+    paidAt?: Date | string | null
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById: string
+    updatedById: string
+    items?: CartItemUncheckedCreateNestedManyWithoutCartInput
+  }
+
+  export type CartCreateOrConnectWithoutWorkshopInput = {
+    where: CartWhereUniqueInput
+    create: XOR<CartCreateWithoutWorkshopInput, CartUncheckedCreateWithoutWorkshopInput>
+  }
+
+  export type CartCreateManyWorkshopInputEnvelope = {
+    data: CartCreateManyWorkshopInput | CartCreateManyWorkshopInput[]
     skipDuplicates?: boolean
   }
 
@@ -25533,6 +25862,7 @@ export namespace Prisma {
     profileData?: JsonFilter<"Guest">
     checkInStatus?: BoolFilter<"Guest"> | boolean
     pushSubscription?: JsonNullableFilter<"Guest">
+    sessionToken?: StringNullableFilter<"Guest"> | string | null
     active?: BoolFilter<"Guest"> | boolean
     createdAt?: DateTimeFilter<"Guest"> | Date | string
     updatedAt?: DateTimeFilter<"Guest"> | Date | string
@@ -25554,6 +25884,22 @@ export namespace Prisma {
   export type WorkshopStockUpdateManyWithWhereWithoutWorkshopInput = {
     where: WorkshopStockScalarWhereInput
     data: XOR<WorkshopStockUpdateManyMutationInput, WorkshopStockUncheckedUpdateManyWithoutWorkshopInput>
+  }
+
+  export type CartUpsertWithWhereUniqueWithoutWorkshopInput = {
+    where: CartWhereUniqueInput
+    update: XOR<CartUpdateWithoutWorkshopInput, CartUncheckedUpdateWithoutWorkshopInput>
+    create: XOR<CartCreateWithoutWorkshopInput, CartUncheckedCreateWithoutWorkshopInput>
+  }
+
+  export type CartUpdateWithWhereUniqueWithoutWorkshopInput = {
+    where: CartWhereUniqueInput
+    data: XOR<CartUpdateWithoutWorkshopInput, CartUncheckedUpdateWithoutWorkshopInput>
+  }
+
+  export type CartUpdateManyWithWhereWithoutWorkshopInput = {
+    where: CartScalarWhereInput
+    data: XOR<CartUpdateManyMutationInput, CartUncheckedUpdateManyWithoutWorkshopInput>
   }
 
   export type FormConfigUpsertWithoutWorkshopsInput = {
@@ -25665,12 +26011,14 @@ export namespace Prisma {
     startDateTime: Date | string
     endDateTime: Date | string
     active?: boolean
+    isAnonymous?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById: string
     updatedById: string
     guests?: GuestCreateNestedManyWithoutWorkshopInput
     inventory?: WorkshopStockCreateNestedManyWithoutWorkshopInput
+    carts?: CartCreateNestedManyWithoutWorkshopInput
     printConfig?: PrintConfigCreateNestedOneWithoutWorkshopsInput
     notifications?: GlobalNotificationCreateNestedManyWithoutWorkshopInput
   }
@@ -25683,6 +26031,7 @@ export namespace Prisma {
     startDateTime: Date | string
     endDateTime: Date | string
     active?: boolean
+    isAnonymous?: boolean
     printConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -25690,6 +26039,7 @@ export namespace Prisma {
     updatedById: string
     guests?: GuestUncheckedCreateNestedManyWithoutWorkshopInput
     inventory?: WorkshopStockUncheckedCreateNestedManyWithoutWorkshopInput
+    carts?: CartUncheckedCreateNestedManyWithoutWorkshopInput
     notifications?: GlobalNotificationUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
@@ -25730,6 +26080,7 @@ export namespace Prisma {
     startDateTime?: DateTimeFilter<"Workshop"> | Date | string
     endDateTime?: DateTimeFilter<"Workshop"> | Date | string
     active?: BoolFilter<"Workshop"> | boolean
+    isAnonymous?: BoolFilter<"Workshop"> | boolean
     formConfigId?: StringNullableFilter<"Workshop"> | string | null
     printConfigId?: StringNullableFilter<"Workshop"> | string | null
     createdAt?: DateTimeFilter<"Workshop"> | Date | string
@@ -25746,11 +26097,13 @@ export namespace Prisma {
     startDateTime: Date | string
     endDateTime: Date | string
     active?: boolean
+    isAnonymous?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById: string
     updatedById: string
     guests?: GuestCreateNestedManyWithoutWorkshopInput
+    carts?: CartCreateNestedManyWithoutWorkshopInput
     formConfig?: FormConfigCreateNestedOneWithoutWorkshopsInput
     printConfig?: PrintConfigCreateNestedOneWithoutWorkshopsInput
     notifications?: GlobalNotificationCreateNestedManyWithoutWorkshopInput
@@ -25764,6 +26117,7 @@ export namespace Prisma {
     startDateTime: Date | string
     endDateTime: Date | string
     active?: boolean
+    isAnonymous?: boolean
     formConfigId?: string | null
     printConfigId?: string | null
     createdAt?: Date | string
@@ -25771,6 +26125,7 @@ export namespace Prisma {
     createdById: string
     updatedById: string
     guests?: GuestUncheckedCreateNestedManyWithoutWorkshopInput
+    carts?: CartUncheckedCreateNestedManyWithoutWorkshopInput
     notifications?: GlobalNotificationUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
@@ -25835,11 +26190,13 @@ export namespace Prisma {
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
     updatedById?: StringFieldUpdateOperationsInput | string
     guests?: GuestUpdateManyWithoutWorkshopNestedInput
+    carts?: CartUpdateManyWithoutWorkshopNestedInput
     formConfig?: FormConfigUpdateOneWithoutWorkshopsNestedInput
     printConfig?: PrintConfigUpdateOneWithoutWorkshopsNestedInput
     notifications?: GlobalNotificationUpdateManyWithoutWorkshopNestedInput
@@ -25853,6 +26210,7 @@ export namespace Prisma {
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     formConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     printConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25860,6 +26218,7 @@ export namespace Prisma {
     createdById?: StringFieldUpdateOperationsInput | string
     updatedById?: StringFieldUpdateOperationsInput | string
     guests?: GuestUncheckedUpdateManyWithoutWorkshopNestedInput
+    carts?: CartUncheckedUpdateManyWithoutWorkshopNestedInput
     notifications?: GlobalNotificationUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
@@ -25914,11 +26273,13 @@ export namespace Prisma {
     startDateTime: Date | string
     endDateTime: Date | string
     active?: boolean
+    isAnonymous?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById: string
     updatedById: string
     inventory?: WorkshopStockCreateNestedManyWithoutWorkshopInput
+    carts?: CartCreateNestedManyWithoutWorkshopInput
     formConfig?: FormConfigCreateNestedOneWithoutWorkshopsInput
     printConfig?: PrintConfigCreateNestedOneWithoutWorkshopsInput
     notifications?: GlobalNotificationCreateNestedManyWithoutWorkshopInput
@@ -25932,6 +26293,7 @@ export namespace Prisma {
     startDateTime: Date | string
     endDateTime: Date | string
     active?: boolean
+    isAnonymous?: boolean
     formConfigId?: string | null
     printConfigId?: string | null
     createdAt?: Date | string
@@ -25939,6 +26301,7 @@ export namespace Prisma {
     createdById: string
     updatedById: string
     inventory?: WorkshopStockUncheckedCreateNestedManyWithoutWorkshopInput
+    carts?: CartUncheckedCreateNestedManyWithoutWorkshopInput
     notifications?: GlobalNotificationUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
@@ -25949,6 +26312,7 @@ export namespace Prisma {
 
   export type CartCreateWithoutGuestInput = {
     id?: string
+    sessionToken?: string | null
     status?: string
     totalAmount?: number | null
     orderedAt?: Date | string | null
@@ -25960,12 +26324,15 @@ export namespace Prisma {
     updatedAt?: Date | string
     createdById: string
     updatedById: string
+    workshop?: WorkshopCreateNestedOneWithoutCartsInput
     items?: CartItemCreateNestedManyWithoutCartInput
     priceTier?: PriceTierCreateNestedOneWithoutCartsInput
   }
 
   export type CartUncheckedCreateWithoutGuestInput = {
     id?: string
+    workshopId?: string | null
+    sessionToken?: string | null
     status?: string
     priceTierId?: string | null
     totalAmount?: number | null
@@ -26038,11 +26405,13 @@ export namespace Prisma {
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
     updatedById?: StringFieldUpdateOperationsInput | string
     inventory?: WorkshopStockUpdateManyWithoutWorkshopNestedInput
+    carts?: CartUpdateManyWithoutWorkshopNestedInput
     formConfig?: FormConfigUpdateOneWithoutWorkshopsNestedInput
     printConfig?: PrintConfigUpdateOneWithoutWorkshopsNestedInput
     notifications?: GlobalNotificationUpdateManyWithoutWorkshopNestedInput
@@ -26056,6 +26425,7 @@ export namespace Prisma {
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     formConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     printConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26063,6 +26433,7 @@ export namespace Prisma {
     createdById?: StringFieldUpdateOperationsInput | string
     updatedById?: StringFieldUpdateOperationsInput | string
     inventory?: WorkshopStockUncheckedUpdateManyWithoutWorkshopNestedInput
+    carts?: CartUncheckedUpdateManyWithoutWorkshopNestedInput
     notifications?: GlobalNotificationUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
@@ -26116,6 +26487,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26131,6 +26503,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26142,6 +26515,51 @@ export namespace Prisma {
   export type GuestCreateOrConnectWithoutCartsInput = {
     where: GuestWhereUniqueInput
     create: XOR<GuestCreateWithoutCartsInput, GuestUncheckedCreateWithoutCartsInput>
+  }
+
+  export type WorkshopCreateWithoutCartsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    location: string
+    startDateTime: Date | string
+    endDateTime: Date | string
+    active?: boolean
+    isAnonymous?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById: string
+    updatedById: string
+    guests?: GuestCreateNestedManyWithoutWorkshopInput
+    inventory?: WorkshopStockCreateNestedManyWithoutWorkshopInput
+    formConfig?: FormConfigCreateNestedOneWithoutWorkshopsInput
+    printConfig?: PrintConfigCreateNestedOneWithoutWorkshopsInput
+    notifications?: GlobalNotificationCreateNestedManyWithoutWorkshopInput
+  }
+
+  export type WorkshopUncheckedCreateWithoutCartsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    location: string
+    startDateTime: Date | string
+    endDateTime: Date | string
+    active?: boolean
+    isAnonymous?: boolean
+    formConfigId?: string | null
+    printConfigId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById: string
+    updatedById: string
+    guests?: GuestUncheckedCreateNestedManyWithoutWorkshopInput
+    inventory?: WorkshopStockUncheckedCreateNestedManyWithoutWorkshopInput
+    notifications?: GlobalNotificationUncheckedCreateNestedManyWithoutWorkshopInput
+  }
+
+  export type WorkshopCreateOrConnectWithoutCartsInput = {
+    where: WorkshopWhereUniqueInput
+    create: XOR<WorkshopCreateWithoutCartsInput, WorkshopUncheckedCreateWithoutCartsInput>
   }
 
   export type CartItemCreateWithoutCartInput = {
@@ -26227,6 +26645,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26242,12 +26661,64 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
     updatedById?: StringFieldUpdateOperationsInput | string
     notifications?: NotificationUncheckedUpdateManyWithoutGuestNestedInput
+  }
+
+  export type WorkshopUpsertWithoutCartsInput = {
+    update: XOR<WorkshopUpdateWithoutCartsInput, WorkshopUncheckedUpdateWithoutCartsInput>
+    create: XOR<WorkshopCreateWithoutCartsInput, WorkshopUncheckedCreateWithoutCartsInput>
+    where?: WorkshopWhereInput
+  }
+
+  export type WorkshopUpdateToOneWithWhereWithoutCartsInput = {
+    where?: WorkshopWhereInput
+    data: XOR<WorkshopUpdateWithoutCartsInput, WorkshopUncheckedUpdateWithoutCartsInput>
+  }
+
+  export type WorkshopUpdateWithoutCartsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: StringFieldUpdateOperationsInput | string
+    startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: StringFieldUpdateOperationsInput | string
+    updatedById?: StringFieldUpdateOperationsInput | string
+    guests?: GuestUpdateManyWithoutWorkshopNestedInput
+    inventory?: WorkshopStockUpdateManyWithoutWorkshopNestedInput
+    formConfig?: FormConfigUpdateOneWithoutWorkshopsNestedInput
+    printConfig?: PrintConfigUpdateOneWithoutWorkshopsNestedInput
+    notifications?: GlobalNotificationUpdateManyWithoutWorkshopNestedInput
+  }
+
+  export type WorkshopUncheckedUpdateWithoutCartsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: StringFieldUpdateOperationsInput | string
+    startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
+    formConfigId?: NullableStringFieldUpdateOperationsInput | string | null
+    printConfigId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: StringFieldUpdateOperationsInput | string
+    updatedById?: StringFieldUpdateOperationsInput | string
+    guests?: GuestUncheckedUpdateManyWithoutWorkshopNestedInput
+    inventory?: WorkshopStockUncheckedUpdateManyWithoutWorkshopNestedInput
+    notifications?: GlobalNotificationUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
   export type CartItemUpsertWithWhereUniqueWithoutCartInput = {
@@ -26308,6 +26779,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26323,6 +26795,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26352,6 +26825,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26367,6 +26841,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26377,6 +26852,7 @@ export namespace Prisma {
 
   export type CartCreateWithoutItemsInput = {
     id?: string
+    sessionToken?: string | null
     status?: string
     totalAmount?: number | null
     orderedAt?: Date | string | null
@@ -26388,13 +26864,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     createdById: string
     updatedById: string
-    guest: GuestCreateNestedOneWithoutCartsInput
+    guest?: GuestCreateNestedOneWithoutCartsInput
+    workshop?: WorkshopCreateNestedOneWithoutCartsInput
     priceTier?: PriceTierCreateNestedOneWithoutCartsInput
   }
 
   export type CartUncheckedCreateWithoutItemsInput = {
     id?: string
-    guestId: string
+    guestId?: string | null
+    workshopId?: string | null
+    sessionToken?: string | null
     status?: string
     priceTierId?: string | null
     totalAmount?: number | null
@@ -26464,6 +26943,7 @@ export namespace Prisma {
 
   export type CartUpdateWithoutItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     totalAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     orderedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26475,13 +26955,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
     updatedById?: StringFieldUpdateOperationsInput | string
-    guest?: GuestUpdateOneRequiredWithoutCartsNestedInput
+    guest?: GuestUpdateOneWithoutCartsNestedInput
+    workshop?: WorkshopUpdateOneWithoutCartsNestedInput
     priceTier?: PriceTierUpdateOneWithoutCartsNestedInput
   }
 
   export type CartUncheckedUpdateWithoutItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    guestId?: StringFieldUpdateOperationsInput | string
+    guestId?: NullableStringFieldUpdateOperationsInput | string | null
+    workshopId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priceTierId?: NullableStringFieldUpdateOperationsInput | string | null
     totalAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -26547,12 +27030,14 @@ export namespace Prisma {
     startDateTime: Date | string
     endDateTime: Date | string
     active?: boolean
+    isAnonymous?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById: string
     updatedById: string
     guests?: GuestCreateNestedManyWithoutWorkshopInput
     inventory?: WorkshopStockCreateNestedManyWithoutWorkshopInput
+    carts?: CartCreateNestedManyWithoutWorkshopInput
     formConfig?: FormConfigCreateNestedOneWithoutWorkshopsInput
     notifications?: GlobalNotificationCreateNestedManyWithoutWorkshopInput
   }
@@ -26565,6 +27050,7 @@ export namespace Prisma {
     startDateTime: Date | string
     endDateTime: Date | string
     active?: boolean
+    isAnonymous?: boolean
     formConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26572,6 +27058,7 @@ export namespace Prisma {
     updatedById: string
     guests?: GuestUncheckedCreateNestedManyWithoutWorkshopInput
     inventory?: WorkshopStockUncheckedCreateNestedManyWithoutWorkshopInput
+    carts?: CartUncheckedCreateNestedManyWithoutWorkshopInput
     notifications?: GlobalNotificationUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
@@ -26609,12 +27096,14 @@ export namespace Prisma {
     startDateTime: Date | string
     endDateTime: Date | string
     active?: boolean
+    isAnonymous?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById: string
     updatedById: string
     guests?: GuestCreateNestedManyWithoutWorkshopInput
     inventory?: WorkshopStockCreateNestedManyWithoutWorkshopInput
+    carts?: CartCreateNestedManyWithoutWorkshopInput
     formConfig?: FormConfigCreateNestedOneWithoutWorkshopsInput
     printConfig?: PrintConfigCreateNestedOneWithoutWorkshopsInput
   }
@@ -26627,6 +27116,7 @@ export namespace Prisma {
     startDateTime: Date | string
     endDateTime: Date | string
     active?: boolean
+    isAnonymous?: boolean
     formConfigId?: string | null
     printConfigId?: string | null
     createdAt?: Date | string
@@ -26635,6 +27125,7 @@ export namespace Prisma {
     updatedById: string
     guests?: GuestUncheckedCreateNestedManyWithoutWorkshopInput
     inventory?: WorkshopStockUncheckedCreateNestedManyWithoutWorkshopInput
+    carts?: CartUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopCreateOrConnectWithoutNotificationsInput = {
@@ -26661,12 +27152,14 @@ export namespace Prisma {
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
     updatedById?: StringFieldUpdateOperationsInput | string
     guests?: GuestUpdateManyWithoutWorkshopNestedInput
     inventory?: WorkshopStockUpdateManyWithoutWorkshopNestedInput
+    carts?: CartUpdateManyWithoutWorkshopNestedInput
     formConfig?: FormConfigUpdateOneWithoutWorkshopsNestedInput
     printConfig?: PrintConfigUpdateOneWithoutWorkshopsNestedInput
   }
@@ -26679,6 +27172,7 @@ export namespace Prisma {
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     formConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     printConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26687,6 +27181,7 @@ export namespace Prisma {
     updatedById?: StringFieldUpdateOperationsInput | string
     guests?: GuestUncheckedUpdateManyWithoutWorkshopNestedInput
     inventory?: WorkshopStockUncheckedUpdateManyWithoutWorkshopNestedInput
+    carts?: CartUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
   export type ProductUpdateWithoutCategoriesInput = {
@@ -26902,7 +27397,9 @@ export namespace Prisma {
 
   export type CartCreateManyPriceTierInput = {
     id?: string
-    guestId: string
+    guestId?: string | null
+    workshopId?: string | null
+    sessionToken?: string | null
     status?: string
     totalAmount?: number | null
     orderedAt?: Date | string | null
@@ -26942,6 +27439,7 @@ export namespace Prisma {
 
   export type CartUpdateWithoutPriceTierInput = {
     id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     totalAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     orderedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26953,13 +27451,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
     updatedById?: StringFieldUpdateOperationsInput | string
-    guest?: GuestUpdateOneRequiredWithoutCartsNestedInput
+    guest?: GuestUpdateOneWithoutCartsNestedInput
+    workshop?: WorkshopUpdateOneWithoutCartsNestedInput
     items?: CartItemUpdateManyWithoutCartNestedInput
   }
 
   export type CartUncheckedUpdateWithoutPriceTierInput = {
     id?: StringFieldUpdateOperationsInput | string
-    guestId?: StringFieldUpdateOperationsInput | string
+    guestId?: NullableStringFieldUpdateOperationsInput | string | null
+    workshopId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     totalAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     orderedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26976,7 +27477,9 @@ export namespace Prisma {
 
   export type CartUncheckedUpdateManyWithoutPriceTierInput = {
     id?: StringFieldUpdateOperationsInput | string
-    guestId?: StringFieldUpdateOperationsInput | string
+    guestId?: NullableStringFieldUpdateOperationsInput | string | null
+    workshopId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     totalAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     orderedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26995,6 +27498,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -27006,6 +27510,24 @@ export namespace Prisma {
     id?: string
     productId: string
     quantity: number
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById: string
+    updatedById: string
+  }
+
+  export type CartCreateManyWorkshopInput = {
+    id?: string
+    guestId?: string | null
+    sessionToken?: string | null
+    status?: string
+    priceTierId?: string | null
+    totalAmount?: number | null
+    orderedAt?: Date | string | null
+    preparedAt?: Date | string | null
+    readyAt?: Date | string | null
+    paidAt?: Date | string | null
     active?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -27029,6 +27551,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27043,6 +27566,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27057,6 +27581,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27090,6 +27615,62 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: StringFieldUpdateOperationsInput | string
+    updatedById?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CartUpdateWithoutWorkshopInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    totalAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    orderedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    preparedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: StringFieldUpdateOperationsInput | string
+    updatedById?: StringFieldUpdateOperationsInput | string
+    guest?: GuestUpdateOneWithoutCartsNestedInput
+    items?: CartItemUpdateManyWithoutCartNestedInput
+    priceTier?: PriceTierUpdateOneWithoutCartsNestedInput
+  }
+
+  export type CartUncheckedUpdateWithoutWorkshopInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guestId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    priceTierId?: NullableStringFieldUpdateOperationsInput | string | null
+    totalAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    orderedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    preparedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: StringFieldUpdateOperationsInput | string
+    updatedById?: StringFieldUpdateOperationsInput | string
+    items?: CartItemUncheckedUpdateManyWithoutCartNestedInput
+  }
+
+  export type CartUncheckedUpdateManyWithoutWorkshopInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guestId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    priceTierId?: NullableStringFieldUpdateOperationsInput | string | null
+    totalAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    orderedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    preparedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27138,6 +27719,7 @@ export namespace Prisma {
     startDateTime: Date | string
     endDateTime: Date | string
     active?: boolean
+    isAnonymous?: boolean
     printConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -27153,12 +27735,14 @@ export namespace Prisma {
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
     updatedById?: StringFieldUpdateOperationsInput | string
     guests?: GuestUpdateManyWithoutWorkshopNestedInput
     inventory?: WorkshopStockUpdateManyWithoutWorkshopNestedInput
+    carts?: CartUpdateManyWithoutWorkshopNestedInput
     printConfig?: PrintConfigUpdateOneWithoutWorkshopsNestedInput
     notifications?: GlobalNotificationUpdateManyWithoutWorkshopNestedInput
   }
@@ -27171,6 +27755,7 @@ export namespace Prisma {
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     printConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27178,6 +27763,7 @@ export namespace Prisma {
     updatedById?: StringFieldUpdateOperationsInput | string
     guests?: GuestUncheckedUpdateManyWithoutWorkshopNestedInput
     inventory?: WorkshopStockUncheckedUpdateManyWithoutWorkshopNestedInput
+    carts?: CartUncheckedUpdateManyWithoutWorkshopNestedInput
     notifications?: GlobalNotificationUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
@@ -27189,6 +27775,7 @@ export namespace Prisma {
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     printConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27198,6 +27785,8 @@ export namespace Prisma {
 
   export type CartCreateManyGuestInput = {
     id?: string
+    workshopId?: string | null
+    sessionToken?: string | null
     status?: string
     priceTierId?: string | null
     totalAmount?: number | null
@@ -27223,6 +27812,7 @@ export namespace Prisma {
 
   export type CartUpdateWithoutGuestInput = {
     id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     totalAmount?: NullableFloatFieldUpdateOperationsInput | number | null
     orderedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27234,12 +27824,15 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
     updatedById?: StringFieldUpdateOperationsInput | string
+    workshop?: WorkshopUpdateOneWithoutCartsNestedInput
     items?: CartItemUpdateManyWithoutCartNestedInput
     priceTier?: PriceTierUpdateOneWithoutCartsNestedInput
   }
 
   export type CartUncheckedUpdateWithoutGuestInput = {
     id?: StringFieldUpdateOperationsInput | string
+    workshopId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priceTierId?: NullableStringFieldUpdateOperationsInput | string | null
     totalAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -27257,6 +27850,8 @@ export namespace Prisma {
 
   export type CartUncheckedUpdateManyWithoutGuestInput = {
     id?: StringFieldUpdateOperationsInput | string
+    workshopId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     priceTierId?: NullableStringFieldUpdateOperationsInput | string | null
     totalAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -27358,6 +27953,7 @@ export namespace Prisma {
     startDateTime: Date | string
     endDateTime: Date | string
     active?: boolean
+    isAnonymous?: boolean
     formConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -27373,12 +27969,14 @@ export namespace Prisma {
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
     updatedById?: StringFieldUpdateOperationsInput | string
     guests?: GuestUpdateManyWithoutWorkshopNestedInput
     inventory?: WorkshopStockUpdateManyWithoutWorkshopNestedInput
+    carts?: CartUpdateManyWithoutWorkshopNestedInput
     formConfig?: FormConfigUpdateOneWithoutWorkshopsNestedInput
     notifications?: GlobalNotificationUpdateManyWithoutWorkshopNestedInput
   }
@@ -27391,6 +27989,7 @@ export namespace Prisma {
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     formConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27398,6 +27997,7 @@ export namespace Prisma {
     updatedById?: StringFieldUpdateOperationsInput | string
     guests?: GuestUncheckedUpdateManyWithoutWorkshopNestedInput
     inventory?: WorkshopStockUncheckedUpdateManyWithoutWorkshopNestedInput
+    carts?: CartUncheckedUpdateManyWithoutWorkshopNestedInput
     notifications?: GlobalNotificationUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
@@ -27409,6 +28009,7 @@ export namespace Prisma {
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    isAnonymous?: BoolFieldUpdateOperationsInput | boolean
     formConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

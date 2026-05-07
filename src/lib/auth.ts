@@ -27,8 +27,8 @@ export const sessionOptions: SessionOptions = {
 
 // ─── Guest Session Configuration ──────────────────────────────────
 export interface GuestSessionData {
-  guestId: string;
-  workshopId: string;
+  guestId?: string;
+  workshopId?: string;
   isLoggedIn: boolean;
 }
 

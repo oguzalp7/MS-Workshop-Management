@@ -2,15 +2,37 @@ import { NextRequest, NextResponse } from "next/server";
 import { getIronSession } from "iron-session";
 import { prisma } from "@/lib/prisma";
 import { guestSessionOptions, GuestSessionData } from "@/lib/auth";
+import { cookies } from "next/headers";
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getIronSession<GuestSessionData>(request, new NextResponse(), guestSessionOptions);
+    const cookieStore = await cookies();
+    const session = await getIronSession<GuestSessionData>(cookieStore, guestSessionOptions);
+    const sessionToken = request.cookies.get("workshop_session_token")?.value;
 
-    if (!session.isLoggedIn || !session.workshopId) {
-      console.log("Guest Auth Failed: Session not found or incomplete", { session });
+    // Resilience: If session is missing but we have a valid workshop_session_token cookie, 
+    // we can still identify the workshop for anonymous catalog viewing.
+    let workshopId = session.workshopId;
+    if (!workshopId && sessionToken) {
+       // Try to find the latest cart or just use the token to stay in context
+       const lastCart = await prisma.cart.findFirst({
+         where: { sessionToken, status: 'OPEN' },
+         select: { workshopId: true }
+       });
+       if (lastCart) workshopId = lastCart.workshopId;
+    }
+
+    if (!session.isLoggedIn && !workshopId) {
+      console.warn("[Catalog API] Unauthorized:", { 
+        isLoggedIn: session.isLoggedIn, 
+        workshopId,
+        hasToken: !!sessionToken
+      });
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    const effectiveWorkshopId = workshopId || session.workshopId;
+    if (!effectiveWorkshopId) return NextResponse.json({ error: "Workshop context lost" }, { status: 400 });
 
 
     // Fetch all active products and include stock for this workshop
@@ -21,7 +43,7 @@ export async function GET(request: NextRequest) {
           categories: { select: { name: true } },
           tieredPrices: { include: { priceTier: true } },
           workshopStock: {
-            where: { workshopId: session.workshopId }
+            where: { workshopId: effectiveWorkshopId }
           }
         },
         orderBy: { name: "asc" }
@@ -31,7 +53,7 @@ export async function GET(request: NextRequest) {
         by: ['productId'],
         where: {
           cart: {
-            guest: { workshopId: session.workshopId },
+            workshopId: effectiveWorkshopId,
             status: { in: ['OPEN', 'ORDERED', 'PREPARING', 'READY'] },
             active: true
           }

@@ -24,39 +24,20 @@ export async function GET(request: NextRequest) {
       active: true,
     };
 
-    // Construct guest filter
-    const guestFilter: any = {};
-    if (workshopId) guestFilter.workshopId = workshopId;
-
-    if (search || (status && status !== 'all') || startDate || endDate) {
-      guestFilter.workshop = {
-        ...(status === 'active' ? { active: true } : status === 'inactive' ? { active: false } : {}),
-        ...(startDate || endDate ? {
-          startDateTime: {
-            ...(startDate ? { gte: new Date(startDate) } : {}),
-            ...(endDate ? { lte: new Date(endDate) } : {}),
-          }
-        } : {}),
-      };
-
-      if (search) {
-        where.OR = [
-          // Workshop name/location
-          { guest: { workshop: { name: { contains: search, mode: 'insensitive' } } } },
-          { guest: { workshop: { location: { contains: search, mode: 'insensitive' } } } },
-          // Guest name (from profileData JSON)
-          { guest: { profileData: { path: ['full_name'], string_contains: search } } },
-          // Product names in items
-          { items: { some: { product: { name: { contains: search, mode: 'insensitive' } } } } }
-        ];
-      }
+    if (workshopId) {
+      where.workshopId = workshopId;
     }
 
-    if (Object.keys(guestFilter).length > 0) {
-      where.guest = {
-        ...where.guest,
-        ...guestFilter
-      };
+    if (search) {
+      where.OR = [
+        // Product names in items
+        { items: { some: { product: { name: { contains: search, mode: 'insensitive' } } } } },
+        // Guest name (only if guest exists)
+        { guest: { profileData: { path: ['full_name'], string_contains: search } } },
+        // Workshop context
+        { workshop: { name: { contains: search, mode: 'insensitive' } } },
+        { workshop: { location: { contains: search, mode: 'insensitive' } } }
+      ];
     }
 
     const orders = await prisma.cart.findMany({
@@ -68,6 +49,9 @@ export async function GET(request: NextRequest) {
               select: { name: true }
             }
           }
+        },
+        workshop: {
+          select: { name: true, location: true }
         },
         items: {
           include: {

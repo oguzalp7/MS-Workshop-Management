@@ -59,7 +59,7 @@ export async function PATCH(
           await tx.workshopStock.update({
             where: {
               workshopId_productId: {
-                workshopId: cart.guest.workshopId,
+                workshopId: cart.workshopId || cart.guest?.workshopId,
                 productId: item.productId
               }
             },
@@ -76,8 +76,8 @@ export async function PATCH(
       });
     });
 
-    // 3. Side Effects: Notifications
-    if (status === "READY" || status === "PAID") {
+    // 3. Side Effects: Notifications (Skip for Anonymous)
+    if (cart.guestId && (status === "READY" || status === "PAID")) {
       // Fetch dynamic templates
       const settings = await prisma.setting.findMany({
         where: {
@@ -112,7 +112,7 @@ export async function PATCH(
 
       // Send Push Notification
       const guest = cart.guest as any;
-      if (guest.pushSubscription) {
+      if (guest && guest.pushSubscription) {
         const { sendPushNotification } = await import("@/lib/webpush");
         await sendPushNotification(guest.pushSubscription, {
           title,
