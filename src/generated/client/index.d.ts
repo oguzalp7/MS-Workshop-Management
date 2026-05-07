@@ -2272,14 +2272,12 @@ export namespace Prisma {
     guests: number
     inventory: number
     notifications: number
-    printConfigs: number
   }
 
   export type WorkshopCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     guests?: boolean | WorkshopCountOutputTypeCountGuestsArgs
     inventory?: boolean | WorkshopCountOutputTypeCountInventoryArgs
     notifications?: boolean | WorkshopCountOutputTypeCountNotificationsArgs
-    printConfigs?: boolean | WorkshopCountOutputTypeCountPrintConfigsArgs
   }
 
   // Custom InputTypes
@@ -2312,13 +2310,6 @@ export namespace Prisma {
    */
   export type WorkshopCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: GlobalNotificationWhereInput
-  }
-
-  /**
-   * WorkshopCountOutputType without action
-   */
-  export type WorkshopCountOutputTypeCountPrintConfigsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PrintConfigWhereInput
   }
 
 
@@ -2421,6 +2412,37 @@ export namespace Prisma {
    */
   export type CartCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CartItemWhereInput
+  }
+
+
+  /**
+   * Count Type PrintConfigCountOutputType
+   */
+
+  export type PrintConfigCountOutputType = {
+    workshops: number
+  }
+
+  export type PrintConfigCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workshops?: boolean | PrintConfigCountOutputTypeCountWorkshopsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PrintConfigCountOutputType without action
+   */
+  export type PrintConfigCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrintConfigCountOutputType
+     */
+    select?: PrintConfigCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PrintConfigCountOutputType without action
+   */
+  export type PrintConfigCountOutputTypeCountWorkshopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkshopWhereInput
   }
 
 
@@ -8161,6 +8183,7 @@ export namespace Prisma {
     endDateTime: Date | null
     active: boolean | null
     formConfigId: string | null
+    printConfigId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     createdById: string | null
@@ -8176,6 +8199,7 @@ export namespace Prisma {
     endDateTime: Date | null
     active: boolean | null
     formConfigId: string | null
+    printConfigId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     createdById: string | null
@@ -8191,6 +8215,7 @@ export namespace Prisma {
     endDateTime: number
     active: number
     formConfigId: number
+    printConfigId: number
     createdAt: number
     updatedAt: number
     createdById: number
@@ -8208,6 +8233,7 @@ export namespace Prisma {
     endDateTime?: true
     active?: true
     formConfigId?: true
+    printConfigId?: true
     createdAt?: true
     updatedAt?: true
     createdById?: true
@@ -8223,6 +8249,7 @@ export namespace Prisma {
     endDateTime?: true
     active?: true
     formConfigId?: true
+    printConfigId?: true
     createdAt?: true
     updatedAt?: true
     createdById?: true
@@ -8238,6 +8265,7 @@ export namespace Prisma {
     endDateTime?: true
     active?: true
     formConfigId?: true
+    printConfigId?: true
     createdAt?: true
     updatedAt?: true
     createdById?: true
@@ -8326,6 +8354,7 @@ export namespace Prisma {
     endDateTime: Date
     active: boolean
     formConfigId: string | null
+    printConfigId: string | null
     createdAt: Date
     updatedAt: Date
     createdById: string
@@ -8358,6 +8387,7 @@ export namespace Prisma {
     endDateTime?: boolean
     active?: boolean
     formConfigId?: boolean
+    printConfigId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     createdById?: boolean
@@ -8365,8 +8395,8 @@ export namespace Prisma {
     guests?: boolean | Workshop$guestsArgs<ExtArgs>
     inventory?: boolean | Workshop$inventoryArgs<ExtArgs>
     formConfig?: boolean | Workshop$formConfigArgs<ExtArgs>
+    printConfig?: boolean | Workshop$printConfigArgs<ExtArgs>
     notifications?: boolean | Workshop$notificationsArgs<ExtArgs>
-    printConfigs?: boolean | Workshop$printConfigsArgs<ExtArgs>
     _count?: boolean | WorkshopCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workshop"]>
 
@@ -8379,11 +8409,13 @@ export namespace Prisma {
     endDateTime?: boolean
     active?: boolean
     formConfigId?: boolean
+    printConfigId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     createdById?: boolean
     updatedById?: boolean
     formConfig?: boolean | Workshop$formConfigArgs<ExtArgs>
+    printConfig?: boolean | Workshop$printConfigArgs<ExtArgs>
   }, ExtArgs["result"]["workshop"]>
 
   export type WorkshopSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8395,11 +8427,13 @@ export namespace Prisma {
     endDateTime?: boolean
     active?: boolean
     formConfigId?: boolean
+    printConfigId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     createdById?: boolean
     updatedById?: boolean
     formConfig?: boolean | Workshop$formConfigArgs<ExtArgs>
+    printConfig?: boolean | Workshop$printConfigArgs<ExtArgs>
   }, ExtArgs["result"]["workshop"]>
 
   export type WorkshopSelectScalar = {
@@ -8411,26 +8445,29 @@ export namespace Prisma {
     endDateTime?: boolean
     active?: boolean
     formConfigId?: boolean
+    printConfigId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     createdById?: boolean
     updatedById?: boolean
   }
 
-  export type WorkshopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "location" | "startDateTime" | "endDateTime" | "active" | "formConfigId" | "createdAt" | "updatedAt" | "createdById" | "updatedById", ExtArgs["result"]["workshop"]>
+  export type WorkshopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "location" | "startDateTime" | "endDateTime" | "active" | "formConfigId" | "printConfigId" | "createdAt" | "updatedAt" | "createdById" | "updatedById", ExtArgs["result"]["workshop"]>
   export type WorkshopInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     guests?: boolean | Workshop$guestsArgs<ExtArgs>
     inventory?: boolean | Workshop$inventoryArgs<ExtArgs>
     formConfig?: boolean | Workshop$formConfigArgs<ExtArgs>
+    printConfig?: boolean | Workshop$printConfigArgs<ExtArgs>
     notifications?: boolean | Workshop$notificationsArgs<ExtArgs>
-    printConfigs?: boolean | Workshop$printConfigsArgs<ExtArgs>
     _count?: boolean | WorkshopCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type WorkshopIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     formConfig?: boolean | Workshop$formConfigArgs<ExtArgs>
+    printConfig?: boolean | Workshop$printConfigArgs<ExtArgs>
   }
   export type WorkshopIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     formConfig?: boolean | Workshop$formConfigArgs<ExtArgs>
+    printConfig?: boolean | Workshop$printConfigArgs<ExtArgs>
   }
 
   export type $WorkshopPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8439,8 +8476,8 @@ export namespace Prisma {
       guests: Prisma.$GuestPayload<ExtArgs>[]
       inventory: Prisma.$WorkshopStockPayload<ExtArgs>[]
       formConfig: Prisma.$FormConfigPayload<ExtArgs> | null
+      printConfig: Prisma.$PrintConfigPayload<ExtArgs> | null
       notifications: Prisma.$GlobalNotificationPayload<ExtArgs>[]
-      printConfigs: Prisma.$PrintConfigPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8451,6 +8488,7 @@ export namespace Prisma {
       endDateTime: Date
       active: boolean
       formConfigId: string | null
+      printConfigId: string | null
       createdAt: Date
       updatedAt: Date
       createdById: string
@@ -8852,8 +8890,8 @@ export namespace Prisma {
     guests<T extends Workshop$guestsArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$guestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     inventory<T extends Workshop$inventoryArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$inventoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkshopStockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     formConfig<T extends Workshop$formConfigArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$formConfigArgs<ExtArgs>>): Prisma__FormConfigClient<$Result.GetResult<Prisma.$FormConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    printConfig<T extends Workshop$printConfigArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$printConfigArgs<ExtArgs>>): Prisma__PrintConfigClient<$Result.GetResult<Prisma.$PrintConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     notifications<T extends Workshop$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GlobalNotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    printConfigs<T extends Workshop$printConfigsArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$printConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrintConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8891,6 +8929,7 @@ export namespace Prisma {
     readonly endDateTime: FieldRef<"Workshop", 'DateTime'>
     readonly active: FieldRef<"Workshop", 'Boolean'>
     readonly formConfigId: FieldRef<"Workshop", 'String'>
+    readonly printConfigId: FieldRef<"Workshop", 'String'>
     readonly createdAt: FieldRef<"Workshop", 'DateTime'>
     readonly updatedAt: FieldRef<"Workshop", 'DateTime'>
     readonly createdById: FieldRef<"Workshop", 'String'>
@@ -9363,6 +9402,25 @@ export namespace Prisma {
   }
 
   /**
+   * Workshop.printConfig
+   */
+  export type Workshop$printConfigArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrintConfig
+     */
+    select?: PrintConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrintConfig
+     */
+    omit?: PrintConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrintConfigInclude<ExtArgs> | null
+    where?: PrintConfigWhereInput
+  }
+
+  /**
    * Workshop.notifications
    */
   export type Workshop$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9384,30 +9442,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: GlobalNotificationScalarFieldEnum | GlobalNotificationScalarFieldEnum[]
-  }
-
-  /**
-   * Workshop.printConfigs
-   */
-  export type Workshop$printConfigsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PrintConfig
-     */
-    select?: PrintConfigSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PrintConfig
-     */
-    omit?: PrintConfigOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PrintConfigInclude<ExtArgs> | null
-    where?: PrintConfigWhereInput
-    orderBy?: PrintConfigOrderByWithRelationInput | PrintConfigOrderByWithRelationInput[]
-    cursor?: PrintConfigWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: PrintConfigScalarFieldEnum | PrintConfigScalarFieldEnum[]
   }
 
   /**
@@ -16433,7 +16467,6 @@ export namespace Prisma {
 
   export type PrintConfigMinAggregateOutputType = {
     id: string | null
-    workshopId: string | null
     name: string | null
     isDefault: boolean | null
     active: boolean | null
@@ -16445,7 +16478,6 @@ export namespace Prisma {
 
   export type PrintConfigMaxAggregateOutputType = {
     id: string | null
-    workshopId: string | null
     name: string | null
     isDefault: boolean | null
     active: boolean | null
@@ -16457,7 +16489,6 @@ export namespace Prisma {
 
   export type PrintConfigCountAggregateOutputType = {
     id: number
-    workshopId: number
     name: number
     elements: number
     canvasSettings: number
@@ -16473,7 +16504,6 @@ export namespace Prisma {
 
   export type PrintConfigMinAggregateInputType = {
     id?: true
-    workshopId?: true
     name?: true
     isDefault?: true
     active?: true
@@ -16485,7 +16515,6 @@ export namespace Prisma {
 
   export type PrintConfigMaxAggregateInputType = {
     id?: true
-    workshopId?: true
     name?: true
     isDefault?: true
     active?: true
@@ -16497,7 +16526,6 @@ export namespace Prisma {
 
   export type PrintConfigCountAggregateInputType = {
     id?: true
-    workshopId?: true
     name?: true
     elements?: true
     canvasSettings?: true
@@ -16584,7 +16612,6 @@ export namespace Prisma {
 
   export type PrintConfigGroupByOutputType = {
     id: string
-    workshopId: string | null
     name: string
     elements: JsonValue
     canvasSettings: JsonValue | null
@@ -16615,7 +16642,6 @@ export namespace Prisma {
 
   export type PrintConfigSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    workshopId?: boolean
     name?: boolean
     elements?: boolean
     canvasSettings?: boolean
@@ -16625,12 +16651,12 @@ export namespace Prisma {
     updatedAt?: boolean
     createdById?: boolean
     updatedById?: boolean
-    workshop?: boolean | PrintConfig$workshopArgs<ExtArgs>
+    workshops?: boolean | PrintConfig$workshopsArgs<ExtArgs>
+    _count?: boolean | PrintConfigCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["printConfig"]>
 
   export type PrintConfigSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    workshopId?: boolean
     name?: boolean
     elements?: boolean
     canvasSettings?: boolean
@@ -16640,12 +16666,10 @@ export namespace Prisma {
     updatedAt?: boolean
     createdById?: boolean
     updatedById?: boolean
-    workshop?: boolean | PrintConfig$workshopArgs<ExtArgs>
   }, ExtArgs["result"]["printConfig"]>
 
   export type PrintConfigSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    workshopId?: boolean
     name?: boolean
     elements?: boolean
     canvasSettings?: boolean
@@ -16655,12 +16679,10 @@ export namespace Prisma {
     updatedAt?: boolean
     createdById?: boolean
     updatedById?: boolean
-    workshop?: boolean | PrintConfig$workshopArgs<ExtArgs>
   }, ExtArgs["result"]["printConfig"]>
 
   export type PrintConfigSelectScalar = {
     id?: boolean
-    workshopId?: boolean
     name?: boolean
     elements?: boolean
     canvasSettings?: boolean
@@ -16672,25 +16694,21 @@ export namespace Prisma {
     updatedById?: boolean
   }
 
-  export type PrintConfigOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "workshopId" | "name" | "elements" | "canvasSettings" | "isDefault" | "active" | "createdAt" | "updatedAt" | "createdById" | "updatedById", ExtArgs["result"]["printConfig"]>
+  export type PrintConfigOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "elements" | "canvasSettings" | "isDefault" | "active" | "createdAt" | "updatedAt" | "createdById" | "updatedById", ExtArgs["result"]["printConfig"]>
   export type PrintConfigInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    workshop?: boolean | PrintConfig$workshopArgs<ExtArgs>
+    workshops?: boolean | PrintConfig$workshopsArgs<ExtArgs>
+    _count?: boolean | PrintConfigCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type PrintConfigIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    workshop?: boolean | PrintConfig$workshopArgs<ExtArgs>
-  }
-  export type PrintConfigIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    workshop?: boolean | PrintConfig$workshopArgs<ExtArgs>
-  }
+  export type PrintConfigIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type PrintConfigIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $PrintConfigPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "PrintConfig"
     objects: {
-      workshop: Prisma.$WorkshopPayload<ExtArgs> | null
+      workshops: Prisma.$WorkshopPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      workshopId: string | null
       name: string
       elements: Prisma.JsonValue
       canvasSettings: Prisma.JsonValue | null
@@ -17094,7 +17112,7 @@ export namespace Prisma {
    */
   export interface Prisma__PrintConfigClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    workshop<T extends PrintConfig$workshopArgs<ExtArgs> = {}>(args?: Subset<T, PrintConfig$workshopArgs<ExtArgs>>): Prisma__WorkshopClient<$Result.GetResult<Prisma.$WorkshopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    workshops<T extends PrintConfig$workshopsArgs<ExtArgs> = {}>(args?: Subset<T, PrintConfig$workshopsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkshopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17125,7 +17143,6 @@ export namespace Prisma {
    */
   interface PrintConfigFieldRefs {
     readonly id: FieldRef<"PrintConfig", 'String'>
-    readonly workshopId: FieldRef<"PrintConfig", 'String'>
     readonly name: FieldRef<"PrintConfig", 'String'>
     readonly elements: FieldRef<"PrintConfig", 'Json'>
     readonly canvasSettings: FieldRef<"PrintConfig", 'Json'>
@@ -17389,10 +17406,6 @@ export namespace Prisma {
      */
     data: PrintConfigCreateManyInput | PrintConfigCreateManyInput[]
     skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PrintConfigIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -17463,10 +17476,6 @@ export namespace Prisma {
      * Limit how many PrintConfigs to update.
      */
     limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PrintConfigIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -17536,9 +17545,9 @@ export namespace Prisma {
   }
 
   /**
-   * PrintConfig.workshop
+   * PrintConfig.workshops
    */
-  export type PrintConfig$workshopArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PrintConfig$workshopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Workshop
      */
@@ -17552,6 +17561,11 @@ export namespace Prisma {
      */
     include?: WorkshopInclude<ExtArgs> | null
     where?: WorkshopWhereInput
+    orderBy?: WorkshopOrderByWithRelationInput | WorkshopOrderByWithRelationInput[]
+    cursor?: WorkshopWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkshopScalarFieldEnum | WorkshopScalarFieldEnum[]
   }
 
   /**
@@ -19797,6 +19811,7 @@ export namespace Prisma {
     endDateTime: 'endDateTime',
     active: 'active',
     formConfigId: 'formConfigId',
+    printConfigId: 'printConfigId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     createdById: 'createdById',
@@ -19903,7 +19918,6 @@ export namespace Prisma {
 
   export const PrintConfigScalarFieldEnum: {
     id: 'id',
-    workshopId: 'workshopId',
     name: 'name',
     elements: 'elements',
     canvasSettings: 'canvasSettings',
@@ -20463,6 +20477,7 @@ export namespace Prisma {
     endDateTime?: DateTimeFilter<"Workshop"> | Date | string
     active?: BoolFilter<"Workshop"> | boolean
     formConfigId?: StringNullableFilter<"Workshop"> | string | null
+    printConfigId?: StringNullableFilter<"Workshop"> | string | null
     createdAt?: DateTimeFilter<"Workshop"> | Date | string
     updatedAt?: DateTimeFilter<"Workshop"> | Date | string
     createdById?: StringFilter<"Workshop"> | string
@@ -20470,8 +20485,8 @@ export namespace Prisma {
     guests?: GuestListRelationFilter
     inventory?: WorkshopStockListRelationFilter
     formConfig?: XOR<FormConfigNullableScalarRelationFilter, FormConfigWhereInput> | null
+    printConfig?: XOR<PrintConfigNullableScalarRelationFilter, PrintConfigWhereInput> | null
     notifications?: GlobalNotificationListRelationFilter
-    printConfigs?: PrintConfigListRelationFilter
   }
 
   export type WorkshopOrderByWithRelationInput = {
@@ -20483,6 +20498,7 @@ export namespace Prisma {
     endDateTime?: SortOrder
     active?: SortOrder
     formConfigId?: SortOrderInput | SortOrder
+    printConfigId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdById?: SortOrder
@@ -20490,8 +20506,8 @@ export namespace Prisma {
     guests?: GuestOrderByRelationAggregateInput
     inventory?: WorkshopStockOrderByRelationAggregateInput
     formConfig?: FormConfigOrderByWithRelationInput
+    printConfig?: PrintConfigOrderByWithRelationInput
     notifications?: GlobalNotificationOrderByRelationAggregateInput
-    printConfigs?: PrintConfigOrderByRelationAggregateInput
   }
 
   export type WorkshopWhereUniqueInput = Prisma.AtLeast<{
@@ -20506,6 +20522,7 @@ export namespace Prisma {
     endDateTime?: DateTimeFilter<"Workshop"> | Date | string
     active?: BoolFilter<"Workshop"> | boolean
     formConfigId?: StringNullableFilter<"Workshop"> | string | null
+    printConfigId?: StringNullableFilter<"Workshop"> | string | null
     createdAt?: DateTimeFilter<"Workshop"> | Date | string
     updatedAt?: DateTimeFilter<"Workshop"> | Date | string
     createdById?: StringFilter<"Workshop"> | string
@@ -20513,8 +20530,8 @@ export namespace Prisma {
     guests?: GuestListRelationFilter
     inventory?: WorkshopStockListRelationFilter
     formConfig?: XOR<FormConfigNullableScalarRelationFilter, FormConfigWhereInput> | null
+    printConfig?: XOR<PrintConfigNullableScalarRelationFilter, PrintConfigWhereInput> | null
     notifications?: GlobalNotificationListRelationFilter
-    printConfigs?: PrintConfigListRelationFilter
   }, "id">
 
   export type WorkshopOrderByWithAggregationInput = {
@@ -20526,6 +20543,7 @@ export namespace Prisma {
     endDateTime?: SortOrder
     active?: SortOrder
     formConfigId?: SortOrderInput | SortOrder
+    printConfigId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdById?: SortOrder
@@ -20547,6 +20565,7 @@ export namespace Prisma {
     endDateTime?: DateTimeWithAggregatesFilter<"Workshop"> | Date | string
     active?: BoolWithAggregatesFilter<"Workshop"> | boolean
     formConfigId?: StringNullableWithAggregatesFilter<"Workshop"> | string | null
+    printConfigId?: StringNullableWithAggregatesFilter<"Workshop"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Workshop"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Workshop"> | Date | string
     createdById?: StringWithAggregatesFilter<"Workshop"> | string
@@ -21058,7 +21077,6 @@ export namespace Prisma {
     OR?: PrintConfigWhereInput[]
     NOT?: PrintConfigWhereInput | PrintConfigWhereInput[]
     id?: StringFilter<"PrintConfig"> | string
-    workshopId?: StringNullableFilter<"PrintConfig"> | string | null
     name?: StringFilter<"PrintConfig"> | string
     elements?: JsonFilter<"PrintConfig">
     canvasSettings?: JsonNullableFilter<"PrintConfig">
@@ -21068,12 +21086,11 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"PrintConfig"> | Date | string
     createdById?: StringFilter<"PrintConfig"> | string
     updatedById?: StringFilter<"PrintConfig"> | string
-    workshop?: XOR<WorkshopNullableScalarRelationFilter, WorkshopWhereInput> | null
+    workshops?: WorkshopListRelationFilter
   }
 
   export type PrintConfigOrderByWithRelationInput = {
     id?: SortOrder
-    workshopId?: SortOrderInput | SortOrder
     name?: SortOrder
     elements?: SortOrder
     canvasSettings?: SortOrderInput | SortOrder
@@ -21083,7 +21100,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     createdById?: SortOrder
     updatedById?: SortOrder
-    workshop?: WorkshopOrderByWithRelationInput
+    workshops?: WorkshopOrderByRelationAggregateInput
   }
 
   export type PrintConfigWhereUniqueInput = Prisma.AtLeast<{
@@ -21092,7 +21109,6 @@ export namespace Prisma {
     AND?: PrintConfigWhereInput | PrintConfigWhereInput[]
     OR?: PrintConfigWhereInput[]
     NOT?: PrintConfigWhereInput | PrintConfigWhereInput[]
-    workshopId?: StringNullableFilter<"PrintConfig"> | string | null
     elements?: JsonFilter<"PrintConfig">
     canvasSettings?: JsonNullableFilter<"PrintConfig">
     isDefault?: BoolFilter<"PrintConfig"> | boolean
@@ -21101,12 +21117,11 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"PrintConfig"> | Date | string
     createdById?: StringFilter<"PrintConfig"> | string
     updatedById?: StringFilter<"PrintConfig"> | string
-    workshop?: XOR<WorkshopNullableScalarRelationFilter, WorkshopWhereInput> | null
+    workshops?: WorkshopListRelationFilter
   }, "id" | "name">
 
   export type PrintConfigOrderByWithAggregationInput = {
     id?: SortOrder
-    workshopId?: SortOrderInput | SortOrder
     name?: SortOrder
     elements?: SortOrder
     canvasSettings?: SortOrderInput | SortOrder
@@ -21126,7 +21141,6 @@ export namespace Prisma {
     OR?: PrintConfigScalarWhereWithAggregatesInput[]
     NOT?: PrintConfigScalarWhereWithAggregatesInput | PrintConfigScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"PrintConfig"> | string
-    workshopId?: StringNullableWithAggregatesFilter<"PrintConfig"> | string | null
     name?: StringWithAggregatesFilter<"PrintConfig"> | string
     elements?: JsonWithAggregatesFilter<"PrintConfig">
     canvasSettings?: JsonNullableWithAggregatesFilter<"PrintConfig">
@@ -21698,8 +21712,8 @@ export namespace Prisma {
     guests?: GuestCreateNestedManyWithoutWorkshopInput
     inventory?: WorkshopStockCreateNestedManyWithoutWorkshopInput
     formConfig?: FormConfigCreateNestedOneWithoutWorkshopsInput
+    printConfig?: PrintConfigCreateNestedOneWithoutWorkshopsInput
     notifications?: GlobalNotificationCreateNestedManyWithoutWorkshopInput
-    printConfigs?: PrintConfigCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopUncheckedCreateInput = {
@@ -21711,6 +21725,7 @@ export namespace Prisma {
     endDateTime: Date | string
     active?: boolean
     formConfigId?: string | null
+    printConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById: string
@@ -21718,7 +21733,6 @@ export namespace Prisma {
     guests?: GuestUncheckedCreateNestedManyWithoutWorkshopInput
     inventory?: WorkshopStockUncheckedCreateNestedManyWithoutWorkshopInput
     notifications?: GlobalNotificationUncheckedCreateNestedManyWithoutWorkshopInput
-    printConfigs?: PrintConfigUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopUpdateInput = {
@@ -21736,8 +21750,8 @@ export namespace Prisma {
     guests?: GuestUpdateManyWithoutWorkshopNestedInput
     inventory?: WorkshopStockUpdateManyWithoutWorkshopNestedInput
     formConfig?: FormConfigUpdateOneWithoutWorkshopsNestedInput
+    printConfig?: PrintConfigUpdateOneWithoutWorkshopsNestedInput
     notifications?: GlobalNotificationUpdateManyWithoutWorkshopNestedInput
-    printConfigs?: PrintConfigUpdateManyWithoutWorkshopNestedInput
   }
 
   export type WorkshopUncheckedUpdateInput = {
@@ -21749,6 +21763,7 @@ export namespace Prisma {
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
     formConfigId?: NullableStringFieldUpdateOperationsInput | string | null
+    printConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
@@ -21756,7 +21771,6 @@ export namespace Prisma {
     guests?: GuestUncheckedUpdateManyWithoutWorkshopNestedInput
     inventory?: WorkshopStockUncheckedUpdateManyWithoutWorkshopNestedInput
     notifications?: GlobalNotificationUncheckedUpdateManyWithoutWorkshopNestedInput
-    printConfigs?: PrintConfigUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
   export type WorkshopCreateManyInput = {
@@ -21768,6 +21782,7 @@ export namespace Prisma {
     endDateTime: Date | string
     active?: boolean
     formConfigId?: string | null
+    printConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById: string
@@ -21797,6 +21812,7 @@ export namespace Prisma {
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
     formConfigId?: NullableStringFieldUpdateOperationsInput | string | null
+    printConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
@@ -22361,12 +22377,11 @@ export namespace Prisma {
     updatedAt?: Date | string
     createdById: string
     updatedById: string
-    workshop?: WorkshopCreateNestedOneWithoutPrintConfigsInput
+    workshops?: WorkshopCreateNestedManyWithoutPrintConfigInput
   }
 
   export type PrintConfigUncheckedCreateInput = {
     id?: string
-    workshopId?: string | null
     name: string
     elements: JsonNullValueInput | InputJsonValue
     canvasSettings?: NullableJsonNullValueInput | InputJsonValue
@@ -22376,6 +22391,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     createdById: string
     updatedById: string
+    workshops?: WorkshopUncheckedCreateNestedManyWithoutPrintConfigInput
   }
 
   export type PrintConfigUpdateInput = {
@@ -22389,12 +22405,11 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
     updatedById?: StringFieldUpdateOperationsInput | string
-    workshop?: WorkshopUpdateOneWithoutPrintConfigsNestedInput
+    workshops?: WorkshopUpdateManyWithoutPrintConfigNestedInput
   }
 
   export type PrintConfigUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    workshopId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     elements?: JsonNullValueInput | InputJsonValue
     canvasSettings?: NullableJsonNullValueInput | InputJsonValue
@@ -22404,11 +22419,11 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
     updatedById?: StringFieldUpdateOperationsInput | string
+    workshops?: WorkshopUncheckedUpdateManyWithoutPrintConfigNestedInput
   }
 
   export type PrintConfigCreateManyInput = {
     id?: string
-    workshopId?: string | null
     name: string
     elements: JsonNullValueInput | InputJsonValue
     canvasSettings?: NullableJsonNullValueInput | InputJsonValue
@@ -22435,7 +22450,6 @@ export namespace Prisma {
 
   export type PrintConfigUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    workshopId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     elements?: JsonNullValueInput | InputJsonValue
     canvasSettings?: NullableJsonNullValueInput | InputJsonValue
@@ -23047,16 +23061,15 @@ export namespace Prisma {
     isNot?: FormConfigWhereInput | null
   }
 
+  export type PrintConfigNullableScalarRelationFilter = {
+    is?: PrintConfigWhereInput | null
+    isNot?: PrintConfigWhereInput | null
+  }
+
   export type GlobalNotificationListRelationFilter = {
     every?: GlobalNotificationWhereInput
     some?: GlobalNotificationWhereInput
     none?: GlobalNotificationWhereInput
-  }
-
-  export type PrintConfigListRelationFilter = {
-    every?: PrintConfigWhereInput
-    some?: PrintConfigWhereInput
-    none?: PrintConfigWhereInput
   }
 
   export type GuestOrderByRelationAggregateInput = {
@@ -23064,10 +23077,6 @@ export namespace Prisma {
   }
 
   export type GlobalNotificationOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type PrintConfigOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -23080,6 +23089,7 @@ export namespace Prisma {
     endDateTime?: SortOrder
     active?: SortOrder
     formConfigId?: SortOrder
+    printConfigId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdById?: SortOrder
@@ -23095,6 +23105,7 @@ export namespace Prisma {
     endDateTime?: SortOrder
     active?: SortOrder
     formConfigId?: SortOrder
+    printConfigId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdById?: SortOrder
@@ -23110,6 +23121,7 @@ export namespace Prisma {
     endDateTime?: SortOrder
     active?: SortOrder
     formConfigId?: SortOrder
+    printConfigId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdById?: SortOrder
@@ -23540,14 +23552,8 @@ export namespace Prisma {
     priceAtPurchase?: SortOrder
   }
 
-  export type WorkshopNullableScalarRelationFilter = {
-    is?: WorkshopWhereInput | null
-    isNot?: WorkshopWhereInput | null
-  }
-
   export type PrintConfigCountOrderByAggregateInput = {
     id?: SortOrder
-    workshopId?: SortOrder
     name?: SortOrder
     elements?: SortOrder
     canvasSettings?: SortOrder
@@ -23561,7 +23567,6 @@ export namespace Prisma {
 
   export type PrintConfigMaxOrderByAggregateInput = {
     id?: SortOrder
-    workshopId?: SortOrder
     name?: SortOrder
     isDefault?: SortOrder
     active?: SortOrder
@@ -23573,7 +23578,6 @@ export namespace Prisma {
 
   export type PrintConfigMinOrderByAggregateInput = {
     id?: SortOrder
-    workshopId?: SortOrder
     name?: SortOrder
     isDefault?: SortOrder
     active?: SortOrder
@@ -23581,6 +23585,11 @@ export namespace Prisma {
     updatedAt?: SortOrder
     createdById?: SortOrder
     updatedById?: SortOrder
+  }
+
+  export type WorkshopNullableScalarRelationFilter = {
+    is?: WorkshopWhereInput | null
+    isNot?: WorkshopWhereInput | null
   }
 
   export type GlobalNotificationCountOrderByAggregateInput = {
@@ -23999,18 +24008,17 @@ export namespace Prisma {
     connect?: FormConfigWhereUniqueInput
   }
 
+  export type PrintConfigCreateNestedOneWithoutWorkshopsInput = {
+    create?: XOR<PrintConfigCreateWithoutWorkshopsInput, PrintConfigUncheckedCreateWithoutWorkshopsInput>
+    connectOrCreate?: PrintConfigCreateOrConnectWithoutWorkshopsInput
+    connect?: PrintConfigWhereUniqueInput
+  }
+
   export type GlobalNotificationCreateNestedManyWithoutWorkshopInput = {
     create?: XOR<GlobalNotificationCreateWithoutWorkshopInput, GlobalNotificationUncheckedCreateWithoutWorkshopInput> | GlobalNotificationCreateWithoutWorkshopInput[] | GlobalNotificationUncheckedCreateWithoutWorkshopInput[]
     connectOrCreate?: GlobalNotificationCreateOrConnectWithoutWorkshopInput | GlobalNotificationCreateOrConnectWithoutWorkshopInput[]
     createMany?: GlobalNotificationCreateManyWorkshopInputEnvelope
     connect?: GlobalNotificationWhereUniqueInput | GlobalNotificationWhereUniqueInput[]
-  }
-
-  export type PrintConfigCreateNestedManyWithoutWorkshopInput = {
-    create?: XOR<PrintConfigCreateWithoutWorkshopInput, PrintConfigUncheckedCreateWithoutWorkshopInput> | PrintConfigCreateWithoutWorkshopInput[] | PrintConfigUncheckedCreateWithoutWorkshopInput[]
-    connectOrCreate?: PrintConfigCreateOrConnectWithoutWorkshopInput | PrintConfigCreateOrConnectWithoutWorkshopInput[]
-    createMany?: PrintConfigCreateManyWorkshopInputEnvelope
-    connect?: PrintConfigWhereUniqueInput | PrintConfigWhereUniqueInput[]
   }
 
   export type GuestUncheckedCreateNestedManyWithoutWorkshopInput = {
@@ -24032,13 +24040,6 @@ export namespace Prisma {
     connectOrCreate?: GlobalNotificationCreateOrConnectWithoutWorkshopInput | GlobalNotificationCreateOrConnectWithoutWorkshopInput[]
     createMany?: GlobalNotificationCreateManyWorkshopInputEnvelope
     connect?: GlobalNotificationWhereUniqueInput | GlobalNotificationWhereUniqueInput[]
-  }
-
-  export type PrintConfigUncheckedCreateNestedManyWithoutWorkshopInput = {
-    create?: XOR<PrintConfigCreateWithoutWorkshopInput, PrintConfigUncheckedCreateWithoutWorkshopInput> | PrintConfigCreateWithoutWorkshopInput[] | PrintConfigUncheckedCreateWithoutWorkshopInput[]
-    connectOrCreate?: PrintConfigCreateOrConnectWithoutWorkshopInput | PrintConfigCreateOrConnectWithoutWorkshopInput[]
-    createMany?: PrintConfigCreateManyWorkshopInputEnvelope
-    connect?: PrintConfigWhereUniqueInput | PrintConfigWhereUniqueInput[]
   }
 
   export type GuestUpdateManyWithoutWorkshopNestedInput = {
@@ -24079,6 +24080,16 @@ export namespace Prisma {
     update?: XOR<XOR<FormConfigUpdateToOneWithWhereWithoutWorkshopsInput, FormConfigUpdateWithoutWorkshopsInput>, FormConfigUncheckedUpdateWithoutWorkshopsInput>
   }
 
+  export type PrintConfigUpdateOneWithoutWorkshopsNestedInput = {
+    create?: XOR<PrintConfigCreateWithoutWorkshopsInput, PrintConfigUncheckedCreateWithoutWorkshopsInput>
+    connectOrCreate?: PrintConfigCreateOrConnectWithoutWorkshopsInput
+    upsert?: PrintConfigUpsertWithoutWorkshopsInput
+    disconnect?: PrintConfigWhereInput | boolean
+    delete?: PrintConfigWhereInput | boolean
+    connect?: PrintConfigWhereUniqueInput
+    update?: XOR<XOR<PrintConfigUpdateToOneWithWhereWithoutWorkshopsInput, PrintConfigUpdateWithoutWorkshopsInput>, PrintConfigUncheckedUpdateWithoutWorkshopsInput>
+  }
+
   export type GlobalNotificationUpdateManyWithoutWorkshopNestedInput = {
     create?: XOR<GlobalNotificationCreateWithoutWorkshopInput, GlobalNotificationUncheckedCreateWithoutWorkshopInput> | GlobalNotificationCreateWithoutWorkshopInput[] | GlobalNotificationUncheckedCreateWithoutWorkshopInput[]
     connectOrCreate?: GlobalNotificationCreateOrConnectWithoutWorkshopInput | GlobalNotificationCreateOrConnectWithoutWorkshopInput[]
@@ -24091,20 +24102,6 @@ export namespace Prisma {
     update?: GlobalNotificationUpdateWithWhereUniqueWithoutWorkshopInput | GlobalNotificationUpdateWithWhereUniqueWithoutWorkshopInput[]
     updateMany?: GlobalNotificationUpdateManyWithWhereWithoutWorkshopInput | GlobalNotificationUpdateManyWithWhereWithoutWorkshopInput[]
     deleteMany?: GlobalNotificationScalarWhereInput | GlobalNotificationScalarWhereInput[]
-  }
-
-  export type PrintConfigUpdateManyWithoutWorkshopNestedInput = {
-    create?: XOR<PrintConfigCreateWithoutWorkshopInput, PrintConfigUncheckedCreateWithoutWorkshopInput> | PrintConfigCreateWithoutWorkshopInput[] | PrintConfigUncheckedCreateWithoutWorkshopInput[]
-    connectOrCreate?: PrintConfigCreateOrConnectWithoutWorkshopInput | PrintConfigCreateOrConnectWithoutWorkshopInput[]
-    upsert?: PrintConfigUpsertWithWhereUniqueWithoutWorkshopInput | PrintConfigUpsertWithWhereUniqueWithoutWorkshopInput[]
-    createMany?: PrintConfigCreateManyWorkshopInputEnvelope
-    set?: PrintConfigWhereUniqueInput | PrintConfigWhereUniqueInput[]
-    disconnect?: PrintConfigWhereUniqueInput | PrintConfigWhereUniqueInput[]
-    delete?: PrintConfigWhereUniqueInput | PrintConfigWhereUniqueInput[]
-    connect?: PrintConfigWhereUniqueInput | PrintConfigWhereUniqueInput[]
-    update?: PrintConfigUpdateWithWhereUniqueWithoutWorkshopInput | PrintConfigUpdateWithWhereUniqueWithoutWorkshopInput[]
-    updateMany?: PrintConfigUpdateManyWithWhereWithoutWorkshopInput | PrintConfigUpdateManyWithWhereWithoutWorkshopInput[]
-    deleteMany?: PrintConfigScalarWhereInput | PrintConfigScalarWhereInput[]
   }
 
   export type GuestUncheckedUpdateManyWithoutWorkshopNestedInput = {
@@ -24147,20 +24144,6 @@ export namespace Prisma {
     update?: GlobalNotificationUpdateWithWhereUniqueWithoutWorkshopInput | GlobalNotificationUpdateWithWhereUniqueWithoutWorkshopInput[]
     updateMany?: GlobalNotificationUpdateManyWithWhereWithoutWorkshopInput | GlobalNotificationUpdateManyWithWhereWithoutWorkshopInput[]
     deleteMany?: GlobalNotificationScalarWhereInput | GlobalNotificationScalarWhereInput[]
-  }
-
-  export type PrintConfigUncheckedUpdateManyWithoutWorkshopNestedInput = {
-    create?: XOR<PrintConfigCreateWithoutWorkshopInput, PrintConfigUncheckedCreateWithoutWorkshopInput> | PrintConfigCreateWithoutWorkshopInput[] | PrintConfigUncheckedCreateWithoutWorkshopInput[]
-    connectOrCreate?: PrintConfigCreateOrConnectWithoutWorkshopInput | PrintConfigCreateOrConnectWithoutWorkshopInput[]
-    upsert?: PrintConfigUpsertWithWhereUniqueWithoutWorkshopInput | PrintConfigUpsertWithWhereUniqueWithoutWorkshopInput[]
-    createMany?: PrintConfigCreateManyWorkshopInputEnvelope
-    set?: PrintConfigWhereUniqueInput | PrintConfigWhereUniqueInput[]
-    disconnect?: PrintConfigWhereUniqueInput | PrintConfigWhereUniqueInput[]
-    delete?: PrintConfigWhereUniqueInput | PrintConfigWhereUniqueInput[]
-    connect?: PrintConfigWhereUniqueInput | PrintConfigWhereUniqueInput[]
-    update?: PrintConfigUpdateWithWhereUniqueWithoutWorkshopInput | PrintConfigUpdateWithWhereUniqueWithoutWorkshopInput[]
-    updateMany?: PrintConfigUpdateManyWithWhereWithoutWorkshopInput | PrintConfigUpdateManyWithWhereWithoutWorkshopInput[]
-    deleteMany?: PrintConfigScalarWhereInput | PrintConfigScalarWhereInput[]
   }
 
   export type WorkshopCreateNestedManyWithoutFormConfigInput = {
@@ -24465,20 +24448,46 @@ export namespace Prisma {
     update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutCartItemsInput, ProductUpdateWithoutCartItemsInput>, ProductUncheckedUpdateWithoutCartItemsInput>
   }
 
-  export type WorkshopCreateNestedOneWithoutPrintConfigsInput = {
-    create?: XOR<WorkshopCreateWithoutPrintConfigsInput, WorkshopUncheckedCreateWithoutPrintConfigsInput>
-    connectOrCreate?: WorkshopCreateOrConnectWithoutPrintConfigsInput
-    connect?: WorkshopWhereUniqueInput
+  export type WorkshopCreateNestedManyWithoutPrintConfigInput = {
+    create?: XOR<WorkshopCreateWithoutPrintConfigInput, WorkshopUncheckedCreateWithoutPrintConfigInput> | WorkshopCreateWithoutPrintConfigInput[] | WorkshopUncheckedCreateWithoutPrintConfigInput[]
+    connectOrCreate?: WorkshopCreateOrConnectWithoutPrintConfigInput | WorkshopCreateOrConnectWithoutPrintConfigInput[]
+    createMany?: WorkshopCreateManyPrintConfigInputEnvelope
+    connect?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
   }
 
-  export type WorkshopUpdateOneWithoutPrintConfigsNestedInput = {
-    create?: XOR<WorkshopCreateWithoutPrintConfigsInput, WorkshopUncheckedCreateWithoutPrintConfigsInput>
-    connectOrCreate?: WorkshopCreateOrConnectWithoutPrintConfigsInput
-    upsert?: WorkshopUpsertWithoutPrintConfigsInput
-    disconnect?: WorkshopWhereInput | boolean
-    delete?: WorkshopWhereInput | boolean
-    connect?: WorkshopWhereUniqueInput
-    update?: XOR<XOR<WorkshopUpdateToOneWithWhereWithoutPrintConfigsInput, WorkshopUpdateWithoutPrintConfigsInput>, WorkshopUncheckedUpdateWithoutPrintConfigsInput>
+  export type WorkshopUncheckedCreateNestedManyWithoutPrintConfigInput = {
+    create?: XOR<WorkshopCreateWithoutPrintConfigInput, WorkshopUncheckedCreateWithoutPrintConfigInput> | WorkshopCreateWithoutPrintConfigInput[] | WorkshopUncheckedCreateWithoutPrintConfigInput[]
+    connectOrCreate?: WorkshopCreateOrConnectWithoutPrintConfigInput | WorkshopCreateOrConnectWithoutPrintConfigInput[]
+    createMany?: WorkshopCreateManyPrintConfigInputEnvelope
+    connect?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
+  }
+
+  export type WorkshopUpdateManyWithoutPrintConfigNestedInput = {
+    create?: XOR<WorkshopCreateWithoutPrintConfigInput, WorkshopUncheckedCreateWithoutPrintConfigInput> | WorkshopCreateWithoutPrintConfigInput[] | WorkshopUncheckedCreateWithoutPrintConfigInput[]
+    connectOrCreate?: WorkshopCreateOrConnectWithoutPrintConfigInput | WorkshopCreateOrConnectWithoutPrintConfigInput[]
+    upsert?: WorkshopUpsertWithWhereUniqueWithoutPrintConfigInput | WorkshopUpsertWithWhereUniqueWithoutPrintConfigInput[]
+    createMany?: WorkshopCreateManyPrintConfigInputEnvelope
+    set?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
+    disconnect?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
+    delete?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
+    connect?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
+    update?: WorkshopUpdateWithWhereUniqueWithoutPrintConfigInput | WorkshopUpdateWithWhereUniqueWithoutPrintConfigInput[]
+    updateMany?: WorkshopUpdateManyWithWhereWithoutPrintConfigInput | WorkshopUpdateManyWithWhereWithoutPrintConfigInput[]
+    deleteMany?: WorkshopScalarWhereInput | WorkshopScalarWhereInput[]
+  }
+
+  export type WorkshopUncheckedUpdateManyWithoutPrintConfigNestedInput = {
+    create?: XOR<WorkshopCreateWithoutPrintConfigInput, WorkshopUncheckedCreateWithoutPrintConfigInput> | WorkshopCreateWithoutPrintConfigInput[] | WorkshopUncheckedCreateWithoutPrintConfigInput[]
+    connectOrCreate?: WorkshopCreateOrConnectWithoutPrintConfigInput | WorkshopCreateOrConnectWithoutPrintConfigInput[]
+    upsert?: WorkshopUpsertWithWhereUniqueWithoutPrintConfigInput | WorkshopUpsertWithWhereUniqueWithoutPrintConfigInput[]
+    createMany?: WorkshopCreateManyPrintConfigInputEnvelope
+    set?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
+    disconnect?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
+    delete?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
+    connect?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
+    update?: WorkshopUpdateWithWhereUniqueWithoutPrintConfigInput | WorkshopUpdateWithWhereUniqueWithoutPrintConfigInput[]
+    updateMany?: WorkshopUpdateManyWithWhereWithoutPrintConfigInput | WorkshopUpdateManyWithWhereWithoutPrintConfigInput[]
+    deleteMany?: WorkshopScalarWhereInput | WorkshopScalarWhereInput[]
   }
 
   export type WorkshopCreateNestedOneWithoutNotificationsInput = {
@@ -25436,6 +25445,37 @@ export namespace Prisma {
     create: XOR<FormConfigCreateWithoutWorkshopsInput, FormConfigUncheckedCreateWithoutWorkshopsInput>
   }
 
+  export type PrintConfigCreateWithoutWorkshopsInput = {
+    id?: string
+    name: string
+    elements: JsonNullValueInput | InputJsonValue
+    canvasSettings?: NullableJsonNullValueInput | InputJsonValue
+    isDefault?: boolean
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById: string
+    updatedById: string
+  }
+
+  export type PrintConfigUncheckedCreateWithoutWorkshopsInput = {
+    id?: string
+    name: string
+    elements: JsonNullValueInput | InputJsonValue
+    canvasSettings?: NullableJsonNullValueInput | InputJsonValue
+    isDefault?: boolean
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById: string
+    updatedById: string
+  }
+
+  export type PrintConfigCreateOrConnectWithoutWorkshopsInput = {
+    where: PrintConfigWhereUniqueInput
+    create: XOR<PrintConfigCreateWithoutWorkshopsInput, PrintConfigUncheckedCreateWithoutWorkshopsInput>
+  }
+
   export type GlobalNotificationCreateWithoutWorkshopInput = {
     id?: string
     message: string
@@ -25465,42 +25505,6 @@ export namespace Prisma {
 
   export type GlobalNotificationCreateManyWorkshopInputEnvelope = {
     data: GlobalNotificationCreateManyWorkshopInput | GlobalNotificationCreateManyWorkshopInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type PrintConfigCreateWithoutWorkshopInput = {
-    id?: string
-    name: string
-    elements: JsonNullValueInput | InputJsonValue
-    canvasSettings?: NullableJsonNullValueInput | InputJsonValue
-    isDefault?: boolean
-    active?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    createdById: string
-    updatedById: string
-  }
-
-  export type PrintConfigUncheckedCreateWithoutWorkshopInput = {
-    id?: string
-    name: string
-    elements: JsonNullValueInput | InputJsonValue
-    canvasSettings?: NullableJsonNullValueInput | InputJsonValue
-    isDefault?: boolean
-    active?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    createdById: string
-    updatedById: string
-  }
-
-  export type PrintConfigCreateOrConnectWithoutWorkshopInput = {
-    where: PrintConfigWhereUniqueInput
-    create: XOR<PrintConfigCreateWithoutWorkshopInput, PrintConfigUncheckedCreateWithoutWorkshopInput>
-  }
-
-  export type PrintConfigCreateManyWorkshopInputEnvelope = {
-    data: PrintConfigCreateManyWorkshopInput | PrintConfigCreateManyWorkshopInput[]
     skipDuplicates?: boolean
   }
 
@@ -25585,6 +25589,43 @@ export namespace Prisma {
     updatedById?: StringFieldUpdateOperationsInput | string
   }
 
+  export type PrintConfigUpsertWithoutWorkshopsInput = {
+    update: XOR<PrintConfigUpdateWithoutWorkshopsInput, PrintConfigUncheckedUpdateWithoutWorkshopsInput>
+    create: XOR<PrintConfigCreateWithoutWorkshopsInput, PrintConfigUncheckedCreateWithoutWorkshopsInput>
+    where?: PrintConfigWhereInput
+  }
+
+  export type PrintConfigUpdateToOneWithWhereWithoutWorkshopsInput = {
+    where?: PrintConfigWhereInput
+    data: XOR<PrintConfigUpdateWithoutWorkshopsInput, PrintConfigUncheckedUpdateWithoutWorkshopsInput>
+  }
+
+  export type PrintConfigUpdateWithoutWorkshopsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    elements?: JsonNullValueInput | InputJsonValue
+    canvasSettings?: NullableJsonNullValueInput | InputJsonValue
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: StringFieldUpdateOperationsInput | string
+    updatedById?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PrintConfigUncheckedUpdateWithoutWorkshopsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    elements?: JsonNullValueInput | InputJsonValue
+    canvasSettings?: NullableJsonNullValueInput | InputJsonValue
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: StringFieldUpdateOperationsInput | string
+    updatedById?: StringFieldUpdateOperationsInput | string
+  }
+
   export type GlobalNotificationUpsertWithWhereUniqueWithoutWorkshopInput = {
     where: GlobalNotificationWhereUniqueInput
     update: XOR<GlobalNotificationUpdateWithoutWorkshopInput, GlobalNotificationUncheckedUpdateWithoutWorkshopInput>
@@ -25616,39 +25657,6 @@ export namespace Prisma {
     updatedById?: StringFilter<"GlobalNotification"> | string
   }
 
-  export type PrintConfigUpsertWithWhereUniqueWithoutWorkshopInput = {
-    where: PrintConfigWhereUniqueInput
-    update: XOR<PrintConfigUpdateWithoutWorkshopInput, PrintConfigUncheckedUpdateWithoutWorkshopInput>
-    create: XOR<PrintConfigCreateWithoutWorkshopInput, PrintConfigUncheckedCreateWithoutWorkshopInput>
-  }
-
-  export type PrintConfigUpdateWithWhereUniqueWithoutWorkshopInput = {
-    where: PrintConfigWhereUniqueInput
-    data: XOR<PrintConfigUpdateWithoutWorkshopInput, PrintConfigUncheckedUpdateWithoutWorkshopInput>
-  }
-
-  export type PrintConfigUpdateManyWithWhereWithoutWorkshopInput = {
-    where: PrintConfigScalarWhereInput
-    data: XOR<PrintConfigUpdateManyMutationInput, PrintConfigUncheckedUpdateManyWithoutWorkshopInput>
-  }
-
-  export type PrintConfigScalarWhereInput = {
-    AND?: PrintConfigScalarWhereInput | PrintConfigScalarWhereInput[]
-    OR?: PrintConfigScalarWhereInput[]
-    NOT?: PrintConfigScalarWhereInput | PrintConfigScalarWhereInput[]
-    id?: StringFilter<"PrintConfig"> | string
-    workshopId?: StringNullableFilter<"PrintConfig"> | string | null
-    name?: StringFilter<"PrintConfig"> | string
-    elements?: JsonFilter<"PrintConfig">
-    canvasSettings?: JsonNullableFilter<"PrintConfig">
-    isDefault?: BoolFilter<"PrintConfig"> | boolean
-    active?: BoolFilter<"PrintConfig"> | boolean
-    createdAt?: DateTimeFilter<"PrintConfig"> | Date | string
-    updatedAt?: DateTimeFilter<"PrintConfig"> | Date | string
-    createdById?: StringFilter<"PrintConfig"> | string
-    updatedById?: StringFilter<"PrintConfig"> | string
-  }
-
   export type WorkshopCreateWithoutFormConfigInput = {
     id?: string
     name: string
@@ -25663,8 +25671,8 @@ export namespace Prisma {
     updatedById: string
     guests?: GuestCreateNestedManyWithoutWorkshopInput
     inventory?: WorkshopStockCreateNestedManyWithoutWorkshopInput
+    printConfig?: PrintConfigCreateNestedOneWithoutWorkshopsInput
     notifications?: GlobalNotificationCreateNestedManyWithoutWorkshopInput
-    printConfigs?: PrintConfigCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopUncheckedCreateWithoutFormConfigInput = {
@@ -25675,6 +25683,7 @@ export namespace Prisma {
     startDateTime: Date | string
     endDateTime: Date | string
     active?: boolean
+    printConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById: string
@@ -25682,7 +25691,6 @@ export namespace Prisma {
     guests?: GuestUncheckedCreateNestedManyWithoutWorkshopInput
     inventory?: WorkshopStockUncheckedCreateNestedManyWithoutWorkshopInput
     notifications?: GlobalNotificationUncheckedCreateNestedManyWithoutWorkshopInput
-    printConfigs?: PrintConfigUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopCreateOrConnectWithoutFormConfigInput = {
@@ -25723,6 +25731,7 @@ export namespace Prisma {
     endDateTime?: DateTimeFilter<"Workshop"> | Date | string
     active?: BoolFilter<"Workshop"> | boolean
     formConfigId?: StringNullableFilter<"Workshop"> | string | null
+    printConfigId?: StringNullableFilter<"Workshop"> | string | null
     createdAt?: DateTimeFilter<"Workshop"> | Date | string
     updatedAt?: DateTimeFilter<"Workshop"> | Date | string
     createdById?: StringFilter<"Workshop"> | string
@@ -25743,8 +25752,8 @@ export namespace Prisma {
     updatedById: string
     guests?: GuestCreateNestedManyWithoutWorkshopInput
     formConfig?: FormConfigCreateNestedOneWithoutWorkshopsInput
+    printConfig?: PrintConfigCreateNestedOneWithoutWorkshopsInput
     notifications?: GlobalNotificationCreateNestedManyWithoutWorkshopInput
-    printConfigs?: PrintConfigCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopUncheckedCreateWithoutInventoryInput = {
@@ -25756,13 +25765,13 @@ export namespace Prisma {
     endDateTime: Date | string
     active?: boolean
     formConfigId?: string | null
+    printConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById: string
     updatedById: string
     guests?: GuestUncheckedCreateNestedManyWithoutWorkshopInput
     notifications?: GlobalNotificationUncheckedCreateNestedManyWithoutWorkshopInput
-    printConfigs?: PrintConfigUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopCreateOrConnectWithoutInventoryInput = {
@@ -25832,8 +25841,8 @@ export namespace Prisma {
     updatedById?: StringFieldUpdateOperationsInput | string
     guests?: GuestUpdateManyWithoutWorkshopNestedInput
     formConfig?: FormConfigUpdateOneWithoutWorkshopsNestedInput
+    printConfig?: PrintConfigUpdateOneWithoutWorkshopsNestedInput
     notifications?: GlobalNotificationUpdateManyWithoutWorkshopNestedInput
-    printConfigs?: PrintConfigUpdateManyWithoutWorkshopNestedInput
   }
 
   export type WorkshopUncheckedUpdateWithoutInventoryInput = {
@@ -25845,13 +25854,13 @@ export namespace Prisma {
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
     formConfigId?: NullableStringFieldUpdateOperationsInput | string | null
+    printConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
     updatedById?: StringFieldUpdateOperationsInput | string
     guests?: GuestUncheckedUpdateManyWithoutWorkshopNestedInput
     notifications?: GlobalNotificationUncheckedUpdateManyWithoutWorkshopNestedInput
-    printConfigs?: PrintConfigUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
   export type ProductUpsertWithoutWorkshopStockInput = {
@@ -25911,8 +25920,8 @@ export namespace Prisma {
     updatedById: string
     inventory?: WorkshopStockCreateNestedManyWithoutWorkshopInput
     formConfig?: FormConfigCreateNestedOneWithoutWorkshopsInput
+    printConfig?: PrintConfigCreateNestedOneWithoutWorkshopsInput
     notifications?: GlobalNotificationCreateNestedManyWithoutWorkshopInput
-    printConfigs?: PrintConfigCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopUncheckedCreateWithoutGuestsInput = {
@@ -25924,13 +25933,13 @@ export namespace Prisma {
     endDateTime: Date | string
     active?: boolean
     formConfigId?: string | null
+    printConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById: string
     updatedById: string
     inventory?: WorkshopStockUncheckedCreateNestedManyWithoutWorkshopInput
     notifications?: GlobalNotificationUncheckedCreateNestedManyWithoutWorkshopInput
-    printConfigs?: PrintConfigUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopCreateOrConnectWithoutGuestsInput = {
@@ -26035,8 +26044,8 @@ export namespace Prisma {
     updatedById?: StringFieldUpdateOperationsInput | string
     inventory?: WorkshopStockUpdateManyWithoutWorkshopNestedInput
     formConfig?: FormConfigUpdateOneWithoutWorkshopsNestedInput
+    printConfig?: PrintConfigUpdateOneWithoutWorkshopsNestedInput
     notifications?: GlobalNotificationUpdateManyWithoutWorkshopNestedInput
-    printConfigs?: PrintConfigUpdateManyWithoutWorkshopNestedInput
   }
 
   export type WorkshopUncheckedUpdateWithoutGuestsInput = {
@@ -26048,13 +26057,13 @@ export namespace Prisma {
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
     formConfigId?: NullableStringFieldUpdateOperationsInput | string | null
+    printConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
     updatedById?: StringFieldUpdateOperationsInput | string
     inventory?: WorkshopStockUncheckedUpdateManyWithoutWorkshopNestedInput
     notifications?: GlobalNotificationUncheckedUpdateManyWithoutWorkshopNestedInput
-    printConfigs?: PrintConfigUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
   export type CartUpsertWithWhereUniqueWithoutGuestInput = {
@@ -26530,7 +26539,7 @@ export namespace Prisma {
     tieredPrices?: ProductPriceUncheckedUpdateManyWithoutProductNestedInput
   }
 
-  export type WorkshopCreateWithoutPrintConfigsInput = {
+  export type WorkshopCreateWithoutPrintConfigInput = {
     id?: string
     name: string
     description?: string | null
@@ -26548,7 +26557,7 @@ export namespace Prisma {
     notifications?: GlobalNotificationCreateNestedManyWithoutWorkshopInput
   }
 
-  export type WorkshopUncheckedCreateWithoutPrintConfigsInput = {
+  export type WorkshopUncheckedCreateWithoutPrintConfigInput = {
     id?: string
     name: string
     description?: string | null
@@ -26566,56 +26575,30 @@ export namespace Prisma {
     notifications?: GlobalNotificationUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
-  export type WorkshopCreateOrConnectWithoutPrintConfigsInput = {
+  export type WorkshopCreateOrConnectWithoutPrintConfigInput = {
     where: WorkshopWhereUniqueInput
-    create: XOR<WorkshopCreateWithoutPrintConfigsInput, WorkshopUncheckedCreateWithoutPrintConfigsInput>
+    create: XOR<WorkshopCreateWithoutPrintConfigInput, WorkshopUncheckedCreateWithoutPrintConfigInput>
   }
 
-  export type WorkshopUpsertWithoutPrintConfigsInput = {
-    update: XOR<WorkshopUpdateWithoutPrintConfigsInput, WorkshopUncheckedUpdateWithoutPrintConfigsInput>
-    create: XOR<WorkshopCreateWithoutPrintConfigsInput, WorkshopUncheckedCreateWithoutPrintConfigsInput>
-    where?: WorkshopWhereInput
+  export type WorkshopCreateManyPrintConfigInputEnvelope = {
+    data: WorkshopCreateManyPrintConfigInput | WorkshopCreateManyPrintConfigInput[]
+    skipDuplicates?: boolean
   }
 
-  export type WorkshopUpdateToOneWithWhereWithoutPrintConfigsInput = {
-    where?: WorkshopWhereInput
-    data: XOR<WorkshopUpdateWithoutPrintConfigsInput, WorkshopUncheckedUpdateWithoutPrintConfigsInput>
+  export type WorkshopUpsertWithWhereUniqueWithoutPrintConfigInput = {
+    where: WorkshopWhereUniqueInput
+    update: XOR<WorkshopUpdateWithoutPrintConfigInput, WorkshopUncheckedUpdateWithoutPrintConfigInput>
+    create: XOR<WorkshopCreateWithoutPrintConfigInput, WorkshopUncheckedCreateWithoutPrintConfigInput>
   }
 
-  export type WorkshopUpdateWithoutPrintConfigsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: StringFieldUpdateOperationsInput | string
-    startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    active?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdById?: StringFieldUpdateOperationsInput | string
-    updatedById?: StringFieldUpdateOperationsInput | string
-    guests?: GuestUpdateManyWithoutWorkshopNestedInput
-    inventory?: WorkshopStockUpdateManyWithoutWorkshopNestedInput
-    formConfig?: FormConfigUpdateOneWithoutWorkshopsNestedInput
-    notifications?: GlobalNotificationUpdateManyWithoutWorkshopNestedInput
+  export type WorkshopUpdateWithWhereUniqueWithoutPrintConfigInput = {
+    where: WorkshopWhereUniqueInput
+    data: XOR<WorkshopUpdateWithoutPrintConfigInput, WorkshopUncheckedUpdateWithoutPrintConfigInput>
   }
 
-  export type WorkshopUncheckedUpdateWithoutPrintConfigsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: StringFieldUpdateOperationsInput | string
-    startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    active?: BoolFieldUpdateOperationsInput | boolean
-    formConfigId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdById?: StringFieldUpdateOperationsInput | string
-    updatedById?: StringFieldUpdateOperationsInput | string
-    guests?: GuestUncheckedUpdateManyWithoutWorkshopNestedInput
-    inventory?: WorkshopStockUncheckedUpdateManyWithoutWorkshopNestedInput
-    notifications?: GlobalNotificationUncheckedUpdateManyWithoutWorkshopNestedInput
+  export type WorkshopUpdateManyWithWhereWithoutPrintConfigInput = {
+    where: WorkshopScalarWhereInput
+    data: XOR<WorkshopUpdateManyMutationInput, WorkshopUncheckedUpdateManyWithoutPrintConfigInput>
   }
 
   export type WorkshopCreateWithoutNotificationsInput = {
@@ -26633,7 +26616,7 @@ export namespace Prisma {
     guests?: GuestCreateNestedManyWithoutWorkshopInput
     inventory?: WorkshopStockCreateNestedManyWithoutWorkshopInput
     formConfig?: FormConfigCreateNestedOneWithoutWorkshopsInput
-    printConfigs?: PrintConfigCreateNestedManyWithoutWorkshopInput
+    printConfig?: PrintConfigCreateNestedOneWithoutWorkshopsInput
   }
 
   export type WorkshopUncheckedCreateWithoutNotificationsInput = {
@@ -26645,13 +26628,13 @@ export namespace Prisma {
     endDateTime: Date | string
     active?: boolean
     formConfigId?: string | null
+    printConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById: string
     updatedById: string
     guests?: GuestUncheckedCreateNestedManyWithoutWorkshopInput
     inventory?: WorkshopStockUncheckedCreateNestedManyWithoutWorkshopInput
-    printConfigs?: PrintConfigUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopCreateOrConnectWithoutNotificationsInput = {
@@ -26685,7 +26668,7 @@ export namespace Prisma {
     guests?: GuestUpdateManyWithoutWorkshopNestedInput
     inventory?: WorkshopStockUpdateManyWithoutWorkshopNestedInput
     formConfig?: FormConfigUpdateOneWithoutWorkshopsNestedInput
-    printConfigs?: PrintConfigUpdateManyWithoutWorkshopNestedInput
+    printConfig?: PrintConfigUpdateOneWithoutWorkshopsNestedInput
   }
 
   export type WorkshopUncheckedUpdateWithoutNotificationsInput = {
@@ -26697,13 +26680,13 @@ export namespace Prisma {
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
     formConfigId?: NullableStringFieldUpdateOperationsInput | string | null
+    printConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
     updatedById?: StringFieldUpdateOperationsInput | string
     guests?: GuestUncheckedUpdateManyWithoutWorkshopNestedInput
     inventory?: WorkshopStockUncheckedUpdateManyWithoutWorkshopNestedInput
-    printConfigs?: PrintConfigUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
   export type ProductUpdateWithoutCategoriesInput = {
@@ -27041,19 +27024,6 @@ export namespace Prisma {
     updatedById: string
   }
 
-  export type PrintConfigCreateManyWorkshopInput = {
-    id?: string
-    name: string
-    elements: JsonNullValueInput | InputJsonValue
-    canvasSettings?: NullableJsonNullValueInput | InputJsonValue
-    isDefault?: boolean
-    active?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    createdById: string
-    updatedById: string
-  }
-
   export type GuestUpdateWithoutWorkshopInput = {
     id?: StringFieldUpdateOperationsInput | string
     profileData?: JsonNullValueInput | InputJsonValue
@@ -27160,45 +27130,6 @@ export namespace Prisma {
     updatedById?: StringFieldUpdateOperationsInput | string
   }
 
-  export type PrintConfigUpdateWithoutWorkshopInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    elements?: JsonNullValueInput | InputJsonValue
-    canvasSettings?: NullableJsonNullValueInput | InputJsonValue
-    isDefault?: BoolFieldUpdateOperationsInput | boolean
-    active?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdById?: StringFieldUpdateOperationsInput | string
-    updatedById?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type PrintConfigUncheckedUpdateWithoutWorkshopInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    elements?: JsonNullValueInput | InputJsonValue
-    canvasSettings?: NullableJsonNullValueInput | InputJsonValue
-    isDefault?: BoolFieldUpdateOperationsInput | boolean
-    active?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdById?: StringFieldUpdateOperationsInput | string
-    updatedById?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type PrintConfigUncheckedUpdateManyWithoutWorkshopInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    elements?: JsonNullValueInput | InputJsonValue
-    canvasSettings?: NullableJsonNullValueInput | InputJsonValue
-    isDefault?: BoolFieldUpdateOperationsInput | boolean
-    active?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdById?: StringFieldUpdateOperationsInput | string
-    updatedById?: StringFieldUpdateOperationsInput | string
-  }
-
   export type WorkshopCreateManyFormConfigInput = {
     id?: string
     name: string
@@ -27207,6 +27138,7 @@ export namespace Prisma {
     startDateTime: Date | string
     endDateTime: Date | string
     active?: boolean
+    printConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdById: string
@@ -27227,8 +27159,8 @@ export namespace Prisma {
     updatedById?: StringFieldUpdateOperationsInput | string
     guests?: GuestUpdateManyWithoutWorkshopNestedInput
     inventory?: WorkshopStockUpdateManyWithoutWorkshopNestedInput
+    printConfig?: PrintConfigUpdateOneWithoutWorkshopsNestedInput
     notifications?: GlobalNotificationUpdateManyWithoutWorkshopNestedInput
-    printConfigs?: PrintConfigUpdateManyWithoutWorkshopNestedInput
   }
 
   export type WorkshopUncheckedUpdateWithoutFormConfigInput = {
@@ -27239,6 +27171,7 @@ export namespace Prisma {
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    printConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
@@ -27246,7 +27179,6 @@ export namespace Prisma {
     guests?: GuestUncheckedUpdateManyWithoutWorkshopNestedInput
     inventory?: WorkshopStockUncheckedUpdateManyWithoutWorkshopNestedInput
     notifications?: GlobalNotificationUncheckedUpdateManyWithoutWorkshopNestedInput
-    printConfigs?: PrintConfigUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
   export type WorkshopUncheckedUpdateManyWithoutFormConfigInput = {
@@ -27257,6 +27189,7 @@ export namespace Prisma {
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    printConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
@@ -27411,6 +27344,72 @@ export namespace Prisma {
     priceAtPurchase?: NullableFloatFieldUpdateOperationsInput | number | null
     priceTierId?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: StringFieldUpdateOperationsInput | string
+    updatedById?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type WorkshopCreateManyPrintConfigInput = {
+    id?: string
+    name: string
+    description?: string | null
+    location: string
+    startDateTime: Date | string
+    endDateTime: Date | string
+    active?: boolean
+    formConfigId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById: string
+    updatedById: string
+  }
+
+  export type WorkshopUpdateWithoutPrintConfigInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: StringFieldUpdateOperationsInput | string
+    startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: StringFieldUpdateOperationsInput | string
+    updatedById?: StringFieldUpdateOperationsInput | string
+    guests?: GuestUpdateManyWithoutWorkshopNestedInput
+    inventory?: WorkshopStockUpdateManyWithoutWorkshopNestedInput
+    formConfig?: FormConfigUpdateOneWithoutWorkshopsNestedInput
+    notifications?: GlobalNotificationUpdateManyWithoutWorkshopNestedInput
+  }
+
+  export type WorkshopUncheckedUpdateWithoutPrintConfigInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: StringFieldUpdateOperationsInput | string
+    startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    formConfigId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: StringFieldUpdateOperationsInput | string
+    updatedById?: StringFieldUpdateOperationsInput | string
+    guests?: GuestUncheckedUpdateManyWithoutWorkshopNestedInput
+    inventory?: WorkshopStockUncheckedUpdateManyWithoutWorkshopNestedInput
+    notifications?: GlobalNotificationUncheckedUpdateManyWithoutWorkshopNestedInput
+  }
+
+  export type WorkshopUncheckedUpdateManyWithoutPrintConfigInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: StringFieldUpdateOperationsInput | string
+    startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    formConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string

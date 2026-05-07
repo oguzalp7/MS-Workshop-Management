@@ -113,10 +113,14 @@ model Workshop {
   inventory     WorkshopStock[]
 
   // Link to a dynamic form configuration
-  formConfigId  String?
-  formConfig    FormConfig?          @relation(fields: [formConfigId], references: [id])
+  formConfigId String?
+  formConfig   FormConfig? @relation(fields: [formConfigId], references: [id])
+
+  // Link to a print template configuration
+  printConfigId String?
+  printConfig   PrintConfig? @relation(fields: [printConfigId], references: [id])
+
   notifications GlobalNotification[]
-  printConfigs  PrintConfig[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -252,16 +256,15 @@ model CartItem {
 
 // ─── Print Configuration (A4 Studio) ─────────────────────────────
 model PrintConfig {
-  id             String    @id @default(uuid())
-  workshopId     String?
-  workshop       Workshop? @relation(fields: [workshopId], references: [id], onDelete: Cascade)
-  name           String    @unique
+  id             String     @id @default(uuid())
+  name           String     @unique
   elements       Json // Array of { type, x, y, fontSize, label, key, etc. }
   canvasSettings Json? // { width, height, gridSize, showGrid, backgroundColor, backgroundImage }
-  isDefault      Boolean   @default(false)
-  active         Boolean   @default(true)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  isDefault      Boolean    @default(false)
+  active         Boolean    @default(true)
+  workshops      Workshop[]
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
 
   createdById String
   updatedById String

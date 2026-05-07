@@ -45,23 +45,34 @@ export default function WorkshopPrintPage({ params }: { params: Promise<{ id: st
         guests = guests.filter((g: any) => g.id === guestIdFilter);
       }
 
-      // 2. Fetch Print Template (Default one)
+      // 2. Fetch Print Template (Workshop specific or default)
       const pRes = await fetch(`/api/admin/print-configs`);
       const pData = await pRes.json();
-      const defaultConfig = pData.configs.find((c: any) => c.isDefault) || pData.configs[0];
+      
+      const templateId = wData.workshop.printConfigId;
+      let config = null;
+      
+      if (templateId) {
+        config = pData.configs.find((c: any) => c.id === templateId);
+      }
+      
+      if (!config) {
+        config = pData.configs.find((c: any) => c.isDefault) || pData.configs[0];
+      }
 
       setData({
         workshop: wData.workshop,
         guests: guests,
-        config: defaultConfig
+        config: config
       });
-
       
       // Auto-trigger print after a short delay for QR codes to render
       setTimeout(() => {
         window.print();
       }, 1500);
-    } catch { /* ignore */ } finally { setLoading(false); }
+    } catch (error) { 
+      console.error("Print fetch error:", error);
+    } finally { setLoading(false); }
   }
 
   useEffect(() => { fetchData(); }, [id]);
@@ -70,6 +81,7 @@ export default function WorkshopPrintPage({ params }: { params: Promise<{ id: st
   if (!data || !data.config) return <div className="p-12 text-center text-destructive">No print template found. Please design one in the Print Studio.</div>;
 
   const PIXELS_PER_MM = 3.78; // Standard 96 DPI conversion
+  const canvas = data.config.canvasSettings || { width: 210, height: 297 };
 
   return (
     <div className="print-container">
@@ -78,15 +90,18 @@ export default function WorkshopPrintPage({ params }: { params: Promise<{ id: st
           body { margin: 0; padding: 0; background: white; }
           .no-print { display: none; }
           .page-break { page-break-after: always; }
-          @page { size: A4; margin: 0; }
+          @page { size: ${canvas.width}mm ${canvas.height}mm; margin: 0; }
         }
-        .a4-page {
-          width: 210mm;
-          height: 297mm;
+        .print-page {
+          width: ${canvas.width}mm;
+          height: ${canvas.height}mm;
           position: relative;
           background: white;
           overflow: hidden;
           margin: 0 auto;
+          background-color: ${canvas.backgroundColor || "#ffffff"};
+          background-image: ${canvas.backgroundImage ? `url(${canvas.backgroundImage})` : 'none'};
+          background-size: cover;
         }
         .print-container {
           background: #f0f0f0;
@@ -102,7 +117,7 @@ export default function WorkshopPrintPage({ params }: { params: Promise<{ id: st
       </div>
 
       {data.guests.map((guest, gIdx) => (
-        <div key={guest.id} className={`a4-page ${gIdx < data.guests.length - 1 ? 'page-break' : ''}`}>
+        <div key={guest.id} className={`print-page ${gIdx < data.guests.length - 1 ? 'page-break' : ''}`}>
            {data.config.elements.map((el: PrintElement) => {
              let content: any = el.label;
              

@@ -16,8 +16,9 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const [guestCount, openCartCount, inventoryCount, revenueData] = await Promise.all([
+    const [guestCount, checkedInCount, openCartCount, inventoryCount, revenueData] = await Promise.all([
       prisma.guest.count({ where: { workshopId } }),
+      prisma.guest.count({ where: { workshopId, checkInStatus: true } }),
       prisma.cart.count({ 
         where: { 
           guest: { workshopId },
@@ -28,7 +29,7 @@ export async function GET(
       prisma.cart.aggregate({
         where: { 
           guest: { workshopId },
-          status: { in: ["ORDERED", "PREPARING", "READY", "PAID"] },
+          status: "PAID",
           active: true
         },
         _sum: { totalAmount: true }
@@ -38,6 +39,7 @@ export async function GET(
     return NextResponse.json({
       stats: {
         totalGuests: guestCount,
+        checkedInGuests: checkedInCount,
         openCarts: openCartCount,
         totalProducts: inventoryCount,
         totalRevenue: revenueData._sum.totalAmount || 0

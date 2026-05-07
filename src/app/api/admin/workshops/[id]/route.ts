@@ -28,7 +28,8 @@ export async function GET(
           orderBy: { product: { name: "asc" } }
         },
         guests: true,
-        formConfig: true // Include the linked form config
+        formConfig: true,
+        printConfig: true
       }
     });
 
@@ -58,7 +59,7 @@ export async function PATCH(
 
     const { id } = await params;
     const body = await request.json();
-    const { name, location, startDateTime, endDateTime, description, active, formConfigId } = body;
+    const { name, location, startDateTime, endDateTime, description, active, formConfigId, printConfigId } = body;
 
     const workshop = await prisma.workshop.update({
       where: { id },
@@ -70,6 +71,7 @@ export async function PATCH(
         ...(description !== undefined && { description }),
         ...(active !== undefined && { active }),
         ...(formConfigId !== undefined && { formConfigId: formConfigId === "" ? null : formConfigId }),
+        ...(printConfigId !== undefined && { printConfigId: printConfigId === "" ? null : printConfigId }),
         updatedById: session.adminId,
       },
     });

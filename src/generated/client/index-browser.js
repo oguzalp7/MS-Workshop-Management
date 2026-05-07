@@ -185,6 +185,7 @@ exports.Prisma.WorkshopScalarFieldEnum = {
   endDateTime: 'endDateTime',
   active: 'active',
   formConfigId: 'formConfigId',
+  printConfigId: 'printConfigId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   createdById: 'createdById',
@@ -270,7 +271,6 @@ exports.Prisma.CartItemScalarFieldEnum = {
 
 exports.Prisma.PrintConfigScalarFieldEnum = {
   id: 'id',
-  workshopId: 'workshopId',
   name: 'name',
   elements: 'elements',
   canvasSettings: 'canvasSettings',

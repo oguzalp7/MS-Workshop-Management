@@ -9,14 +9,7 @@ export async function GET(request: NextRequest) {
     const session = await getIronSession<SessionData>(request, response, sessionOptions);
     if (!session.isLoggedIn) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const { searchParams } = new URL(request.url);
-    const workshopId = searchParams.get("workshopId");
-
-    const where: any = {};
-    if (workshopId) where.workshopId = workshopId;
-
     const configs = await prisma.printConfig.findMany({
-      where,
       orderBy: { createdAt: "desc" },
     });
 
@@ -35,14 +28,13 @@ export async function POST(request: NextRequest) {
     if (!session.isLoggedIn || !session.adminId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const body = await request.json();
-    const { name, elements, canvasSettings, isDefault, workshopId } = body;
+    const { name, elements, canvasSettings, isDefault } = body;
 
     const config = await prisma.printConfig.upsert({
       where: { name },
       update: {
         elements,
         canvasSettings,
-        workshopId: workshopId || null,
         isDefault: isDefault || false,
         updatedById: session.adminId
       },
@@ -50,7 +42,6 @@ export async function POST(request: NextRequest) {
         name,
         elements,
         canvasSettings,
-        workshopId: workshopId || null,
         isDefault: isDefault || false,
         createdById: session.adminId,
         updatedById: session.adminId

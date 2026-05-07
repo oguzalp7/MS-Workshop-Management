@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
       prisma.product.count({ where: { active: true } }),
       prisma.cart.aggregate({
         where: { 
-          status: { in: ["ORDERED", "PREPARING", "READY", "PAID"] },
+          status: "PAID",
           active: true
         },
         _sum: { totalAmount: true }

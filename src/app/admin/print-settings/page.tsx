@@ -51,8 +51,6 @@ export default function PrintStudioPage() {
   const [selectedBlueprintId, setSelectedBlueprintId] = useState<string>("");
   const [isSaving, setIsSaving] = useState(false);
   const [templateName, setTemplateName] = useState("");
-  const [selectedWorkshopId, setSelectedWorkshopId] = useState<string>("all");
-  const [workshops, setWorkshops] = useState<any[]>([]);
 
   const [canvasSettings, setCanvasSettings] = useState<CanvasSettings>({
     width: 210,
@@ -84,12 +82,6 @@ export default function PrintStudioPage() {
         else loadSampleTemplate();
       }
 
-      const wRes = await fetch("/api/admin/workshops");
-      if (wRes.ok) {
-        const wData = await wRes.json();
-        setWorkshops(wData.workshops || []);
-      }
-
       const bpRes = await fetch("/api/admin/guest-settings");
       if (bpRes.ok) {
         const bpData = await bpRes.json();
@@ -97,16 +89,6 @@ export default function PrintStudioPage() {
       }
     } catch { /* ignore */ }
   }
-
-  useEffect(() => {
-    const params = new URLSearchParams();
-    if (selectedWorkshopId !== "all") params.append("workshopId", selectedWorkshopId);
-    fetch(`/api/admin/print-configs?${params.toString()}`)
-      .then(res => res.json())
-      .then(data => {
-        setConfigs(data.configs || []);
-      });
-  }, [selectedWorkshopId]);
 
   useEffect(() => { fetchConfigs(); }, []);
 
@@ -215,9 +197,9 @@ export default function PrintStudioPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          name: templateName,
           elements,
           canvasSettings,
-          workshopId: selectedWorkshopId !== "all" ? selectedWorkshopId : null,
           isDefault: true
         }),
       });
@@ -243,31 +225,23 @@ export default function PrintStudioPage() {
           </div>
 
           <select
-            value={selectedWorkshopId}
-            onChange={(e) => setSelectedWorkshopId(e.target.value)}
-            className="w-full bg-secondary border border-border px-3 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest"
-          >
-            <option value="all">Global Templates</option>
-            {workshops.map(w => (
-              <option key={w.id} value={w.id}>{w.name}</option>
-            ))}
-          </select>
-
-          <select
             value={selectedConfigId}
             onChange={(e) => {
               if (e.target.value === "sample") loadSampleTemplate();
               else if (e.target.value === "new") createNewConfig();
               else {
-                const c = configs.find(conf => conf.id === e.target.value);
-                if (c) loadConfig(c);
+                const cfg = configs.find(c => c.id === e.target.value);
+                if (cfg) loadConfig(cfg);
               }
             }}
-            className="w-full bg-secondary border border-border px-4 py-3 rounded-xl text-xs font-bold"
+            className="w-full bg-secondary border border-border px-3 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest"
           >
-            <option value="sample">Standard Event Badge (Sample)</option>
-            {configs.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+            <option value="">-- Load Template --</option>
+            <option value="sample">Sample Template</option>
             <option value="new">+ Create New Template</option>
+            {configs.map(cfg => (
+              <option key={cfg.id} value={cfg.id}>{cfg.name}</option>
+            ))}
           </select>
         </div>
 
