@@ -1,0 +1,298 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Admin Users ──────────────────────────────────────────────────
+model Admin {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  password  String   // Bcrypt hashed
+  name      String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdById String @default("System")
+  updatedById String @default("NULL")
+
+  @@map("admins")
+}
+
+// ─── Global Categories ────────────────────────────────────────────
+model Category {
+  id        String    @id @default(uuid())
+  name      String    @unique
+  products  Product[] // Implicit Many-to-Many
+  active    Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  createdById String
+  updatedById String
+
+  @@map("categories")
+}
+
+// ─── Global Product Catalog ───────────────────────────────────────
+model Product {
+  id            String          @id @default(uuid())
+  name          String
+  price         Float           // Base Price (Anchor)
+  description   String?
+  media         Json            @default("[]") // Array of {url: string, type: 'image' | 'video'}
+  categories    Category[]      // Implicit Many-to-Many
+  workshopStock WorkshopStock[]
+  cartItems     CartItem[]
+  
+  // Tiered Pricing
+  tieredPrices  ProductPrice[]
+
+  active        Boolean         @default(true)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  createdById String
+  updatedById String
+
+  @@map("products")
+}
+
+// ─── Price Tiers (Payment Methods / Discount Levels) ──────────────
+model PriceTier {
+  id                  String   @id @default(uuid())
+  name                String   @unique // e.g. "Cash", "Debit Card", "Member"
+  surchargePercentage Float    @default(0) // e.g. 3.0 for 3% surcharge
+  
+  productPrices       ProductPrice[]
+  carts               Cart[]
+  
+  active              Boolean  @default(true)
+  softDeleted         Boolean  @default(false)
+  
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  createdById String
+  updatedById String
+
+  @@map("price_tiers")
+}
+
+// ─── Pre-calculated Product Prices per Tier ───────────────────────
+model ProductPrice {
+  id          String    @id @default(uuid())
+  productId   String
+  priceTierId String
+  price       Float     // The final calculated price
+
+  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  priceTier   PriceTier @relation(fields: [priceTierId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([productId, priceTierId])
+  @@map("product_prices")
+}
+
+
+// ─── Workshop (Event) ─────────────────────────────────────────────
+model Workshop {
+  id            String          @id @default(uuid())
+  name          String
+  description   String?
+  location      String
+  startDateTime DateTime
+  endDateTime   DateTime
+  active        Boolean         @default(true)
+  guests        Guest[]
+  inventory     WorkshopStock[]
+  
+  // Link to a dynamic form configuration
+  formConfigId  String?
+  formConfig    FormConfig?     @relation(fields: [formConfigId], references: [id])
+  notifications GlobalNotification[]
+  printConfigs  PrintConfig[]
+
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  createdById String
+  updatedById String
+
+  @@map("workshops")
+}
+
+// ─── Dynamic Form Configuration ───────────────────────────────────
+model FormConfig {
+  id        String     @id @default(uuid())
+  name      String     @unique
+  fields    Json       // Array of {id, label, type, required, options, formula, etc.}
+  workshops Workshop[]
+  active    Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  createdById String
+  updatedById String
+
+  @@map("form_configs")
+}
+
+// ─── Per-Workshop Inventory ───────────────────────────────────────
+model WorkshopStock {
+  id         String   @id @default(uuid())
+  workshopId String
+  productId  String
+  quantity   Int
+  workshop   Workshop @relation(fields: [workshopId], references: [id], onDelete: Cascade)
+  product    Product  @relation(fields: [productId], references: [id])
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  createdById String
+  updatedById String
+
+  @@unique([workshopId, productId])
+  @@map("workshop_stocks")
+}
+
+// ─── Guest (Workshop Attendee) ────────────────────────────────────
+model Guest {
+  id            String   @id @default(uuid())
+  workshopId    String
+  workshop      Workshop @relation(fields: [workshopId], references: [id], onDelete: Cascade)
+  profileData   Json     // Dynamic form data (JSONB)
+  checkInStatus Boolean  @default(false)
+  carts         Cart[]
+  notifications Notification[]
+  pushSubscription Json?   // To store the Web Push subscription
+
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  createdById String
+  updatedById String
+
+  @@index([profileData], type: Gin)
+  @@map("guests")
+}
+
+
+
+// ─── Shopping Cart ────────────────────────────────────────────────
+model Cart {
+  id        String     @id @default(uuid())
+  guestId   String
+  guest     Guest      @relation(fields: [guestId], references: [id])
+
+  status    String     @default("OPEN") // OPEN, ORDERED, PREPARING, READY, PAID
+  items     CartItem[]
+  
+  // Finalized payment info
+  priceTierId String?
+  priceTier   PriceTier? @relation(fields: [priceTierId], references: [id])
+  totalAmount Float?     @default(0)
+
+  // Tracking timestamps
+  orderedAt   DateTime?
+  preparedAt  DateTime?
+  readyAt     DateTime?
+  paidAt      DateTime?
+
+  active    Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  createdById String
+  updatedById String
+
+  @@map("carts")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  guestId   String
+  guest     Guest    @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  type      String   @default("info") // info, success, warning
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("notifications")
+}
+
+// ─── Cart Line Item ───────────────────────────────────────────────
+model CartItem {
+  id        String   @id @default(uuid())
+  cartId    String
+  cart      Cart     @relation(fields: [cartId], references: [id])
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int
+  
+  // Snapshot at checkout
+  priceAtPurchase Float?
+  priceTierId     String?
+
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdById String
+  updatedById String
+
+  @@map("cart_items")
+}
+// ─── Print Configuration (A4 Studio) ─────────────────────────────
+model PrintConfig {
+  id             String   @id @default(uuid())
+  workshopId     String?
+  workshop       Workshop? @relation(fields: [workshopId], references: [id], onDelete: Cascade)
+  name           String   @unique
+  elements       Json     // Array of { type, x, y, fontSize, label, key, etc. }
+  canvasSettings Json?    // { width, height, gridSize, showGrid, backgroundColor, backgroundImage }
+  isDefault      Boolean  @default(false)
+  active         Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  createdById String
+  updatedById String
+
+  @@map("print_configs")
+}
+
+model GlobalNotification {
+  id          String    @id @default(uuid())
+  workshopId  String?
+  workshop    Workshop? @relation(fields: [workshopId], references: [id], onDelete: Cascade)
+  message     String
+  type        String    @default("info") // info, warning, success
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  createdById String
+  updatedById String
+
+  @@map("global_notifications")
+}
+
+model Setting {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
+}

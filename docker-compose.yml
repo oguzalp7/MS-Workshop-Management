@@ -1,0 +1,83 @@
+
+services:
+  # ─── PostgreSQL 16 ───────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: workshop_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - workshop_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - workshop-net
+
+  # ─── pgAdmin 4 ──────────────────────────────────────────────────
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: workshop_pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    volumes:
+      - workshop_pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - workshop-net
+
+  # ─── Next.js (Production Only) ──────────────────────────────────
+  # Uncomment for production deployment.
+  # For development, run `npm run dev` locally for instant HMR.
+  #
+  # nextjs:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: workshop_app
+  #   restart: unless-stopped
+  #   environment:
+  #     DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+  #     NODE_ENV: production
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   networks:
+  #     - workshop-net
+  # ─── Cloudflare Tunnel (Zero Trust) ───────────────────────────
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: workshop_tunnel
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - workshop-net
+
+volumes:
+  workshop_pg_data:
+    driver: local
+  workshop_pgadmin_data:
+    driver: local
+
+networks:
+  workshop-net:
+    driver: bridge

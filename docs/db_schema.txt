@@ -1,0 +1,135 @@
+model Admin {
+  id       String @id @default(uuid())
+  username String @unique
+  password String // Bcrypt ile hashlenecek
+  name     String
+  active   Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  //Who created/updated this admin?
+  createdById   String   @default("System")   //hangi admin tarafından oluşturuldu
+  updatedById   String   @default("NULL")   //hangi admin tarafından güncellendi
+}
+
+// Global Kategoriler
+model Category {
+  id       String    @id @default(uuid())
+  name     String    @unique
+  products Product[] // Implicit Many-to-Many
+  active   Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  //Who created/updated this category?
+  createdById   String           //hangi admin tarafından oluşturuldu
+  updatedById   String           //hangi admin tarafından güncellendi
+}
+
+// Global Ürün Kataloğu
+model Product {
+  id            String          @id @default(uuid())
+  name          String
+  price         Float
+  description   String?
+  imageUrl      String?
+  categories    Category[]      // Implicit Many-to-Many
+  workshopStock WorkshopStock[] // Workshop'lara götürülen fiziksel stoklar
+  cartItems     CartItem[]
+
+  active        Boolean @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  //Who created/updated this product? 
+  createdById   String           //hangi admin tarafından oluşturuldu
+  updatedById   String           //hangi admin tarafından güncellendi
+}
+
+model Workshop {
+  id             String          @id @default(uuid())
+  name           String
+  description    String?         // Sabit/Genel etkinlik açıklaması
+  location       String
+  startDateTime  DateTime
+  endDateTime    DateTime
+  active         Boolean         @default(true)
+  guests         Guest[]
+  inventory      WorkshopStock[] // Bu workshop'a götürülen ürünler
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  //Who created/updated this workshop?
+  createdById   String           //hangi admin tarafından oluşturuldu
+  updatedById   String           //hangi admin tarafından güncellendi
+}
+
+// Hangi workshop'a hangi üründen kaç adet götürüldü?
+model WorkshopStock {
+  id         String   @id @default(uuid())
+  workshopId String
+  productId  String
+  quantity   Int      // O workshop'taki anlık stok
+  workshop   Workshop @relation(fields: [workshopId], references: [id])
+  product    Product  @relation(fields: [productId], references: [id])
+
+  @@unique([workshopId, productId]) // Bir workshop'ta bir üründen bir stok kaydı olur
+
+  active        Boolean @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  //Who created/updated this workshop stock?
+  createdById   String           //hangi admin tarafından oluşturuldu
+  updatedById   String           //hangi admin tarafından güncellendi
+}
+
+model Guest {
+  id             String    @id @default(uuid())
+  workshopId     String
+  workshop       Workshop  @relation(fields: [workshopId], references: [id])
+  profileData    Json      // Dinamik form verileri için
+  checkInStatus  Boolean   @default(false)
+  cart           Cart?
+
+  active        Boolean @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  //Who created/updated this guest?
+  createdById   String           //hangi admin tarafından oluşturuldu
+  updatedById   String           //hangi admin tarafından güncellendi
+}
+
+model Cart {
+  id             String     @id @default(uuid())
+  guestId        String     @unique
+  guest          Guest      @relation(fields: [guestId], references: [id])
+  status         String     @default("OPEN") // OPEN, CHECKED_OUT
+  items          CartItem[]
+
+  active        Boolean @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  //Who created/updated this cart?
+  createdById   String           //hangi admin tarafından oluşturuldu
+  updatedById   String           //hangi admin tarafından güncellendi
+}
+
+model CartItem {
+  id             String    @id @default(uuid())
+  cartId         String
+  cart           Cart      @relation(fields: [cartId], references: [id])
+  productId      String
+  product        Product   @relation(fields: [productId], references: [id])
+  quantity       Int
+
+  active        Boolean @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  //Who created/updated this cart item?
+  createdById   String           //hangi admin tarafından oluşturuldu
+  updatedById   String           //hangi admin tarafından güncellendi
+}
