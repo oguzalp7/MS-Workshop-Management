@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { QRCodeSVG } from "qrcode.react";
-import { Icons } from "@/components/Icons";
+
 
 export default function CheckoutQRPage() {
   const [token, setToken] = useState<string | null>(null);
@@ -36,7 +36,9 @@ export default function CheckoutQRPage() {
     <div className="p-8 max-w-md mx-auto space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-700">
       <div className="text-center space-y-4">
         <div className="w-20 h-20 bg-blue-600/10 rounded-[2.5rem] flex items-center justify-center mx-auto">
-          <Icons.Shopping className="w-10 h-10 text-blue-500" />
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500">
+            <rect width="20" height="14" x="2" y="5" rx="2" /><line x1="2" y1="10" x2="22" y2="10" />
+          </svg>
         </div>
         <h1 className="text-3xl font-black tracking-tight uppercase">Ödeme ve ID</h1>
         <p className="text-zinc-500 text-sm leading-relaxed px-4">
@@ -48,9 +50,9 @@ export default function CheckoutQRPage() {
         {token ? (
           <>
             <div className="p-4 bg-white border-4 border-zinc-50 rounded-3xl">
-              <QRCodeSVG 
-                value={token} 
-                size={220} 
+              <QRCodeSVG
+                value={token}
+                size={220}
                 level="H"
                 includeMargin={false}
               />
@@ -62,8 +64,10 @@ export default function CheckoutQRPage() {
           </>
         ) : (
           <div className="py-12 text-center space-y-4">
-             <Icons.StatusInfo className="w-12 h-12 text-destructive mx-auto" />
-             <p className="text-sm font-bold">Oturum bilgisi alınamadı.</p>
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-destructive mx-auto">
+              <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            <p className="text-sm font-bold">Oturum bilgisi alınamadı.</p>
           </div>
         )}
       </div>
@@ -71,7 +75,9 @@ export default function CheckoutQRPage() {
       <div className="bg-secondary/30 rounded-3xl p-6 border border-border/50">
         <div className="flex items-start gap-4">
           <div className="w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center shrink-0 mt-1">
-             <Icons.StatusInfo className="w-4 h-4 text-white" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
           </div>
           <div className="space-y-1">
             <h4 className="font-bold text-sm">Hızlı İşlem</h4>

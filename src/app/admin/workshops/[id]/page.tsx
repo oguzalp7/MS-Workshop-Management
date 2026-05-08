@@ -4,6 +4,7 @@ import { useEffect, useState, use, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Modal } from "@/components/Modal";
 import { QRCodeSVG } from "qrcode.react";
+import Link from "next/link";
 
 interface Product { id: string; name: string; price: number; media: any[]; }
 interface WorkshopStock { id: string; productId: string; quantity: number; product: Product; }
@@ -62,6 +63,18 @@ export default function WorkshopDetailPage({ params }: { params: Promise<{ id: s
   const [workshop, setWorkshop] = useState<Workshop | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<Tab>("inventory");
+
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.get("success") === "payment") {
+      setShowSuccessToast(true);
+      setTimeout(() => setShowSuccessToast(false), 5000);
+      // Clean URL
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, []);
 
   const [stats, setStats] = useState<Stats | null>(null);
   const [statsLoading, setStatsLoading] = useState(false);
@@ -433,12 +446,35 @@ export default function WorkshopDetailPage({ params }: { params: Promise<{ id: s
   if (!workshop) return null;
 
   return (
-    <div className="max-w-7xl mx-auto pb-20 px-4">
+    <div className="max-w-7xl mx-auto pb-20 px-4 relative">
+      {/* Success Toast */}
+      {showSuccessToast && (
+        <div className="fixed top-24 right-8 z-50 animate-in slide-in-from-right-8 duration-500">
+          <div className="bg-green-600 text-white px-8 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border border-green-500/50">
+            <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+            </div>
+            <div className="space-y-0.5">
+              <p className="text-sm font-black uppercase tracking-widest">ÖDEME BAŞARILI</p>
+              <p className="text-[10px] font-bold opacity-80">Tüm siparişler tamamlandı ve stoklar güncellendi.</p>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="mb-12">
         <button onClick={() => router.push("/admin/workshops")} className="text-[10px] font-bold text-muted hover:text-foreground mb-4 uppercase tracking-[0.2em] flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>GERİ DÖN</button>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div><h1 className="text-4xl font-bold tracking-tight">{workshop.name}</h1><p className="text-xs font-bold text-muted uppercase tracking-[0.3em] mt-2 opacity-60">{workshop.location}</p></div>
-          <div className="flex bg-secondary/50 p-1 rounded-2xl border border-border">
+          <div className="flex items-center gap-4">
+            <Link
+              href={`/admin/workshops/${id}/scanner`}
+              className="px-8 py-4 bg-blue-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-blue-600/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-3"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M7 7h2v2H7z" /><path d="M7 15h2v2H7z" /><path d="M15 7h2v2h-2z" /><path d="M15 15h2v2h-2z" /></svg>
+              Ödeme Al (Tarayıcı)
+            </Link>
+            
+            <div className="flex bg-secondary p-1 rounded-2xl border border-border shadow-sm">
             {[
               { id: "inventory", label: "ENVANTER" },
               { id: "guests", label: "KATILIMCILAR" },
@@ -456,6 +492,7 @@ export default function WorkshopDetailPage({ params }: { params: Promise<{ id: s
               </button>
             ))}
           </div>
+        </div>
         </div>
       </div>
 

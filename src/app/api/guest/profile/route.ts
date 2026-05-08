@@ -13,45 +13,62 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // If it's an anonymous session, return session info only
-    if (!session.guestId) {
-      const sessionToken = request.cookies.get("workshop_session_token")?.value;
-      return NextResponse.json({ sessionToken });
-    }
-
-
-    const guest = await prisma.guest.findUnique({
-      where: { id: session.guestId },
-      include: {
-        workshop: {
-          select: {
-             name: true,
-             formConfig: {
-                select: { fields: true }
-             }
-          }
-        },
-        carts: {
-          include: {
-            priceTier: { select: { name: true } },
-            items: {
-              include: {
-                product: {
-                  select: { name: true, price: true }
-                }
-              }
-            }
-          },
-          orderBy: { createdAt: "desc" }
-        }
+    // 1. Fetch Workshop Details (Required for both anonymous and registered)
+    const workshop = await prisma.workshop.findUnique({
+      where: { id: session.workshopId },
+      select: {
+        name: true,
+        formConfig: { select: { fields: true } }
       }
     });
 
-    if (!guest) {
-      return NextResponse.json({ error: "Guest not found" }, { status: 404 });
+    if (!workshop) {
+      return NextResponse.json({ error: "Workshop not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ guest });
+    // 2. Fetch Carts (Either by guestId or sessionToken)
+    const sessionToken = request.cookies.get("workshop_session_token")?.value;
+    const carts = await prisma.cart.findMany({
+      where: {
+        workshopId: session.workshopId,
+        OR: [
+          session.guestId ? { guestId: session.guestId } : { sessionToken }
+        ]
+      },
+      include: {
+        priceTier: { select: { name: true } },
+        items: {
+          include: {
+            product: { select: { name: true, price: true } }
+          }
+        }
+      },
+      orderBy: { createdAt: "desc" }
+    });
+
+    // 3. Construct Unified Response
+    if (session.guestId) {
+      const guest = await prisma.guest.findUnique({
+        where: { id: session.guestId },
+      });
+      return NextResponse.json({ 
+        guest: { 
+          ...guest, 
+          workshop, 
+          carts 
+        } 
+      });
+    }
+
+    // Anonymous Mock Guest
+    return NextResponse.json({
+      guest: {
+        id: sessionToken,
+        profileData: {},
+        workshop,
+        carts
+      }
+    });
   } catch (error) {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
