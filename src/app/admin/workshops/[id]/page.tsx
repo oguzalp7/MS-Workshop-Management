@@ -979,8 +979,13 @@ export default function WorkshopDetailPage({ params }: { params: Promise<{ id: s
                     <div className="p-6 border-b border-border bg-secondary/10 flex justify-between items-center">
                       <div>
                         <span className="text-[10px] font-black uppercase tracking-tighter text-muted">#{order.id.split('-')[0]}</span>
-                        <h3 className="text-sm font-black mt-1">
-                          {order.guest ? (order.guest.profileData?.full_name || "İsimsiz Katılımcı") : "Anonim Misafir"}
+                        <h3 className="text-sm font-black mt-1 flex flex-wrap items-center gap-2">
+                          <span>{order.guest ? (order.guest.profileData?.full_name || "İsimsiz Katılımcı") : "Anonim Misafir"}</span>
+                          {order.guest?.shortCode && (
+                            <span className="px-2 py-0.5 bg-blue-600 text-white text-[9px] font-black rounded-md uppercase tracking-widest">
+                              {order.guest.shortCode}
+                            </span>
+                          )}
                         </h3>
                       </div>
                       <div className="text-right">

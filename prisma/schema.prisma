@@ -41,7 +41,7 @@ model Category {
 // ─── Global Product Catalog ───────────────────────────────────────
 model Product {
   id            String          @id @default(uuid())
-  name          String
+  name          String          @unique
   price         Float           // Base Price (Anchor)
   description   String?
   media         Json            @default("[]") // Array of {url: string, type: 'image' | 'video'}
@@ -180,6 +180,7 @@ model Guest {
   carts         Cart[]
   notifications Notification[]
   pushSubscription Json?   // To store the Web Push subscription
+  shortCode        String?  // e.g. "#G-123"
    // Session Persistence
   sessionToken  String?         @unique
 

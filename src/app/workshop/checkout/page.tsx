@@ -6,6 +6,8 @@ import { QRCodeSVG } from "qrcode.react";
 
 export default function CheckoutQRPage() {
   const [token, setToken] = useState<string | null>(null);
+  const [shortCode, setShortCode] = useState<string | null>(null);
+  const [fullName, setFullName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -14,8 +16,9 @@ export default function CheckoutQRPage() {
         const res = await fetch("/api/guest/profile");
         if (res.ok) {
           const data = await res.json();
-          // Use guest ID if registered, otherwise use session info
           setToken(data.guest?.id || data.sessionToken);
+          setShortCode(data.guest?.shortCode);
+          setFullName(data.guest?.profileData?.full_name);
         }
       } catch { /* ignore */ } finally {
         setLoading(false);
@@ -57,9 +60,17 @@ export default function CheckoutQRPage() {
                 includeMargin={false}
               />
             </div>
-            <div className="text-center space-y-1">
-              <p className="text-[10px] font-black text-muted uppercase tracking-[0.3em]">Müşteri ID</p>
-              <p className="font-mono text-xs font-bold text-zinc-400 break-all">{token}</p>
+            <div className="text-center space-y-3">
+              <div className="flex flex-col items-center">
+                <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mb-1">Katılımcı Kimliği</p>
+                <h2 className="text-2xl font-black uppercase tracking-tight text-foreground">{fullName || "İSİMSİZ KATILIMCI"}</h2>
+                {shortCode && (
+                   <span className="mt-2 px-4 py-1 bg-blue-600 text-white text-[10px] font-black rounded-full tracking-[0.2em] shadow-lg shadow-blue-600/20">
+                     {shortCode}
+                   </span>
+                )}
+              </div>
+              {!fullName && !shortCode && <p className="font-mono text-[9px] text-zinc-400">#ANONIM</p>}
             </div>
           </>
         ) : (
@@ -76,7 +87,7 @@ export default function CheckoutQRPage() {
         <div className="flex items-start gap-4">
           <div className="w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center shrink-0 mt-1">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+              <circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" />
             </svg>
           </div>
           <div className="space-y-1">

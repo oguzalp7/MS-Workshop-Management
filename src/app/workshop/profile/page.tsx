@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 interface Guest {
   id: string;
+  shortCode?: string;
   profileData: any;
   workshop: {
     name: string;
@@ -11,6 +12,7 @@ interface Guest {
   };
   carts: {
     id: string;
+    orderNumber?: string;
     status: string;
     createdAt: string;
     totalAmount: number | null;

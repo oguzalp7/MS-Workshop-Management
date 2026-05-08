@@ -70,14 +70,25 @@ export async function POST(
 
         // Notifications (Only if registered guest)
         if (cart.guestId) {
-            await tx.notification.create({
-                data: {
-                  guestId: cart.guestId,
-                  title: "✨ Siparişiniz Teslim Edildi",
-                  message: "Ödemeniz alındı, siparişiniz teslim edildi. Afiyet olsun! ❣️",
-                  type: "info"
-                }
+          await tx.notification.create({
+            data: {
+              guestId: cart.guestId,
+              title: "✨ Siparişiniz Teslim Edildi",
+              message: "Güzel günlerde kullanın! Sevgilerle... ❣️",
+              type: "info"
+            }
+          });
+
+          // Send Push
+          const guest = await tx.guest.findUnique({ where: { id: cart.guestId } });
+          if (guest && (guest as any).pushSubscription) {
+            const { sendPushNotification } = await import("@/lib/webpush");
+            await sendPushNotification((guest as any).pushSubscription, {
+              title: "✨ Siparişiniz Teslim Edildi",
+              body: "Güzel günlerde kullanın! Sevgilerle... ❣️",
+              url: "/workshop/profile"
             });
+          }
         }
       }
     });

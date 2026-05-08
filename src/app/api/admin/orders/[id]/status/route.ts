@@ -117,7 +117,7 @@ export async function PATCH(
         await sendPushNotification(guest.pushSubscription, {
           title,
           body: message,
-          url: "/workshop/history"
+          url: "/workshop/profile"
         });
       }
     }

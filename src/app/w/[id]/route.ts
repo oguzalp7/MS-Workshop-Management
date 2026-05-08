@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { guestSessionOptions, GuestSessionData } from "@/lib/auth";
 import { randomUUID } from "crypto";
 import { cookies } from "next/headers";
+import { IdentityManager } from "@/lib/identity";
 
 export async function GET(
   request: NextRequest,
@@ -33,6 +34,10 @@ export async function GET(
     session.workshopId = workshop.id;
     session.guestId = "";
     session.isLoggedIn = true;
+    
+    if (!session.shortCode) {
+      session.shortCode = IdentityManager.generateAlias();
+    }
 
     // This saves it to the cookie store directly, surviving the redirect!
     await session.save();

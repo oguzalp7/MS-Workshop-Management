@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, use } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Html5QrcodeScanner } from "html5-qrcode";
 import Link from "next/link";
@@ -29,7 +29,7 @@ interface LookupResult {
 }
 
 export default function WorkshopScannerPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id: workshopId } = use(params);
+  const { id: workshopId } = React.use(params);
   const router = useRouter();
   
   const [scanning, setScanning] = useState(true);
@@ -40,10 +40,14 @@ export default function WorkshopScannerPage({ params }: { params: Promise<{ id: 
   
   const [lastScanned, setLastScanned] = useState<string | null>(null);
   const scannerRef = useRef<Html5QrcodeScanner | null>(null);
+  const isLocked = useRef(false);
+  const lastLookupTime = useRef(0);
+  const lastToken = useRef<string | null>(null);
 
   const onScanSuccess = async (decodedText: string) => {
-    if (loading || processing || decodedText === lastScanned) return;
+    if (isLocked.current || loading || processing) return;
     
+    isLocked.current = true;
     setLastScanned(decodedText);
     
     // Stop scanner immediately
@@ -83,6 +87,13 @@ export default function WorkshopScannerPage({ params }: { params: Promise<{ id: 
   }, [scanning]);
 
   async function lookupToken(token: string) {
+    const now = Date.now();
+    // Throttle only if it's the same token within 3 seconds
+    if (token === lastToken.current && now - lastLookupTime.current < 3000) return;
+    
+    lastLookupTime.current = now;
+    lastToken.current = token;
+
     setLoading(true);
     setError(null);
     try {
@@ -97,6 +108,7 @@ export default function WorkshopScannerPage({ params }: { params: Promise<{ id: 
       setError(err.message);
       // Wait 3 seconds before allowing a retry of the same code
       setTimeout(() => {
+        isLocked.current = false;
         setScanning(true);
         setLastScanned(null);
       }, 3000);
@@ -136,13 +148,13 @@ export default function WorkshopScannerPage({ params }: { params: Promise<{ id: 
       <div className="flex items-center justify-between">
         <div className="space-y-1">
           <Link href={`/admin/workshops/${workshopId}`} className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] flex items-center gap-2 hover:text-foreground transition-all">
-             <Icons.StatusInfo className="w-3 h-3 rotate-180" />
+             {Icons.StatusInfo && <Icons.StatusInfo className="w-3 h-3 rotate-180" />}
              Atölye Detaylarına Dön
           </Link>
           <h1 className="text-3xl font-black tracking-tight uppercase">Ödeme Terminali</h1>
         </div>
         <div className="w-12 h-12 bg-blue-600/10 rounded-2xl flex items-center justify-center">
-           <Icons.Shopping className="w-6 h-6 text-blue-600" />
+           {Icons.Shopping && <Icons.Shopping className="w-6 h-6 text-blue-600" />}
         </div>
       </div>
 
@@ -161,7 +173,7 @@ export default function WorkshopScannerPage({ params }: { params: Promise<{ id: 
             {error && (
               <div className="p-6 bg-destructive/10 border border-destructive/20 rounded-3xl flex items-center gap-4 animate-in slide-in-from-top-4 duration-300">
                  <div className="w-10 h-10 bg-destructive/20 rounded-xl flex items-center justify-center shrink-0">
-                    <Icons.StatusInfo className="w-5 h-5 text-destructive" />
+                    {Icons.StatusInfo && <Icons.StatusInfo className="w-5 h-5 text-destructive" />}
                  </div>
                  <p className="text-sm font-bold text-destructive">{error}</p>
               </div>
@@ -179,6 +191,11 @@ export default function WorkshopScannerPage({ params }: { params: Promise<{ id: 
                 <div className="space-y-1">
                    <p className="text-[10px] font-black uppercase tracking-widest opacity-60">Aktif Müşteri</p>
                    <h2 className="text-2xl font-black uppercase">{result.guestName}</h2>
+                   {result.carts[0]?.guest?.shortCode && (
+                      <span className="inline-block mt-1 px-2 py-0.5 bg-white text-blue-600 text-[10px] font-black rounded-lg uppercase tracking-widest">
+                         {result.carts[0].guest.shortCode}
+                      </span>
+                   )}
                 </div>
                 <div className="text-right">
                    <p className="text-[10px] font-black uppercase tracking-widest opacity-60">Bekleyen Sipariş</p>
@@ -226,7 +243,7 @@ export default function WorkshopScannerPage({ params }: { params: Promise<{ id: 
                       <p className="text-4xl font-black tracking-tighter text-blue-600">₺{result.totalAmount.toFixed(2)}</p>
                    </div>
                    <button 
-                     onClick={() => { setResult(null); setScanning(true); }}
+                     onClick={() => { setResult(null); isLocked.current = false; setScanning(true); }}
                      className="px-6 py-3 rounded-2xl bg-secondary text-[10px] font-black uppercase tracking-widest hover:bg-secondary/80 transition-all"
                    >
                      İPTAL

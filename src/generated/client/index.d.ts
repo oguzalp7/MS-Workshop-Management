@@ -11794,6 +11794,7 @@ export namespace Prisma {
     id: string | null
     workshopId: string | null
     checkInStatus: boolean | null
+    shortCode: string | null
     sessionToken: string | null
     active: boolean | null
     createdAt: Date | null
@@ -11806,6 +11807,7 @@ export namespace Prisma {
     id: string | null
     workshopId: string | null
     checkInStatus: boolean | null
+    shortCode: string | null
     sessionToken: string | null
     active: boolean | null
     createdAt: Date | null
@@ -11820,6 +11822,7 @@ export namespace Prisma {
     profileData: number
     checkInStatus: number
     pushSubscription: number
+    shortCode: number
     sessionToken: number
     active: number
     createdAt: number
@@ -11834,6 +11837,7 @@ export namespace Prisma {
     id?: true
     workshopId?: true
     checkInStatus?: true
+    shortCode?: true
     sessionToken?: true
     active?: true
     createdAt?: true
@@ -11846,6 +11850,7 @@ export namespace Prisma {
     id?: true
     workshopId?: true
     checkInStatus?: true
+    shortCode?: true
     sessionToken?: true
     active?: true
     createdAt?: true
@@ -11860,6 +11865,7 @@ export namespace Prisma {
     profileData?: true
     checkInStatus?: true
     pushSubscription?: true
+    shortCode?: true
     sessionToken?: true
     active?: true
     createdAt?: true
@@ -11947,6 +11953,7 @@ export namespace Prisma {
     profileData: JsonValue
     checkInStatus: boolean
     pushSubscription: JsonValue | null
+    shortCode: string | null
     sessionToken: string | null
     active: boolean
     createdAt: Date
@@ -11978,6 +11985,7 @@ export namespace Prisma {
     profileData?: boolean
     checkInStatus?: boolean
     pushSubscription?: boolean
+    shortCode?: boolean
     sessionToken?: boolean
     active?: boolean
     createdAt?: boolean
@@ -11996,6 +12004,7 @@ export namespace Prisma {
     profileData?: boolean
     checkInStatus?: boolean
     pushSubscription?: boolean
+    shortCode?: boolean
     sessionToken?: boolean
     active?: boolean
     createdAt?: boolean
@@ -12011,6 +12020,7 @@ export namespace Prisma {
     profileData?: boolean
     checkInStatus?: boolean
     pushSubscription?: boolean
+    shortCode?: boolean
     sessionToken?: boolean
     active?: boolean
     createdAt?: boolean
@@ -12026,6 +12036,7 @@ export namespace Prisma {
     profileData?: boolean
     checkInStatus?: boolean
     pushSubscription?: boolean
+    shortCode?: boolean
     sessionToken?: boolean
     active?: boolean
     createdAt?: boolean
@@ -12034,7 +12045,7 @@ export namespace Prisma {
     updatedById?: boolean
   }
 
-  export type GuestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "workshopId" | "profileData" | "checkInStatus" | "pushSubscription" | "sessionToken" | "active" | "createdAt" | "updatedAt" | "createdById" | "updatedById", ExtArgs["result"]["guest"]>
+  export type GuestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "workshopId" | "profileData" | "checkInStatus" | "pushSubscription" | "shortCode" | "sessionToken" | "active" | "createdAt" | "updatedAt" | "createdById" | "updatedById", ExtArgs["result"]["guest"]>
   export type GuestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     workshop?: boolean | WorkshopDefaultArgs<ExtArgs>
     carts?: boolean | Guest$cartsArgs<ExtArgs>
@@ -12061,6 +12072,7 @@ export namespace Prisma {
       profileData: Prisma.JsonValue
       checkInStatus: boolean
       pushSubscription: Prisma.JsonValue | null
+      shortCode: string | null
       sessionToken: string | null
       active: boolean
       createdAt: Date
@@ -12498,6 +12510,7 @@ export namespace Prisma {
     readonly profileData: FieldRef<"Guest", 'Json'>
     readonly checkInStatus: FieldRef<"Guest", 'Boolean'>
     readonly pushSubscription: FieldRef<"Guest", 'Json'>
+    readonly shortCode: FieldRef<"Guest", 'String'>
     readonly sessionToken: FieldRef<"Guest", 'String'>
     readonly active: FieldRef<"Guest", 'Boolean'>
     readonly createdAt: FieldRef<"Guest", 'DateTime'>
@@ -19992,6 +20005,7 @@ export namespace Prisma {
     profileData: 'profileData',
     checkInStatus: 'checkInStatus',
     pushSubscription: 'pushSubscription',
+    shortCode: 'shortCode',
     sessionToken: 'sessionToken',
     active: 'active',
     createdAt: 'createdAt',
@@ -20406,10 +20420,10 @@ export namespace Prisma {
 
   export type ProductWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    name?: string
     AND?: ProductWhereInput | ProductWhereInput[]
     OR?: ProductWhereInput[]
     NOT?: ProductWhereInput | ProductWhereInput[]
-    name?: StringFilter<"Product"> | string
     price?: FloatFilter<"Product"> | number
     description?: StringNullableFilter<"Product"> | string | null
     media?: JsonFilter<"Product">
@@ -20422,7 +20436,7 @@ export namespace Prisma {
     workshopStock?: WorkshopStockListRelationFilter
     cartItems?: CartItemListRelationFilter
     tieredPrices?: ProductPriceListRelationFilter
-  }, "id">
+  }, "id" | "name">
 
   export type ProductOrderByWithAggregationInput = {
     id?: SortOrder
@@ -20879,6 +20893,7 @@ export namespace Prisma {
     profileData?: JsonFilter<"Guest">
     checkInStatus?: BoolFilter<"Guest"> | boolean
     pushSubscription?: JsonNullableFilter<"Guest">
+    shortCode?: StringNullableFilter<"Guest"> | string | null
     sessionToken?: StringNullableFilter<"Guest"> | string | null
     active?: BoolFilter<"Guest"> | boolean
     createdAt?: DateTimeFilter<"Guest"> | Date | string
@@ -20896,6 +20911,7 @@ export namespace Prisma {
     profileData?: SortOrder
     checkInStatus?: SortOrder
     pushSubscription?: SortOrderInput | SortOrder
+    shortCode?: SortOrderInput | SortOrder
     sessionToken?: SortOrderInput | SortOrder
     active?: SortOrder
     createdAt?: SortOrder
@@ -20917,6 +20933,7 @@ export namespace Prisma {
     profileData?: JsonFilter<"Guest">
     checkInStatus?: BoolFilter<"Guest"> | boolean
     pushSubscription?: JsonNullableFilter<"Guest">
+    shortCode?: StringNullableFilter<"Guest"> | string | null
     active?: BoolFilter<"Guest"> | boolean
     createdAt?: DateTimeFilter<"Guest"> | Date | string
     updatedAt?: DateTimeFilter<"Guest"> | Date | string
@@ -20933,6 +20950,7 @@ export namespace Prisma {
     profileData?: SortOrder
     checkInStatus?: SortOrder
     pushSubscription?: SortOrderInput | SortOrder
+    shortCode?: SortOrderInput | SortOrder
     sessionToken?: SortOrderInput | SortOrder
     active?: SortOrder
     createdAt?: SortOrder
@@ -20953,6 +20971,7 @@ export namespace Prisma {
     profileData?: JsonWithAggregatesFilter<"Guest">
     checkInStatus?: BoolWithAggregatesFilter<"Guest"> | boolean
     pushSubscription?: JsonNullableWithAggregatesFilter<"Guest">
+    shortCode?: StringNullableWithAggregatesFilter<"Guest"> | string | null
     sessionToken?: StringNullableWithAggregatesFilter<"Guest"> | string | null
     active?: BoolWithAggregatesFilter<"Guest"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Guest"> | Date | string
@@ -22163,6 +22182,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: string | null
     sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
@@ -22180,6 +22200,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: string | null
     sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
@@ -22195,6 +22216,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: NullableStringFieldUpdateOperationsInput | string | null
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22212,6 +22234,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: NullableStringFieldUpdateOperationsInput | string | null
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22228,6 +22251,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: string | null
     sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
@@ -22241,6 +22265,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: NullableStringFieldUpdateOperationsInput | string | null
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22255,6 +22280,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: NullableStringFieldUpdateOperationsInput | string | null
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23488,6 +23514,7 @@ export namespace Prisma {
     profileData?: SortOrder
     checkInStatus?: SortOrder
     pushSubscription?: SortOrder
+    shortCode?: SortOrder
     sessionToken?: SortOrder
     active?: SortOrder
     createdAt?: SortOrder
@@ -23500,6 +23527,7 @@ export namespace Prisma {
     id?: SortOrder
     workshopId?: SortOrder
     checkInStatus?: SortOrder
+    shortCode?: SortOrder
     sessionToken?: SortOrder
     active?: SortOrder
     createdAt?: SortOrder
@@ -23512,6 +23540,7 @@ export namespace Prisma {
     id?: SortOrder
     workshopId?: SortOrder
     checkInStatus?: SortOrder
+    shortCode?: SortOrder
     sessionToken?: SortOrder
     active?: SortOrder
     createdAt?: SortOrder
@@ -25632,6 +25661,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: string | null
     sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
@@ -25647,6 +25677,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: string | null
     sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
@@ -25862,6 +25893,7 @@ export namespace Prisma {
     profileData?: JsonFilter<"Guest">
     checkInStatus?: BoolFilter<"Guest"> | boolean
     pushSubscription?: JsonNullableFilter<"Guest">
+    shortCode?: StringNullableFilter<"Guest"> | string | null
     sessionToken?: StringNullableFilter<"Guest"> | string | null
     active?: BoolFilter<"Guest"> | boolean
     createdAt?: DateTimeFilter<"Guest"> | Date | string
@@ -26487,6 +26519,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: string | null
     sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
@@ -26503,6 +26536,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: string | null
     sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
@@ -26645,6 +26679,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: NullableStringFieldUpdateOperationsInput | string | null
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26661,6 +26696,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: NullableStringFieldUpdateOperationsInput | string | null
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26779,6 +26815,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: string | null
     sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
@@ -26795,6 +26832,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: string | null
     sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
@@ -26825,6 +26863,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: NullableStringFieldUpdateOperationsInput | string | null
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26841,6 +26880,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: NullableStringFieldUpdateOperationsInput | string | null
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27498,6 +27538,7 @@ export namespace Prisma {
     profileData: JsonNullValueInput | InputJsonValue
     checkInStatus?: boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: string | null
     sessionToken?: string | null
     active?: boolean
     createdAt?: Date | string
@@ -27551,6 +27592,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: NullableStringFieldUpdateOperationsInput | string | null
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27566,6 +27608,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: NullableStringFieldUpdateOperationsInput | string | null
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27581,6 +27624,7 @@ export namespace Prisma {
     profileData?: JsonNullValueInput | InputJsonValue
     checkInStatus?: BoolFieldUpdateOperationsInput | boolean
     pushSubscription?: NullableJsonNullValueInput | InputJsonValue
+    shortCode?: NullableStringFieldUpdateOperationsInput | string | null
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

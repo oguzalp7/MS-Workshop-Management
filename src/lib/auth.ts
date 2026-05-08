@@ -29,6 +29,7 @@ export const sessionOptions: SessionOptions = {
 export interface GuestSessionData {
   guestId?: string;
   workshopId?: string;
+  shortCode?: string;
   isLoggedIn: boolean;
 }
 

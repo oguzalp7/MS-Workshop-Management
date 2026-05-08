@@ -32,8 +32,9 @@ export async function GET(request: NextRequest) {
       where.OR = [
         // Product names in items
         { items: { some: { product: { name: { contains: search, mode: 'insensitive' } } } } },
-        // Guest name (only if guest exists)
+        // Guest name or shortCode
         { guest: { profileData: { path: ['full_name'], string_contains: search } } },
+        { guest: { shortCode: { contains: search, mode: 'insensitive' } } },
         // Workshop context
         { workshop: { name: { contains: search, mode: 'insensitive' } } },
         { workshop: { location: { contains: search, mode: 'insensitive' } } }

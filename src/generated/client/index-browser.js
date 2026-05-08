@@ -222,6 +222,7 @@ exports.Prisma.GuestScalarFieldEnum = {
   profileData: 'profileData',
   checkInStatus: 'checkInStatus',
   pushSubscription: 'pushSubscription',
+  shortCode: 'shortCode',
   sessionToken: 'sessionToken',
   active: 'active',
   createdAt: 'createdAt',

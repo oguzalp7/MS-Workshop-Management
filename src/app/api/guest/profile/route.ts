@@ -64,6 +64,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       guest: {
         id: sessionToken,
+        shortCode: session.shortCode,
         profileData: {},
         workshop,
         carts

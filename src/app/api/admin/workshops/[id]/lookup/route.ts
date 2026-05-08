@@ -48,7 +48,7 @@ export async function GET(
           select: { name: true }
         },
         guest: {
-          select: { profileData: true }
+          select: { profileData: true, shortCode: true }
         }
       },
       orderBy: { createdAt: "desc" }
@@ -62,7 +62,7 @@ export async function GET(
     console.log(`[Lookup API] Found ${carts.length} carts for token: ${token}. Statuses: ${carts.map(c => c.status).join(', ')}`);
 
     const totalAmount = carts.reduce((sum, cart) => sum + (cart.totalAmount || 0), 0);
-    const guestName = carts[0].guest?.profileData?.full_name || "Anonim Misafir";
+    const guestName = carts[0].guest?.profileData?.full_name || carts[0].guest?.shortCode || "Anonim Misafir";
 
     return NextResponse.json({ 
       carts, 

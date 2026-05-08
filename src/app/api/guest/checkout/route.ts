@@ -3,6 +3,7 @@ import { getIronSession } from "iron-session";
 import { prisma } from "@/lib/prisma";
 import { guestSessionOptions, GuestSessionData } from "@/lib/auth";
 import { cookies } from "next/headers";
+import { IdentityManager } from "@/lib/identity";
 
 export async function POST(request: NextRequest) {
   try {
@@ -65,13 +66,32 @@ export async function POST(request: NextRequest) {
       });
     });
 
-    // 4. Perform Checkout in Transaction
+    // 4. Handle Anonymous Guest Persistence
+    let finalGuestId = session.guestId;
+    if (!finalGuestId && sessionToken) {
+      const anonymousGuest = await prisma.guest.upsert({
+        where: { sessionToken },
+        update: { shortCode: session.shortCode },
+        create: {
+          workshopId: session.workshopId!,
+          sessionToken,
+          shortCode: session.shortCode,
+          profileData: {},
+          createdById: "GUEST",
+          updatedById: "GUEST"
+        }
+      });
+      finalGuestId = anonymousGuest.id;
+    }
+
+    // 5. Perform Checkout in Transaction
     await prisma.$transaction([
       ...itemUpdates,
       prisma.cart.update({
         where: { id: cart.id },
         data: {
           status: "ORDERED",
+          guestId: finalGuestId,
           priceTierId,
           totalAmount,
           orderedAt: new Date(),
