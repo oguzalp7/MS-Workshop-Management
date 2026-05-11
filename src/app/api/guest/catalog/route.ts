@@ -8,13 +8,23 @@ export async function GET(request: NextRequest) {
   try {
     const cookieStore = await cookies();
     const session = await getIronSession<GuestSessionData>(cookieStore, guestSessionOptions);
-    const sessionToken = request.cookies.get("workshop_session_token")?.value;
+    const sessionTokenFromCookie = request.cookies.get("workshop_session_token")?.value;
+    let sessionToken = sessionTokenFromCookie;
+    let reclaimedSessionToken = null;
 
-    // Resilience: If session is missing but we have a valid workshop_session_token cookie, 
-    // we can still identify the workshop for anonymous catalog viewing.
+    // Resilience: Re-claim session if cookie is lost but iron-session exists
+    if (!sessionToken && session.shortCode && session.workshopId) {
+      const existingGuest = await prisma.guest.findFirst({
+        where: { shortCode: session.shortCode, workshopId: session.workshopId }
+      });
+      if (existingGuest?.sessionToken) {
+        sessionToken = existingGuest.sessionToken;
+        reclaimedSessionToken = sessionToken;
+      }
+    }
+
     let workshopId = session.workshopId;
     if (!workshopId && sessionToken) {
-       // Try to find the latest cart or just use the token to stay in context
        const lastCart = await prisma.cart.findFirst({
          where: { sessionToken, status: 'OPEN' },
          select: { workshopId: true }
@@ -71,7 +81,57 @@ export async function GET(request: NextRequest) {
       reservedCount: reservationMap[p.id] || 0
     }));
 
-    return NextResponse.json({ products, priceTiers });
+    // Check if guest has already filled profile
+    let needsProfile = true;
+    if (sessionToken) {
+       const guest = await prisma.guest.findUnique({
+         where: { sessionToken }
+       });
+       if (guest && (guest.profileData as any)?.full_name) {
+         needsProfile = false;
+       }
+    }
+
+    // Fetch settings
+    const settings = await prisma.setting.findMany({
+      where: {
+        key: { in: ["catalog_logo", "catalog_welcome_title", "catalog_welcome_body"] }
+      }
+    });
+
+    const getSetting = (key: string, def: string) => settings.find(s => s.key === key)?.value || def;
+
+    // Fetch form configuration for this workshop
+    const workshopWithForm = await prisma.workshop.findUnique({
+      where: { id: workshopId },
+      include: {
+        formConfig: true
+      }
+    });
+
+    const formFields = (workshopWithForm?.formConfig?.fields as any) || [];
+
+    const response = NextResponse.json({ 
+      products, 
+      priceTiers, 
+      needsProfile,
+      formFields,
+      settings: {
+        logo: getSetting("catalog_logo", "https://www.sglam.co/idea/qj/01/themes/selftpl_67f8b306e318e/assets/uploads/logo.png"),
+        title: getSetting("catalog_welcome_title", "S'Glam E-Katalog'a Hoş Geldiniz!"),
+        body: getSetting("catalog_welcome_body", "Size daha iyi hizmet verebilmek ve siparişlerinizi isminizle hazırlayabilmek için adınızı paylaşır mısınız?"),
+      }
+    });
+
+    if (reclaimedSessionToken) {
+      response.cookies.set("workshop_session_token", reclaimedSessionToken, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: "/",
+        sameSite: "lax",
+      });
+    }
+
+    return response;
 
   } catch (error) {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

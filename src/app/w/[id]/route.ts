@@ -42,8 +42,27 @@ export async function GET(
     // This saves it to the cookie store directly, surviving the redirect!
     await session.save();
 
-    // 4. Set persistent session token for client-side SessionManager
-    const sessionToken = randomUUID();
+    // 4. Set persistent session token if not already present
+    let sessionToken = cookieStore.get("workshop_session_token")?.value;
+    
+    // If we have a shortCode in session but no cookie, try to recover from DB
+    if (!sessionToken && session.shortCode) {
+      const existingGuest = await prisma.guest.findFirst({
+        where: { 
+          shortCode: session.shortCode,
+          workshopId: workshop.id
+        }
+      });
+      if (existingGuest?.sessionToken) {
+        sessionToken = existingGuest.sessionToken;
+      }
+    }
+
+    if (!sessionToken) {
+      sessionToken = randomUUID();
+    }
+
+    // Always refresh the cookie to ensure persistence
     cookieStore.set("workshop_session_token", sessionToken, {
       maxAge: 30 * 24 * 60 * 60, // 30 days
       path: "/",

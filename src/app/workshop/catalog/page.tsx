@@ -3,6 +3,7 @@
 import { useEffect, useState, use } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import ProfileIdentityModal from "@/components/ProfileNagModal";
 
 interface PriceTier {
   id: string;
@@ -32,6 +33,10 @@ export default function CatalogPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("Hepsi");
   const [searchQuery, setSearchQuery] = useState("");
 
+  const [showNagModal, setShowNagModal] = useState(false);
+  const [nagSettings, setNagSettings] = useState<{ logo: string, title: string, body: string } | null>(null);
+  const [formFields, setFormFields] = useState<any[]>([]);
+
   async function fetchCatalog() {
     try {
       const res = await fetch("/api/guest/catalog");
@@ -39,6 +44,16 @@ export default function CatalogPage() {
         const data = await res.json();
         setProducts(data.products);
         setPriceTiers(data.priceTiers);
+        setNagSettings(data.settings);
+        setFormFields(data.formFields || []);
+        
+        // Show nag modal if:
+        // 1. API says guest needs profile
+        // 2. Local storage doesn't have a recent "dismissed" flag
+        const isDismissed = localStorage.getItem("profile_nag_dismissed");
+        if (data.needsProfile && !isDismissed) {
+          setShowNagModal(true);
+        }
       }
     } catch { /* ignore */ } finally {
       setLoading(false);
@@ -48,6 +63,17 @@ export default function CatalogPage() {
   useEffect(() => {
     fetchCatalog();
   }, []);
+
+  function handleNagSuccess() {
+    setShowNagModal(false);
+    localStorage.setItem("profile_nag_dismissed", "true");
+    fetchCatalog(); // Refresh to get updated profile state
+  }
+
+  function handleNagDismiss() {
+    setShowNagModal(false);
+    localStorage.setItem("profile_nag_dismissed", "true");
+  }
 
   const [visibleCount, setVisibleCount] = useState(12);
 
@@ -264,6 +290,14 @@ export default function CatalogPage() {
           <button onClick={() => { setSelectedCategory("Hepsi"); setSearchQuery(""); }} className="mt-4 text-xs font-bold text-blue-600 uppercase tracking-widest underline underline-offset-8">Kataloğu Sıfırla</button>
         </div>
       )}
+
+      <ProfileIdentityModal 
+        isOpen={showNagModal} 
+        settings={nagSettings}
+        formFields={formFields}
+        onSuccess={handleNagSuccess} 
+        onDismiss={handleNagDismiss} 
+      />
     </div>
   );
 }

@@ -44,6 +44,12 @@ export default function SettingsPage() {
 
   const getSetting = (key: string) => settings.find(s => s.key === key)?.value;
 
+  const GENERAL_SETTINGS = [
+    { key: "catalog_logo", label: "Katalog Logosu (URL)", default: "https://www.sglam.co/idea/qj/01/themes/selftpl_67f8b306e318e/assets/uploads/logo.png" },
+    { key: "catalog_welcome_title", label: "Hoş Geldiniz Modal Başlığı", default: "S'Glam E-Katalog'a Hoş Geldiniz!" },
+    { key: "catalog_welcome_body", label: "Hoş Geldiniz Modal Mesajı", default: "Size daha iyi hizmet verebilmek ve siparişlerinizi isminizle hazırlayabilmek için adınızı paylaşır mısınız?" },
+  ];
+
   const NOTIF_TEMPLATES = [
     { key: "notif_ready_title", label: "Sipariş Hazır Başlığı", default: "🎁 Siparişiniz Hazır!" },
     { key: "notif_ready_body", label: "Sipariş Hazır Mesajı", default: "Siparişiniz hazırlandı. Teslim almak için standımıza bekliyoruz. 💖" },
@@ -63,6 +69,40 @@ export default function SettingsPage() {
       </div>
 
       <div className="grid gap-12">
+        <section className="space-y-6">
+          <div className="flex items-center gap-4">
+             <div className="w-10 h-10 rounded-xl bg-orange-600/10 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-orange-600"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="10"/></svg>
+             </div>
+             <div>
+                <h2 className="text-lg font-bold">Genel Marka Ayarları</h2>
+                <p className="text-xs text-muted-foreground">Katalog logosu ve karşılama mesajlarını özelleştirin</p>
+             </div>
+          </div>
+
+          <div className="grid gap-4">
+            {GENERAL_SETTINGS.map((tmpl) => (
+              <div key={tmpl.key} className="bg-card border border-border/40 rounded-3xl p-6 space-y-4">
+                <div className="flex items-center justify-between">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-muted">{tmpl.label}</label>
+                  {saving === tmpl.key && <span className="text-[10px] font-bold text-orange-600 animate-pulse">Kaydediliyor...</span>}
+                </div>
+                <input 
+                  type="text"
+                  defaultValue={getSetting(tmpl.key) || tmpl.default}
+                  onBlur={(e) => {
+                    const val = e.target.value;
+                    if (val !== (getSetting(tmpl.key) || tmpl.default)) {
+                      updateSetting(tmpl.key, val);
+                    }
+                  }}
+                  className="w-full bg-secondary/30 border-2 border-transparent focus:border-foreground/10 focus:bg-card px-5 py-3 rounded-2xl text-sm font-bold outline-none transition-all"
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+
         <section className="space-y-6">
           <div className="flex items-center gap-4">
              <div className="w-10 h-10 rounded-xl bg-blue-600/10 flex items-center justify-center">
