@@ -49,10 +49,11 @@ interface Cart {
   status: string;
   totalAmount: number;
   orderedAt: string;
-  guest: {
+  guest?: {
     profileData: any;
-    workshop: { name: string };
-  };
+    workshop?: { name: string };
+    shortCode?: string | null;
+  } | null;
   items: CartItem[];
 }
 type Tab = "details" | "inventory" | "guests" | "metrics" | "notifications" | "orders";

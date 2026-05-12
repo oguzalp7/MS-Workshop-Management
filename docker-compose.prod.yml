@@ -26,8 +26,16 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+      PGADMIN_CONFIG_PROXY_X_HOST_COUNT: 1
+      PGADMIN_CONFIG_PROXY_X_PREFIX_COUNT: 1
+      PGADMIN_CONFIG_PROXY_X_FORWARDED_HOST: "True"
+      PGADMIN_CONFIG_PROXY_X_FORWARDED_PROTO: "True"
+      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
+      PGADMIN_CONFIG_FS_ALLOW_ROOT_ACCESS: "True"
     volumes:
       - workshop_pgadmin_data_prod:/var/lib/pgadmin
+      - ./infra/pgadmin/servers.json:/pgadmin4/servers.json
+      - ./infra/backups:/backups
     depends_on:
       postgres:
         condition: service_healthy

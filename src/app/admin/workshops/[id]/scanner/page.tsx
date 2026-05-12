@@ -19,6 +19,7 @@ interface Cart {
   items: CartItem[];
   priceTier?: { name: string };
   createdAt: string;
+  guest?: { shortCode?: string | null } | null;
 }
 
 interface LookupResult {

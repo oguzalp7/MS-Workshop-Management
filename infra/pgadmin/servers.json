@@ -1,0 +1,13 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Workshop POS",
+      "Group": "Servers",
+      "Host": "postgres",
+      "Port": 5432,
+      "MaintenanceDB": "workshop_db",
+      "Username": "workshop_user",
+      "SSLMode": "prefer"
+    }
+  }
+}

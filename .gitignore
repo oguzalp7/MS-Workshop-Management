@@ -8,3 +8,4 @@ build
 .gemini
 .cursor
 .vscode
+infra/backups

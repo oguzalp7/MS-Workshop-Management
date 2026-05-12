@@ -17,8 +17,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Generate Prisma Client (Provide dummy URL to satisfy strict config parsing in CI)
-RUN DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy" npx prisma generate
+# Generate Prisma Client and SQL Schema for runtime initialization
+# RUN DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy" npx prisma generate
+RUN DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy" npx prisma migrate diff --from-empty --to-schema prisma/schema.prisma --script > prisma/schema.sql
 
 # Next.js telemetry is disabled
 ENV NEXT_TELEMETRY_DISABLED 1
@@ -52,7 +53,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 
 # Make sure the prisma client and engine are available to the runner
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder --chown=nextjs:nodejs /app/src/generated/client ./src/generated/client
+COPY --from=builder --chown=nextjs:nodejs /app/prisma/schema.sql ./prisma/schema.sql
+COPY --from=builder --chown=nextjs:nodejs /app/scripts/init-db.js ./scripts/init-db.js
 
 USER nextjs
 
@@ -61,4 +64,4 @@ EXPOSE 3000
 ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
 
-CMD ["node", "server.js"]
+CMD ["sh", "-c", "node scripts/init-db.js && node server.js"]

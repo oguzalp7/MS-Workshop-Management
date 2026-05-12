@@ -59,7 +59,7 @@ export async function PATCH(
           await tx.workshopStock.update({
             where: {
               workshopId_productId: {
-                workshopId: cart.workshopId || cart.guest?.workshopId,
+                workshopId: cart.workshopId || cart.guest?.workshopId || "",
                 productId: item.productId
               }
             },

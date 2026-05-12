@@ -15,10 +15,12 @@ interface Cart {
   status: string;
   totalAmount: number;
   orderedAt: string;
-  guest: { 
+  workshop?: { name: string };
+  guest?: { 
     profileData: any;
-    workshop: { name: string };
-  };
+    workshop?: { name: string };
+    shortCode?: string | null;
+  } | null;
   items: CartItem[];
 }
 

@@ -137,7 +137,7 @@ export default function GuestProfilePage({ params }: { params: Promise<{ id: str
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
                      <div className="lg:col-span-2 bg-card border border-border rounded-3xl p-8 flex flex-col md:flex-row items-center gap-10">
                         <div className="bg-white p-4 rounded-2xl shadow-sm border border-border/10 shrink-0">
-                           <QRCodeSVG value={magicLink} size={120} />
+                           <QRCodeSVG value={magicLink || ""} size={120} />
                         </div>
                         <div className="flex-1 space-y-4">
                            <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Logistics & Access</h3>
@@ -145,7 +145,7 @@ export default function GuestProfilePage({ params }: { params: Promise<{ id: str
                               <p className="text-[10px] font-bold text-muted uppercase">Private Magic Link</p>
                               <div className="flex items-center gap-2 bg-secondary/50 p-3 rounded-xl border border-border group">
                                  <span className="text-[10px] font-mono text-muted-foreground truncate flex-1">{magicLink}</span>
-                                 <button onClick={() => { navigator.clipboard.writeText(magicLink); alert('Link Copied!'); }} className="text-[10px] font-bold text-blue-600 hover:bg-blue-600 hover:text-white px-3 py-1 rounded-lg transition-all">COPY</button>
+                                 <button onClick={() => { navigator.clipboard.writeText(magicLink || ""); alert('Link Copied!'); }} className="text-[10px] font-bold text-blue-600 hover:bg-blue-600 hover:text-white px-3 py-1 rounded-lg transition-all">COPY</button>
                               </div>
                            </div>
                            <p className="text-[10px] text-muted-foreground italic leading-relaxed">This QR code and link grant secure, passwordless access to the attendee's personal dashboard and shopping cart.</p>

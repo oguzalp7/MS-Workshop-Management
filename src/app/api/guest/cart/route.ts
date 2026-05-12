@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
          where: { sessionToken, status: 'OPEN' },
          select: { workshopId: true }
        });
-       if (lastCart) workshopId = lastCart.workshopId;
+       if (lastCart && lastCart.workshopId) workshopId = lastCart.workshopId;
     }
 
     if (!session.isLoggedIn && !workshopId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
