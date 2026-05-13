@@ -41,7 +41,7 @@ services:
     volumes:
       - workshop_pgadmin_data_prod:/var/lib/pgadmin
       - ./infra/pgadmin/servers.json:/tmp/servers.json
-      - ./infra/backups:/var/lib/pgadmin/storage/oguzalpsaglam_gmail.com/backups
+      - ./infra/backups:/var/lib/pgadmin/storage/${PGADMIN_EMAIL}/backups
     depends_on:
       postgres:
         condition: service_healthy

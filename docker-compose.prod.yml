@@ -12,34 +12,69 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - workshop_pg_data_prod:/var/lib/postgresql/data
+      - ./infra/backups:/backups
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - workshop-prod-net
 
   # ─── pgAdmin 4 ──────────────────────────────────────────────────
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: workshop_pgadmin_prod
+    user: root
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
       PGADMIN_CONFIG_PROXY_X_HOST_COUNT: 1
       PGADMIN_CONFIG_PROXY_X_PREFIX_COUNT: 1
       PGADMIN_CONFIG_PROXY_X_FORWARDED_HOST: "True"
       PGADMIN_CONFIG_PROXY_X_FORWARDED_PROTO: "True"
-      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
-      PGADMIN_CONFIG_FS_ALLOW_ROOT_ACCESS: "True"
+      PGADMIN_SERVER_JSON_FILE: "/tmp/servers.json"
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
     volumes:
       - workshop_pgadmin_data_prod:/var/lib/pgadmin
-      - ./infra/pgadmin/servers.json:/pgadmin4/servers.json
-      - ./infra/backups:/backups
+      - ./infra/pgadmin/servers.json:/tmp/servers.json
+      - ./infra/backups:/var/lib/pgadmin/storage/${PGADMIN_EMAIL}/backups
     depends_on:
       postgres:
         condition: service_healthy
+    networks:
+      - workshop-prod-net
+
+  # ─── Next.js App ────────────────────────────────────────────────
+  nextjs:
+    image: oguzalp7/workshop-pos-app:latest
+    container_name: workshop_app_prod
+    restart: always
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      NODE_ENV: production
+      SESSION_SECRET: ${SESSION_SECRET}
+      DEFAULT_ADMIN_USERNAME: ${DEFAULT_ADMIN_USERNAME}
+      DEFAULT_ADMIN_PASSWORD: ${DEFAULT_ADMIN_PASSWORD}
+      DEFAULT_ADMIN_NAME: ${DEFAULT_ADMIN_NAME}
+      NEXT_PUBLIC_VAPID_PUBLIC_KEY: ${NEXT_PUBLIC_VAPID_PUBLIC_KEY}
+      VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY}
+      NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - workshop-prod-net
 
 volumes:
   workshop_pg_data_prod:
   workshop_pgadmin_data_prod:
+
+networks:
+  workshop-prod-net:
+    driver: bridge
