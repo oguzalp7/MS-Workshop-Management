@@ -64,7 +64,7 @@ services:
       VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY}
       NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
     ports:
-      - "3127:3127"  # default 3000:3000, but we changed due to prevent port conflict on existing Coolify instance.
+      - "3127:3127" # default 3000:3000, but we changed due to prevent port conflict on existing Coolify instance.
     depends_on:
       postgres:
         condition: service_healthy
