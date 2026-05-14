@@ -10,3 +10,4 @@ build
 .vscode
 infra/backups
 logs.txt
+.env.prod
