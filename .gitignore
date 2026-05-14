@@ -9,3 +9,4 @@ build
 .cursor
 .vscode
 infra/backups
+logs.txt
