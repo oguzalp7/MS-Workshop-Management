@@ -24,8 +24,8 @@ export async function GET(
     }
 
     // 2. Initialize Redirect Response FIRST
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || (typeof window !== "undefined" ? window.location.origin : "");
-    const redirectUrl = baseUrl ? `${baseUrl}/workshop/catalog` : new URL(`/workshop/catalog`, request.url);
+    const { origin } = new URL(request.url);
+    const redirectUrl = `${origin}/workshop/catalog`;
     const response = NextResponse.redirect(redirectUrl);
 
     // 3. Create or Resume Persistent Session
