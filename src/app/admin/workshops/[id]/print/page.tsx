@@ -131,8 +131,8 @@ export default function WorkshopPrintPage({ params }: { params: Promise<{ id: st
                content = new Date(data.workshop.endDateTime).toLocaleString();
              }
 
-             const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || (typeof window !== "undefined" ? window.location.origin : "");
-             const guestUrl = `${baseUrl}/g/${guest.id}`;
+             const origin = typeof window !== "undefined" ? window.location.origin : "";
+             const guestUrl = `${origin}/g/${guest.id}`;
 
              return (
                <div 
