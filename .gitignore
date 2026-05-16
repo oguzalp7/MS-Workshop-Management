@@ -11,3 +11,4 @@ build
 infra/backups
 logs.txt
 .env.prod
+.env.dev
