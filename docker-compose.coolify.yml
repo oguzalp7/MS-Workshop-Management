@@ -51,7 +51,7 @@ services:
 
   # ─── Next.js App ────────────────────────────────────────────────
   nextjs:
-    image: oguzalp7/workshop-pos-app:latest
+    image: oguzalp7/workshop-pos-app:1-0-0
     container_name: workshop_app_prod
     restart: always
     environment:
