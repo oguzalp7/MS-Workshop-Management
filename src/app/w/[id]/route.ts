@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getIronSession } from "iron-session";
 import { prisma } from "@/lib/prisma";
+import { getBaseUrl } from "@/lib/url";
 import { guestSessionOptions, GuestSessionData } from "@/lib/auth";
 import { randomUUID } from "crypto";
 import { cookies } from "next/headers";
@@ -23,8 +24,8 @@ export async function GET(
     }
 
     // 2. Initialize Redirect Response
-    const { origin } = new URL(request.url);
-    const redirectUrl = `${origin}/workshop/catalog`;
+    const baseUrl = getBaseUrl(request);
+    const redirectUrl = `${baseUrl}/workshop/catalog`;
     const response = NextResponse.redirect(redirectUrl);
 
     // 3. Create or Resume Anonymous Session

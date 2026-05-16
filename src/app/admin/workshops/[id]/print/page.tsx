@@ -2,6 +2,7 @@
 
 import { useEffect, useState, use } from "react";
 import { QRCodeSVG } from "qrcode.react";
+import { getBaseUrl } from "@/lib/url";
 
 interface PrintElement {
   id: string;
@@ -131,8 +132,8 @@ export default function WorkshopPrintPage({ params }: { params: Promise<{ id: st
                content = new Date(data.workshop.endDateTime).toLocaleString();
              }
 
-             const origin = typeof window !== "undefined" ? window.location.origin : "";
-             const guestUrl = `${origin}/g/${guest.id}`;
+             const baseUrl = getBaseUrl();
+             const guestUrl = `${baseUrl}/g/${guest.id}`;
 
              return (
                <div 

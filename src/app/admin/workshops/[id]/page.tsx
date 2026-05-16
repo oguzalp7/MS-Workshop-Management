@@ -2,6 +2,7 @@
 
 import { useEffect, useState, use, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { getBaseUrl } from "@/lib/url";
 import { Modal } from "@/components/Modal";
 import { QRCodeSVG } from "qrcode.react";
 import Link from "next/link";
@@ -501,14 +502,14 @@ export default function WorkshopDetailPage({ params }: { params: Promise<{ id: s
       <div className="mb-8 p-8 bg-zinc-900 border border-zinc-800 rounded-3xl flex items-center gap-8 shadow-xl">
         <div className="bg-white p-3 rounded-2xl shrink-0">
           <QRCodeSVG
-            value={typeof window !== "undefined" ? window.location.origin : ""}
+            value={getBaseUrl()}
             size={80}
           />
         </div>
         <div className="space-y-2">
           <h3 className="text-white font-bold">Giriş QR Kodu (Uygulama Yükleme)</h3>
           <p className="text-zinc-500 text-xs">Misafirlerin uygulamayı yüklemesi için bu kodu taratması yeterlidir. Ardından uygulama içerisinden profillerini taratabilirler.</p>
-          <div className="text-[10px] font-mono text-zinc-400 bg-black/30 p-2 rounded-lg">{typeof window !== "undefined" ? window.location.origin : "/"}</div>
+          <div className="text-[10px] font-mono text-zinc-400 bg-black/30 p-2 rounded-lg">{getBaseUrl() || "/"}</div>
         </div>
       </div>
 
